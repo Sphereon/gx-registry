@@ -1,0 +1,20 @@
+paths:
+  /api/trustAnchor:
+    # [POST] Find Trust Anchor
+    post:
+      tags:
+        - name: Trust Anchor
+      summary: Look for a given Trust Anchor public key in the registry.
+      parameters:
+        - name: publicKey
+          description: The public key to search for
+          in: formData
+          required: true
+          type: string
+      responses:
+        200:
+          description: Found a Trust Anchor for the public key in the registry
+          content: application/json
+        409:
+          description: Could not find a Trust Anchor for the given public key
+          content: application/json

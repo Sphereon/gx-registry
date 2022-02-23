@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.registry: server
+  template:
+    metadata:
+      labels:
+        app.registry: server
+    spec:
+      containers:
+        - env:
+            - name: PORT
+              value: '3000'
+            - name: MONGO_DATABASE
+              value: trust-anchor-registry
+            - name: MONGO_HOST
+              value: mongo
+            - name: MONGO_PORT
+              value: '27017'
+          image: { { YOUR_IMAGE_HERE } }
+          name: server
+          ports:
+            - containerPort: 3000
