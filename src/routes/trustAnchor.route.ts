@@ -20,11 +20,10 @@ class TrustAnchorRoute implements Routes {
     this.router.post(`${this.path}`, validationMiddleware(RequestTrustAnchorDto, 'body'), this.trustAnchorController.getTrustAnchor)
   }
 
+  //TODO: remove after testing
   private async addToDb(req: Request, res: Response) {
     const trustAnchorList = TrustAnchorList
     const trustAnchor = TrustAnchor
-
-    console.log('HERE WE ARE')
 
     const list = await trustAnchorList.create({
       name: 'Example Trusted List',
