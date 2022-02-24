@@ -24,6 +24,9 @@ const trustAnchorSchema: Schema = new Schema(
   }
 )
 
+// Make sure there are no duplicates (each publicKey once per list)
+trustAnchorSchema.index({ publicKey: 1, list_id: 1 }, { unique: true })
+
 const TrustAnchor = model<ITrustAnchor & Document>('TrustAnchor', trustAnchorSchema)
 
 export default TrustAnchor
