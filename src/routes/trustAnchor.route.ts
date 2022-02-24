@@ -53,22 +53,36 @@ class TrustAnchorRoute implements Routes {
 
   //TODO: remove after testing
   private async parseXml(req: Request, res: Response) {
-    const xmlUri = 'https://ec.europa.eu/tools/lotl/eu-lotl.xml'
+    let data: string
+    let type: ParseTypes
+    let arrPath: string
+    let map: TTrustAnchorMap
 
-    const response = await fetch(xmlUri)
-    const data = await response.text()
+    if (req.query.type === 'csv') {
+      const csvUri = 'https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportPEMCSV'
+      const response = await fetch(csvUri)
 
-    const map: TTrustAnchorMap = {
-      name: 'AdditionalInformation.OtherInformation[3].SchemeOperatorName.Name',
-      publicKey: 'ServiceDigitalIdentities.ServiceDigitalIdentity.DigitalId.X509Certificate'
+      data = await response.text()
+      console.log('CSV data', data)
+      map = {
+        name: 'Owner',
+        publicKey: 'PEMInfo'
+      }
+      type = ParseTypes.CSV
+    } else {
+      const xmlUri = 'https://ec.europa.eu/tools/lotl/eu-lotl.xml'
+      const response = await fetch(xmlUri)
+
+      data = await response.text()
+      map = {
+        name: 'AdditionalInformation.OtherInformation[3].SchemeOperatorName.Name',
+        publicKey: 'ServiceDigitalIdentities.ServiceDigitalIdentity.DigitalId.X509Certificate'
+      }
+      type = ParseTypes.XML
+      arrPath = 'TrustServiceStatusList.SchemeInformation.PointersToOtherTSL.OtherTSLPointer'
     }
 
-    const trustAnchors = new TrustAnchorListParser(
-      data,
-      ParseTypes.XML,
-      'TrustServiceStatusList.SchemeInformation.PointersToOtherTSL.OtherTSLPointer',
-      map
-    ).parse()
+    const trustAnchors = new TrustAnchorListParser(data, type, map, arrPath).parse()
 
     return res.status(200).json(trustAnchors)
   }
