@@ -42,8 +42,10 @@ export default class TrustAnchorListParser {
     let trustAnchorsArray: any[]
     switch (this.type) {
       case ParseTypes.CSV:
+        // use column headers as object literals and strip whitespaces
+        const nonWhitespaceColumnHeaders = header => header.map(col => col.replace(/ /g, ''))
         // if a CSV is the Input, the parsed content will already be the array we are looking for
-        trustAnchorsArray = parse(this.list, { columns: header => header.map(col => col.replace(/ /g, '')) })
+        trustAnchorsArray = parse(this.list, { columns: nonWhitespaceColumnHeaders })
         break
       case ParseTypes.XML:
         const xmlParser = new XMLParser()
