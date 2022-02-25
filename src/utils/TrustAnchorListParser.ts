@@ -1,6 +1,6 @@
 import { ITrustAnchor } from '../interfaces/trustAnchor.interface'
 import { XMLParser } from 'fast-xml-parser'
-import { getObjPropertyByPath, isEmpty } from './util'
+import { getObjPropertyByPath } from './util'
 import TrustAnchorObjectParser from './TrustAnchorObjectParser'
 import { parse } from 'csv-parse/sync'
 
