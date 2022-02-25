@@ -107,9 +107,14 @@ class App {
         info: {
           title: name,
           description: description,
-          version: version
+          version: version,
+          license: {
+            name: 'Apache 2.0',
+            url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+          }
         }
       },
+      // TODO: decide on what style to use (docs in routes vs. dedicated .yml file)
       // apis: ['./routes/routes*.js']
       apis: ['swagger.yml']
     }
