@@ -101,23 +101,21 @@ class App {
   }
 
   private initializeSwagger() {
-    const options = {
-      swaggerDefinition: {
+    const options: swaggerJSDoc.OAS3Options = {
+      definition: {
+        openapi: '3.0.3',
         info: {
           title: name,
-          version: version,
           description: description,
-          license: {
-            name: 'Apache 2.0',
-            url: 'https://www.apache.org/licenses/LICENSE-2.0'
-          }
-        },
-        schemes: ['http']
+          version: version
+        }
       },
+      // apis: ['./routes/routes*.js']
       apis: ['swagger.yml']
     }
 
     const specs = swaggerJSDoc(options)
+
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
   }
 
