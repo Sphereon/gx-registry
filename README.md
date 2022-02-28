@@ -2,33 +2,35 @@
 
 ## Getting started
 
-Clone the repository and `cd` into the newly created directory.
-Install all the dependencies:
+Clone the repository and jump into the newly created directory:
+
+```sh
+git clone https://gitlab.com/gaia-x/lab/compliance/gx-registry.git
+cd gx-registry
 ```
+
+Next we need to take care of the initial setup of the project:
+
+```sh
+# Install all the dependencies
 npm install
-```
 
-If you are setting up the project locally for the first time make sure to
-
-1. Create a `./dist` directory:
-```
+# Make sure the ./dist folder exists
 mkdir ./dist
-```
-2. Create a .env file or use the example:
-```
+
+# Create a .env file or use the example:
+# The PORT .env variable is required to be set
 mv .env.example .env
+
+# Make sure npx is installed, as it is used for our commitlint setup
+npm install -g npx
 ```
 
-The `PORT` env variable is required to be set.
+If everything is setup correctly, you can start the development environment with docker-compose. Make sure that the Docker daemon is running on your host operating system.
 
-
-Once the intitial setup is complete you can simply start the development server with docker-compose:
-```
+```sh
 docker-compose up
 ```
-
-Make sure that the Docker daemon is running on your host operating system.
-
 
 ## Default Setup
 
