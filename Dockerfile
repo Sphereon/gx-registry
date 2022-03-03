@@ -1,5 +1,5 @@
 # Common build stage
-FROM node:16.13.0 as common-build-stage
+FROM node:16-bullseye-slim as common-build-stage
 
 WORKDIR /app
 
