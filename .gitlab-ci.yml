@@ -4,11 +4,9 @@ services:
 
 stages:
   - build
-  #  - test
   - release
 
 variables:
-  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: '/certs'
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
@@ -22,18 +20,6 @@ build:
   script:
     - docker build --pull -t $CONTAINER_TEST_IMAGE --target production-build-stage .
     - docker push $CONTAINER_TEST_IMAGE
-
-# test1:
-#   stage: test
-#   script:
-#     - docker pull $CONTAINER_TEST_IMAGE
-#     - docker run $CONTAINER_TEST_IMAGE /script/to/run/tests
-
-# test2:
-#   stage: test
-#   script:
-#     - docker pull $CONTAINER_TEST_IMAGE
-#     - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
 
 release-image:
   stage: release
