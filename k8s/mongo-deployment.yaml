@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.{{YOUR-APP-NAME-HERE}}: mongo
+      app: mongo
   template:
     metadata:
       labels:
-        app.{{YOUR-APP-NAME-HERE}}: mongo
+        app: mongo
     spec:
       containers:
         - image: mongo
@@ -18,3 +18,15 @@ spec:
           ports:
             - containerPort: 27017
       restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongo
+spec:
+  ports:
+    - name: mongo
+      port: 27017
+      targetPort: mongo-port
+  selector:
+    app: mongo

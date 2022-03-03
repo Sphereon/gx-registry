@@ -19,3 +19,4 @@ docker-compose.yml
 
 # k8 secrets
 /deploy/secret*
+/k8s/secret*
