@@ -22,23 +22,10 @@ class SampleService {
   }
 
   private async prepareTrustAnchorResponse(trustAnchor: ITrustAnchor): Promise<ITrustAnchorResponse> {
-    const findTrustAnchorList: ITrustAnchorList = await this.trustAnchorList.findById(trustAnchor._list)
-
-    const lastUpdate = trustAnchor.updatedAt.getTime()
-
     const trustAnchorResponse: ITrustAnchorResponse = {
-      trusted: true,
-      attributes: {
-        name: trustAnchor.name,
-        trustAnchorLocation: findTrustAnchorList
-          ? {
-              name: findTrustAnchorList.name,
-              location: findTrustAnchorList.location
-            }
-          : undefined,
-        updatedAt: lastUpdate
-      },
-      timeOfTrust: lastUpdate
+      trustState: 'trusted',
+      trustedForAttributes: new RegExp('.*', 'gm').toString(),
+      trustedAt: trustAnchor.lastTimeOfTrust?.getTime()
     }
 
     return trustAnchorResponse
