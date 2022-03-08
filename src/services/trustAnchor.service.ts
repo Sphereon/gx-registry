@@ -22,7 +22,7 @@ class SampleService {
   }
 
   private async prepareTrustAnchorResponse(trustAnchor: ITrustAnchor): Promise<ITrustAnchorResponse> {
-    const findTrustAnchorList: ITrustAnchorList = await this.trustAnchorList.findById(trustAnchor.list_id)
+    const findTrustAnchorList: ITrustAnchorList = await this.trustAnchorList.findById(trustAnchor._list)
 
     const lastUpdate = trustAnchor.updatedAt.getTime()
 

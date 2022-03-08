@@ -35,12 +35,12 @@ class TrustAnchorRoute implements Routes {
     const inserted = await trustAnchor.insertMany([
       {
         name: 'Anchor #1',
-        list_id: list._id,
+        _list: list._id,
         publicKey: '1234567890'
       },
       {
         name: 'Trust Anchor #2',
-        list_id: list._id,
+        _list: list._id,
         publicKey: '0987654321'
       }
     ])

@@ -1,7 +1,7 @@
 export interface ITrustAnchor {
   _id: string
   name: string
-  list_id: string
+  _list: string
   publicKey: string
   updatedAt: Date
 }
