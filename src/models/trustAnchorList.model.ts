@@ -9,15 +9,10 @@ const trustAnchorListSchema: Schema = new Schema(
       required: true,
       trim: true
     },
-    location: {
+    uri: {
       type: String,
       required: true,
       trim: true
-    },
-    type: {
-      type: String,
-      enum: ['XML', 'CSV'],
-      required: true
     },
     updateCycle: {
       type: Number,
