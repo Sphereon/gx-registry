@@ -17,6 +17,10 @@ const trustAnchorListSchema: Schema = new Schema(
     updateCycle: {
       type: Number,
       required: true
+    },
+    parsingClass: {
+      type: String,
+      required: true
     }
   },
   {

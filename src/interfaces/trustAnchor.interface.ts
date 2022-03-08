@@ -1,3 +1,9 @@
+import TALParserEiDAS from 'parsers/TALParserEiDAS'
+
+export const TAL_PARSING_CLASSES = {
+  eiDASParser: new TALParserEiDAS()
+}
+
 // states will be extended in the future
 export type TTrustStates = 'trusted' | 'untrusted'
 
@@ -18,6 +24,7 @@ export interface ITrustAnchorList {
   name: string
   location: string
   updateCycle: number
+  parserClass: keyof typeof TAL_PARSING_CLASSES
   createdAt: Date
   updatedAt: Date
 }
