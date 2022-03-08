@@ -1,10 +1,40 @@
 # Gaia-X Lab Registry
 
-A boilerplate to use for new express-js backend / API projects.
+## Getting started
 
-Credits to the (typescript-express-starter)[https://github.com/ljlm0402/typescript-express-starter#readme] repository at https://github.com/ljlm0402/typescript-express-starter#readme. This repository uses a customized & enhanced version of the `Mongoose` template.
+Clone the repository and jump into the newly created directory:
+
+```sh
+git clone https://gitlab.com/gaia-x/lab/compliance/gx-registry.git
+cd gx-registry
+```
+
+Next we need to take care of the initial setup of the project:
+
+```sh
+# Install all the dependencies
+npm install
+
+# Make sure the ./dist folder exists
+mkdir ./dist
+
+# Create a .env file or use the example:
+# The PORT .env variable is required to be set
+mv .env.example .env
+
+# Make sure npx is installed, as it is used for our commitlint setup
+npm install -g npx
+```
+
+If everything is setup correctly, you can start the development environment with docker-compose. Make sure that the Docker daemon is running on your host operating system.
+
+```sh
+docker-compose up
+```
 
 ## Default Setup
+
+Credits to the (typescript-express-starter)[https://github.com/ljlm0402/typescript-express-starter#readme] repository at https://github.com/ljlm0402/typescript-express-starter#readme. This repository uses a customized & enhanced version of the `Mongoose` template.
 
 - Typesript enabled
 - Prettier setup with husky to follow & enforce code styling standards upon commits

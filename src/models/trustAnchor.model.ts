@@ -9,7 +9,7 @@ const trustAnchorSchema: Schema = new Schema(
       required: true,
       trim: true
     },
-    list_id: {
+    _list: {
       type: Types.ObjectId,
       required: true
     },
