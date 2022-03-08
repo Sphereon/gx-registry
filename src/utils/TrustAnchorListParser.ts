@@ -5,7 +5,7 @@ import TrustAnchorObjectParser from './TrustAnchorObjectParser'
 import { parse } from 'csv-parse/sync'
 
 export type TTrustAnchorMap = {
-  [P in keyof Omit<ITrustAnchor, '_id' | 'list_id' | 'updatedAt'>]?: string
+  [P in keyof Omit<ITrustAnchor, '_id' | '_list' | 'updatedAt' | 'createdAt'>]?: string
 }
 
 export enum ParseTypes {

@@ -1,4 +1,5 @@
 import { ITrustAnchor } from 'interfaces/trustAnchor.interface'
+import { logger } from './logger'
 import { TTrustAnchorMap } from './TrustAnchorListParser'
 import { getObjPropertyByPath } from './util'
 
@@ -24,8 +25,7 @@ export default class TrustAnchorObjectParser {
       name: [],
       publicKey: []
     }
-    // simple counter to keep track of all anchors (keys) in the list
-    let count = 0
+
     try {
       this.anchors.map(anchor => {
         for (const field in this.fieldMap) {
@@ -34,46 +34,49 @@ export default class TrustAnchorObjectParser {
           // note that this can result in string & string[] pushes
           // depending on the structure of the list
           results[field].push(getObjPropertyByPath(anchor, this.fieldMap[field]))
-          count++
         }
       })
     } catch (e) {
-      throw e
+      logger.error(e.message)
     }
 
-    return this.transformResults(results, count)
+    return this.transformResults(results)
   }
 
-  private transformResults(results: TTrustAnchorResults, count: number): Partial<ITrustAnchor>[] {
+  private transformResults(results: TTrustAnchorResults): Partial<ITrustAnchor>[] {
     const trustAnchors: Partial<ITrustAnchor>[] = []
 
-    for (let i = 0; i < count; i++) {
+    results.name.forEach((resultName, index) => {
       // names and keys can be either string or string[]
       // check for arrays first and create ITrustAnchors respectively
-      if (Array.isArray(results.name[i])) {
-        ;(results.name[i] as string[]).map((name, j) =>
+      const resultPublicKey = results.publicKey[index]
+
+      if (Array.isArray(resultName))
+        resultName.forEach((name, i) =>
           trustAnchors.push({
             name: name,
-            publicKey: (results.publicKey[i] as string[])[j]
+            publicKey: results.publicKey[index][i]
           })
         )
-      } else if (Array.isArray(results.publicKey[i])) {
-        ;(results.publicKey[i] as string[]).map(key =>
+      else {
+        if (Array.isArray(resultPublicKey)) {
+          resultPublicKey.forEach((publicKey, i) =>
+            trustAnchors.push({
+              name: resultName[i],
+              publicKey: publicKey
+            })
+          )
+        } else {
+          // skip if only one value is given.
+          // A valid key <> name pair is therefore needed as of now
+          if (typeof resultName === 'undefined' || typeof resultPublicKey === 'undefined') return false
           trustAnchors.push({
-            name: results.name[i] as string,
-            publicKey: key
+            name: resultName,
+            publicKey: resultPublicKey
           })
-        )
-      } else {
-        // skip if only one value is given. A valid key <> name pair
-        // is therefore needed as of now
-        if (typeof results.name[i] === 'undefined' || typeof results.publicKey[i] === 'undefined') continue
-        trustAnchors.push({
-          name: results.name[i] as string,
-          publicKey: results.publicKey[i] as string
-        })
+        }
       }
-    }
+    })
 
     return trustAnchors
   }
