@@ -1,7 +1,7 @@
-import TALParserEiDAS from 'parsers/TALParserEiDAS'
+import TALParserEiDAS from '../utils/parsers/TALParserEiDAS'
 
 export const TAL_PARSING_CLASSES = {
-  eiDASParser: new TALParserEiDAS()
+  eiDASParser: TALParserEiDAS
 }
 
 // states will be extended in the future
@@ -22,7 +22,7 @@ export interface ITrustAnchor {
 export interface ITrustAnchorList {
   _id: string
   name: string
-  location: string
+  uri: string
   updateCycle: number
   parserClass: keyof typeof TAL_PARSING_CLASSES
   createdAt: Date

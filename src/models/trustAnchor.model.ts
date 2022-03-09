@@ -13,19 +13,20 @@ const trustAnchorSchema: Schema = new Schema(
       type: Types.ObjectId,
       required: true
     },
-    uri: {
-      type: String,
-      required: true,
-      trim: true
-    },
     publicKey: {
       type: String,
       required: true,
       trim: true
     },
+    uri: {
+      type: String,
+      required: false,
+      trim: true
+    },
+    //TODO: this should be required
     trustState: {
       type: String,
-      required: true
+      required: false
     },
     lastTimeOfTrust: Date
   },
