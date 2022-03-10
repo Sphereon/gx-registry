@@ -62,6 +62,6 @@ export const getObjPropertyByPath = (o: Object, path: string): any => {
   return o
 }
 
-export function getValueAsArray(value: any): any[] {
+export function getValueAsArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
