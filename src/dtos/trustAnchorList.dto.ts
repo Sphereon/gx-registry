@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator'
-import { TAL_PARSING_CLASSES } from 'interfaces/trustAnchor.interface'
+import { TAL_PARSING_CLASSES } from '../interfaces/trustAnchor.interface'
 
 export class CreateTrustAnchorListDto {
   @IsString()

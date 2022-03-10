@@ -1,4 +1,4 @@
-import { RequestTrustAnchorDto } from 'dtos/trustAnchor.dto'
+import { RequestTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import { HttpException } from '../exceptions/HttpException'
 import { ITrustAnchor, ITrustAnchorResponse } from '../interfaces/trustAnchor.interface'
 import TrustAnchor from '../models/trustAnchor.model'
