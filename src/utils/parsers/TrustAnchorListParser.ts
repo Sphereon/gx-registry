@@ -13,20 +13,27 @@ export default abstract class TrustAnchorListParser {
     if (_trustAnchorListObject) this.trustAnchorListObject = _trustAnchorListObject
   }
 
-  // call regularly to check if the list needs to be fetched & parsed again
-  // TODO: this is WIP - decide on implementation
+  /**
+   * Decide whether a given TrustAnchorList should be re-fetched or not.
+   * Could be called regularly on a schedule to enable automatic "re-fetching" of TrustAnchors.
+   *
+   * @returns {boolean} if the TrustAnchors from this list should be fetched
+   */
   abstract shouldFetchNow(): boolean
 
   /**
-   * Function to be used by implementing parser classes to
-   * actually parse the respective list and return all trust anchors
-   * from that list as a CreateTrustAnchorDtos
+   * Parse the list of this TrustAnchorListParser for TrustAnchors.
    *
    * @returns {CreateTrustAnchorDto[]} the found TrustAnchors in the list
    */
   abstract getTrustAnchors(): Promise<CreateTrustAnchorDto[]>
 
-  // helper to create a new TrustAnchorList DB entry
+  /**
+   * Create a new TrustAnchorList database entry.
+   *
+   * @param createTrustAnchorListDto the dto to create the list with
+   * @returns {ITrustAnchorList} the created TrustAnchorList
+   */
   static async createTrustAnchorList(createTrustAnchorListDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
     try {
       const createTrustAnchorList = await TrustAnchorList.create(createTrustAnchorListDto)
