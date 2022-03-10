@@ -21,6 +21,9 @@ const trustAnchorListSchema: Schema = new Schema(
     parserClass: {
       type: String,
       required: true
+    },
+    lastFetchDate: {
+      type: Date
     }
   },
   {

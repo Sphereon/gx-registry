@@ -44,6 +44,9 @@ export interface ITSPService {
     }
   }
 }
+export interface ITSPServiceWithSPName extends ITSPService {
+  TSPName: ITSPInformation['TSPName']
+}
 
 export interface ITrustServiceProvider {
   TSPInformation: ITSPInformation

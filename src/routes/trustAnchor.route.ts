@@ -5,7 +5,7 @@ import TrustAnchorController from '../controllers/trustAnchor.controller'
 import { Routes } from '../interfaces/routes.interface'
 import TrustAnchor from '../models/trustAnchor.model'
 import TrustAnchorList from '../models/trustAnchorList.model'
-import TALParserEiDAS from '../utils/parsers/TALParserEiDAS'
+import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
 import { logger } from '../utils/logger'
 
 class TrustAnchorRoute implements Routes {
@@ -52,14 +52,15 @@ class TrustAnchorRoute implements Routes {
   }
 
   //TODO: remove after testing
+  // ONLY used for testing. Currently fetches all lists on the lotl
+  // and stores the TSPs into the DB as TrustAnchors
   private async parseXml(req: Request, res: Response) {
-    return res.status(200).json({
-      message: 'Successfully fetched Trust Anchors from EC LOTL',
-      availableTrustAnchors: (await TrustAnchor.find()).length
-    })
+    const createTalDto = await EiDASTrustedListParser.getCreateTrustAnchorListDto('https://ec.europa.eu/tools/lotl/eu-lotl.xml')
+    console.log('createDto:', createTalDto)
+    const findTtrustAnchorList = await EiDASTrustedListParser.findAndUpdateOrCreateTal(createTalDto)
+    console.log('findTal:', findTtrustAnchorList)
+    const parser = new EiDASTrustedListParser(findTtrustAnchorList)
 
-    const findTtrustAnchorList = await TrustAnchorList.findById('622770ccc194716ac6e2566c')
-    const parser = new TALParserEiDAS(findTtrustAnchorList)
     const trustAnchors = await parser.getTrustAnchors()
 
     for (const ta of trustAnchors) {
