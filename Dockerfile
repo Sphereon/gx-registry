@@ -29,5 +29,4 @@ RUN npm ci --only=production
 
 USER node
 
-
-CMD ["npm", "run", "start"]
+CMD ["dumb-init", "npm", "start"]
