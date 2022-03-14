@@ -22,7 +22,7 @@ spec:
               value: mongo
             - name: MONGO_PORT
               value: '27017'
-          image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:live
+          image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:main
           name: gx-registry-live-server
           ports:
             - containerPort: 3000
