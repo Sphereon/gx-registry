@@ -6,7 +6,6 @@ import { Routes } from '../interfaces/routes.interface'
 import TrustAnchor from '../models/trustAnchor.model'
 import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
 import { logger } from '../utils/logger'
-import { TAL_PARSING_CLASSES } from '../interfaces/trustAnchor.interface'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
