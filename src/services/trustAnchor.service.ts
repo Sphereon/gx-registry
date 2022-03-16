@@ -1,4 +1,5 @@
-import { RequestTrustAnchorDto } from '../dtos/trustAnchor.dto'
+import { ValidationResult } from 'joi'
+import { TTrustAnchorRequest } from '../dtos/trustAnchor.dto'
 import { HttpException } from '../exceptions/HttpException'
 import { ITrustAnchor, ITrustAnchorResponse, TrustStates } from '../interfaces/trustAnchor.interface'
 import TrustAnchor from '../models/trustAnchor.model'
@@ -9,7 +10,7 @@ class SampleService {
   public trustAnchor = TrustAnchor
   public trustAnchorList = TrustAnchorList
 
-  public async findTrustAnchor(trustAnchorData: RequestTrustAnchorDto): Promise<ITrustAnchorResponse> {
+  public async findTrustAnchor(trustAnchorData: ValidationResult<TTrustAnchorRequest>['value']): Promise<ITrustAnchorResponse> {
     if (isEmpty(trustAnchorData)) throw new HttpException(400, 'Request body invalid.')
 
     const findTrustAnchor: ITrustAnchor = await this.trustAnchor.findOne({ publicKey: trustAnchorData.publicKey })

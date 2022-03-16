@@ -1,17 +1,11 @@
-import { IsString } from 'class-validator'
+import Joi from 'joi'
 
-export class RequestTrustAnchorDto {
-  @IsString()
-  public publicKey: string
+export type TTrustAnchorRequest = {
+  publicKey: string
 }
 
-export class CreateTrustAnchorDto {
-  @IsString()
-  public name: string
-
-  @IsString()
-  public _list: string
-
-  @IsString()
-  public publicKey: string
+const trustAnchorRequestRules = {
+  publicKey: Joi.string().empty().required()
 }
+
+export const trustAnchorRequestSchema = Joi.object<TTrustAnchorRequest>(trustAnchorRequestRules)

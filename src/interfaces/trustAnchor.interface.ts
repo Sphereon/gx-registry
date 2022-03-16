@@ -10,24 +10,30 @@ export enum TrustStates {
   Untrusted = 'untrusted'
 }
 
-export interface ITrustAnchor {
-  _id: string
+export interface ICreateTrustAnchor {
   name: string
   _list: string
-  uri: string
+  uri?: string
   publicKey: string
-  trustState: TrustStates
+}
+
+export interface ITrustAnchor extends ICreateTrustAnchor {
+  _id: string
   createdAt: Date
   updatedAt: Date
+  trustState?: TrustStates
   lastTimeOfTrust?: Date
 }
 
-export interface ITrustAnchorList {
-  _id: string
+export interface ICreateTrustAnchorList {
   name: string
   uri: string
-  updateCycle: number
   parserClass: keyof typeof TAL_PARSING_CLASSES
+  updateCycle?: number
+}
+
+export interface ITrustAnchorList extends ICreateTrustAnchorList {
+  _id: string
   createdAt: Date
   updatedAt: Date
   lastFetchDate?: Date
