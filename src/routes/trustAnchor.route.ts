@@ -35,9 +35,9 @@ class TrustAnchorRoute implements Routes {
     const trustAnchors = await parser.getTrustAnchors()
 
     for (const ta of trustAnchors) {
-      const { name, ...query } = ta
+      const { publicKey, _list } = ta
       try {
-        await TrustAnchor.findOneAndUpdate(query, ta, { upsert: true })
+        await TrustAnchor.findOneAndUpdate({ publicKey, _list }, ta, { upsert: true })
       } catch (e) {
         logger.error(e)
         continue
