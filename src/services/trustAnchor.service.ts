@@ -1,6 +1,6 @@
-import { RequestTrustAnchorDto } from 'dtos/trustAnchor.dto'
+import { RequestTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import { HttpException } from '../exceptions/HttpException'
-import { ITrustAnchor, ITrustAnchorList, ITrustAnchorResponse } from '../interfaces/trustAnchor.interface'
+import { ITrustAnchor, ITrustAnchorResponse, TrustStates } from '../interfaces/trustAnchor.interface'
 import TrustAnchor from '../models/trustAnchor.model'
 import TrustAnchorList from '../models/trustAnchorList.model'
 import { isEmpty } from '../utils/util'
@@ -22,23 +22,10 @@ class SampleService {
   }
 
   private async prepareTrustAnchorResponse(trustAnchor: ITrustAnchor): Promise<ITrustAnchorResponse> {
-    const findTrustAnchorList: ITrustAnchorList = await this.trustAnchorList.findById(trustAnchor.list_id)
-
-    const lastUpdate = trustAnchor.updatedAt.getTime()
-
     const trustAnchorResponse: ITrustAnchorResponse = {
-      trusted: true,
-      attributes: {
-        name: trustAnchor.name,
-        trustAnchorLocation: findTrustAnchorList
-          ? {
-              name: findTrustAnchorList.name,
-              location: findTrustAnchorList.location
-            }
-          : undefined,
-        updatedAt: lastUpdate
-      },
-      timeOfTrust: lastUpdate
+      trustState: TrustStates.Trusted,
+      trustedForAttributes: new RegExp('.*', 'gm').toString(),
+      trustedAt: trustAnchor.lastTimeOfTrust?.getTime()
     }
 
     return trustAnchorResponse

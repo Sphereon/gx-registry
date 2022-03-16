@@ -1,6 +1,3 @@
-import axios from 'axios'
-import crypto from 'crypto'
-import { logger } from './logger'
 /**
  * @method isEmpty
  * @param {String | Number | Object} value
@@ -19,4 +16,8 @@ export const isEmpty = (value: string | number | object): boolean => {
   } else {
     return false
   }
+}
+
+export function getValueAsArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value]
 }

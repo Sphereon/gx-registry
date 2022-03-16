@@ -6,8 +6,8 @@ class TrustAnchorController {
 
   public getTrustAnchor = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const trustAnchor = await this.trustAnchorService.findTrustAnchor(req.body)
-      res.status(200).json({ data: trustAnchor, message: 'Trust Anchor found in registry.' })
+      const trustAnchorResponse = await this.trustAnchorService.findTrustAnchor(req.body)
+      res.status(200).json(trustAnchorResponse)
     } catch (error) {
       next(error)
     }

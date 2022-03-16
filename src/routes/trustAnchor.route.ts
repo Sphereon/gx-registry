@@ -1,10 +1,12 @@
-import { RequestTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import { Request, Response, Router } from 'express'
+import { RequestTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import validationMiddleware from '../middlewares/validation.middleware'
 import TrustAnchorController from '../controllers/trustAnchor.controller'
 import { Routes } from '../interfaces/routes.interface'
 import TrustAnchor from '../models/trustAnchor.model'
-import TrustAnchorList from '../models/trustAnchorList.model'
+import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
+import { logger } from '../utils/logger'
+import { CreateTrustAnchorDto } from '../dtos/trustAnchor.dto'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
@@ -16,36 +18,43 @@ class TrustAnchorRoute implements Routes {
   }
 
   private initializeRoutes() {
-    //this.router.get(`${this.path}`, this.addToDb)
+    // TODO: remove GET route
+    this.router.get(`${this.path}`, this.parseXml)
     this.router.post(`${this.path}`, validationMiddleware(RequestTrustAnchorDto, 'body'), this.trustAnchorController.getTrustAnchor)
   }
 
-  //TODO: remove after testing
-  private async addToDb(req: Request, res: Response) {
-    const trustAnchorList = TrustAnchorList
-    const trustAnchor = TrustAnchor
+  // TODO: refactor into unit tests
+  // ONLY used for testing. Currently fetches all lists on the lotl
+  // and stores the TSPs into the DB as TrustAnchors
+  private async parseXml(req: Request, res: Response) {
+    console.log('REQUESTED parse XML')
+    const createTalDto = await EiDASTrustedListParser.getCreateTrustAnchorListDto('https://ec.europa.eu/tools/lotl/eu-lotl.xml')
+    console.log('createDto:', createTalDto)
+    const findTtrustAnchorList = await EiDASTrustedListParser.findAndUpdateOrCreateTal(createTalDto)
+    console.log('findTal:', findTtrustAnchorList)
+    const parser = new EiDASTrustedListParser(findTtrustAnchorList)
 
-    const list = await trustAnchorList.create({
-      name: 'Example Trusted List',
-      location: 'https://example.com',
-      type: 'CSV',
-      updateCycle: 604800000 // 1 week
+    const trustAnchors = await parser.getTrustAnchors()
+
+    await TrustAnchorRoute.updateTrustAnchors(trustAnchors)
+
+    return res.status(200).json({
+      message: 'Successfully fetched Trust Anchors from EC LOTL',
+      availableTrustAnchors: (await TrustAnchor.find()).length
     })
+  }
 
-    const inserted = await trustAnchor.insertMany([
-      {
-        name: 'Anchor #1',
-        list_id: list._id,
-        publicKey: '1234567890'
-      },
-      {
-        name: 'Trust Anchor #2',
-        list_id: list._id,
-        publicKey: '0987654321'
+  static async updateTrustAnchors(trustAnchors: CreateTrustAnchorDto[]) {
+    for (const ta of trustAnchors) {
+      // find trustAnchors by publicKey & _list id
+      const { publicKey, _list } = ta
+      try {
+        await TrustAnchor.findOneAndUpdate({ publicKey, _list }, ta, { upsert: true })
+      } catch (e) {
+        logger.error(e)
+        continue
       }
-    ])
-
-    return res.status(200).json(inserted)
+    }
   }
 }
 
