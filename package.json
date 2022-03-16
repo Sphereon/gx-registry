@@ -25,6 +25,7 @@
     "fast-xml-parser": "^4.0.3",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
+    "joi": "^17.6.0",
     "mongoose": "^5.10.1",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",
