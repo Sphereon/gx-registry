@@ -5,7 +5,10 @@ export const TAL_PARSING_CLASSES = {
 }
 
 // states will be extended in the future
-export type TTrustStates = 'trusted' | 'untrusted'
+export enum TrustStates {
+  Trusted = 'trusted',
+  Untrusted = 'untrusted'
+}
 
 export interface ITrustAnchor {
   _id: string
@@ -13,7 +16,7 @@ export interface ITrustAnchor {
   _list: string
   uri: string
   publicKey: string
-  trustState: TTrustStates
+  trustState: TrustStates
   createdAt: Date
   updatedAt: Date
   lastTimeOfTrust?: Date
@@ -31,7 +34,7 @@ export interface ITrustAnchorList {
 }
 
 export interface ITrustAnchorResponse {
-  trustState: TTrustStates
+  trustState: TrustStates
   trustedForAttributes?: string
   trustedAt?: number
 }
