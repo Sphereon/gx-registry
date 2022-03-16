@@ -19,9 +19,6 @@ class TrustAnchorRoute implements Routes {
 
   private initializeRoutes() {
     // TODO: remove GET route
-    console.log('INIT ROUTES')
-    console.log('INIT ROUTES')
-    console.log('INIT ROUTES')
     this.router.get(`${this.path}`, this.parseXml)
     this.router.post(`${this.path}`, validationMiddleware(RequestTrustAnchorDto, 'body'), this.trustAnchorController.getTrustAnchor)
   }
