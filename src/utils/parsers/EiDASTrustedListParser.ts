@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
 import fetch from 'node-fetch'
-import { ICreateTrustAnchor, ICreateTrustAnchorList, ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
+import { TCreateTrustAnchor, TCreateTrustAnchorList, ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
 import TrustAnchorListParser from './TrustAnchorListParser'
 import { IDigitalId, IName, ITrustedList, ITSPService, ITSPServiceWithSPName } from '../../interfaces/eiDAS.interface'
 import TrustAnchorList from '../../models/trustAnchorList.model'
@@ -37,9 +37,9 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     return shouldFetch
   }
 
-  async getTrustAnchors(): Promise<ICreateTrustAnchor[]> {
+  async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
     // Initialize the array that should hold the returned trustAnchors
-    let createTrustAnchorDtos: ICreateTrustAnchor[] = []
+    let createTrustAnchorDtos: TCreateTrustAnchor[] = []
     if (!this.shouldFetchNow()) return createTrustAnchorDtos
     try {
       logger.debug(`[eiDASParser:getTrustAnchors] Getting TrustAnchors for ${this.trustAnchorList.uri}`)
@@ -91,8 +91,8 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     }
   }
 
-  private getCreateTrustAnchorDtosFromTSPServices(services: ITSPServiceWithSPName[]): ICreateTrustAnchor[] {
-    const createTrustAnchorDtos: ICreateTrustAnchor[] = []
+  private getCreateTrustAnchorDtosFromTSPServices(services: ITSPServiceWithSPName[]): TCreateTrustAnchor[] {
+    const createTrustAnchorDtos: TCreateTrustAnchor[] = []
     for (const service of services) {
       const name = EiDASTrustedListParser.getTrustAnchorName(service.TSPName, service.ServiceInformation.ServiceName)
       const { DigitalId } = service.ServiceInformation.ServiceDigitalIdentity
@@ -122,7 +122,7 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     return filteredServices
   }
 
-  static async findAndUpdateOrCreateTal(createTalDto: ICreateTrustAnchorList): Promise<ITrustAnchorList> {
+  static async findAndUpdateOrCreateTal(createTalDto: TCreateTrustAnchorList): Promise<ITrustAnchorList> {
     const { uri } = createTalDto
     const findTrustAnchorList = await TrustAnchorList.findOneAndUpdate({ uri }, createTalDto, { upsert: true, setDefaultsOnInsert: true, new: true })
 
@@ -133,7 +133,7 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     return ids.find(id => id.X509Certificate)
   }
 
-  static async getCreateTrustAnchorListDto(uri: string, listObject?: ITrustedList): Promise<ICreateTrustAnchorList> {
+  static async getCreateTrustAnchorListDto(uri: string, listObject?: ITrustedList): Promise<TCreateTrustAnchorList> {
     if (!listObject) listObject = await EiDASTrustedListParser.getTrustedListObject(uri)
     return {
       uri,

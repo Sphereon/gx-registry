@@ -6,7 +6,7 @@ import TrustAnchor from '../models/trustAnchor.model'
 import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
 import { logger } from '../utils/logger'
 import { trustAnchorRequestSchema } from '../dtos/trustAnchor.dto'
-import { ICreateTrustAnchor } from '../interfaces/trustAnchor.interface'
+import { TCreateTrustAnchor } from '../interfaces/trustAnchor.interface'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
@@ -44,7 +44,7 @@ class TrustAnchorRoute implements Routes {
     })
   }
 
-  static async updateTrustAnchors(trustAnchors: ICreateTrustAnchor[]) {
+  static async updateTrustAnchors(trustAnchors: TCreateTrustAnchor[]) {
     for (const ta of trustAnchors) {
       // find trustAnchors by publicKey & _list id
       const { publicKey, _list } = ta
