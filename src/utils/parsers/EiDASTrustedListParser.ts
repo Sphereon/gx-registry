@@ -1,6 +1,5 @@
 import { XMLParser } from 'fast-xml-parser'
 import fetch from 'node-fetch'
-import { ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
 import TrustAnchorListParser from './TrustAnchorListParser'
 import { IDigitalId, IName, ITrustedList, ITSPService, ITSPServiceWithSPName } from '../../interfaces/eiDAS.interface'
 import TrustAnchorList from '../../models/trustAnchorList.model'
@@ -21,23 +20,6 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
   trustAnchorListObject: ITrustedList
 
   static xmlParser = new XMLParser()
-
-  // TODO: implement updateCycles rather than hardcoded time difference
-  shouldFetchNow(): boolean {
-    if (!this.trustAnchorList.lastFetchDate) {
-      logger.debug(`[eiDASParser:shouldFetchNow] Could not find a lastFetchDate for: ${this.trustAnchorList.uri}. Should fetch now.`)
-      return true
-    }
-
-    const diffTime = Math.abs(Date.now() - this.trustAnchorList.lastFetchDate.getTime())
-    const diffDays = diffTime / (1000 * 60 * 60 * 24)
-    const shouldFetch = diffDays >= 14
-    logger.debug(
-      `[eiDASParser:shouldFetchNow] List was fetched ${diffDays} ago. ${shouldFetch ? 'Should fetch again now.' : 'Should not be fetched again.'}`
-    )
-
-    return shouldFetch
-  }
 
   async getTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
     // Initialize the array that should hold the returned trustAnchors

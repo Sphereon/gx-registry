@@ -20,12 +20,27 @@ export default abstract class TrustAnchorListParser {
    *
    * @returns {boolean} if the TrustAnchors from this list should be fetched
    */
-  abstract shouldFetchNow(): boolean
+  // TODO: implement updateCycles rather than hardcoded time difference
+  shouldFetchNow(): boolean {
+    if (!this.trustAnchorList.lastFetchDate) {
+      logger.debug(`[eiDASParser:shouldFetchNow] Could not find a lastFetchDate for: ${this.trustAnchorList.uri}. Should fetch now.`)
+      return true
+    }
+
+    const diffTime = Math.abs(Date.now() - this.trustAnchorList.lastFetchDate.getTime())
+    const diffDays = diffTime / (1000 * 60 * 60 * 24)
+    const shouldFetch = diffDays >= 14
+    logger.debug(
+      `[eiDASParser:shouldFetchNow] List was fetched ${diffDays} ago. ${shouldFetch ? 'Should fetch again now.' : 'Should not be fetched again.'}`
+    )
+
+    return shouldFetch
+  }
 
   /**
    * Parse the list of this TrustAnchorListParser for TrustAnchors.
    *
-   * @returns {CreateTrustAnchorDto[]} the found TrustAnchors in the list
+   * @returns {Promise<CreateTrustAnchorDto[]>} a promise resolving to the found TrustAnchors in the list
    */
   abstract getTrustAnchors(): Promise<CreateTrustAnchorDto[]>
 
