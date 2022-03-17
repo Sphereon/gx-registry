@@ -71,7 +71,7 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
           // find or create the respective ITrustAnchorList,
           const tslPointerListObject = await EiDASTrustedListParser.getTrustedListObject(tslPointer.TSLLocation)
           const createTalDto = await EiDASTrustedListParser.getCreateTrustAnchorListDto(tslPointer.TSLLocation, tslPointerListObject)
-          const findTrustAnchorList = await EiDASTrustedListParser.findAndUpdateOrCreateTal(createTalDto)
+          const findTrustAnchorList = await TrustAnchorListParser.findAndUpdateOrCreateTrustAnchorList(createTalDto)
 
           // get a parser for that list,
           const tslPointerParser = new EiDASTrustedListParser(findTrustAnchorList, tslPointerListObject)
@@ -122,13 +122,6 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     })
 
     return filteredServices
-  }
-
-  static async findAndUpdateOrCreateTal(createTalDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
-    const { uri } = createTalDto
-    const findTrustAnchorList = await TrustAnchorList.findOneAndUpdate({ uri }, createTalDto, { upsert: true, setDefaultsOnInsert: true, new: true })
-
-    return findTrustAnchorList
   }
 
   static findX509CredentialDigitalId(ids: IDigitalId[]): IDigitalId {

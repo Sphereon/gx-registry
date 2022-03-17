@@ -1,3 +1,4 @@
+import { QueryOptions } from 'mongoose'
 import { CreateTrustAnchorDto } from '../../dtos/trustAnchor.dto'
 import { CreateTrustAnchorListDto } from '../../dtos/trustAnchorList.dto'
 import { ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
@@ -32,7 +33,7 @@ export default abstract class TrustAnchorListParser {
    * Create a new TrustAnchorList database entry.
    *
    * @param createTrustAnchorListDto the dto to create the list with
-   * @returns {ITrustAnchorList} the created TrustAnchorList
+   * @returns {Promise<ITrustAnchorList>} a promise resolving to the created TrustAnchorList
    */
   static async createTrustAnchorList(createTrustAnchorListDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
     try {
@@ -42,5 +43,19 @@ export default abstract class TrustAnchorListParser {
     } catch (error) {
       logger.error(error)
     }
+  }
+
+  /**
+   * Find and update a TrustAnchorList database entry. If the entry is not found a new one will be created.
+   *
+   * @param createTrustAnchorListDto the dto to create the list with
+   * @returns {Promise<ITrustAnchorList>} a promise resolving to the updated or created TrustAnchorList
+   */
+  static async findAndUpdateOrCreateTrustAnchorList(createTrustAnchorListDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
+    const { uri } = createTrustAnchorListDto
+    const options: QueryOptions = { upsert: true, setDefaultsOnInsert: true, new: true }
+    const findTrustAnchorList = await TrustAnchorList.findOneAndUpdate({ uri }, createTrustAnchorListDto, options)
+
+    return findTrustAnchorList
   }
 }
