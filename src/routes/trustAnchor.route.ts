@@ -30,7 +30,7 @@ class TrustAnchorRoute implements Routes {
     console.log('REQUESTED parse XML')
     const createTalDto = await EiDASTrustedListParser.getCreateTrustAnchorListDto('https://ec.europa.eu/tools/lotl/eu-lotl.xml')
     console.log('createDto:', createTalDto)
-    const findTtrustAnchorList = await EiDASTrustedListParser.findAndUpdateOrCreateTal(createTalDto)
+    const findTtrustAnchorList = await EiDASTrustedListParser.findAndUpdateOrCreateTrustAnchorList(createTalDto)
     console.log('findTal:', findTtrustAnchorList)
     const parser = new EiDASTrustedListParser(findTtrustAnchorList)
 
