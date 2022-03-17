@@ -10,6 +10,7 @@ import { CreateTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import TrustAnchorListParser from '../utils/parsers/TrustAnchorListParser'
 import { CreateTrustAnchorListDto } from '../dtos/trustAnchorList.dto'
 import MozillaCAListParser from '../utils/parsers/MozillaCAListParser'
+import mongoose from 'mongoose'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
@@ -44,6 +45,7 @@ class TrustAnchorRoute implements Routes {
 
     return res.status(200).json({
       message: 'Successfully fetched Trust Anchors from EC LOTL',
+      availableTrustAnchorsEiDAS: (await TrustAnchor.find({ _list: findTtrustAnchorList._id })).length,
       availableTrustAnchors: (await TrustAnchor.find()).length
     })
   }
@@ -64,7 +66,14 @@ class TrustAnchorRoute implements Routes {
     const findTtrustAnchorList = await TrustAnchorListParser.findAndUpdateOrCreateTrustAnchorList(createTalDto)
     const parser = new MozillaCAListParser(findTtrustAnchorList)
 
-    return res.status(200).json(await parser.fetchTrustAnchors())
+    const trustAnchors = await parser.fetchTrustAnchors()
+    await TrustAnchorRoute.updateTrustAnchors(trustAnchors)
+
+    return res.status(200).json({
+      message: 'Successfully fetched Trust Anchors from Mozilla CA list',
+      availableTrustAnchorsMozillaCa: (await TrustAnchor.find({ _list: findTtrustAnchorList._id })).length,
+      availableTrustAnchorsTotal: (await TrustAnchor.find()).length
+    })
   }
 
   static async updateTrustAnchors(trustAnchors: CreateTrustAnchorDto[]) {
