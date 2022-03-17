@@ -38,11 +38,24 @@ export default abstract class TrustAnchorListParser {
   }
 
   /**
-   * Parse the list of this TrustAnchorListParser for TrustAnchors.
+   * Fetch all TrustAnchors from the TrustAnchorList of this parser.
    *
    * @returns {Promise<CreateTrustAnchorDto[]>} a promise resolving to the found TrustAnchors in the list
    */
-  abstract getTrustAnchors(): Promise<CreateTrustAnchorDto[]>
+  async fetchTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
+    if (!this.shouldFetchNow()) return []
+
+    return await this.getTrustAnchors()
+  }
+
+  /**
+   * Parse the list of this TrustAnchorListParser for TrustAnchors.
+   *
+   * Should be implemented in private scope. If you need to get the TrustAnchors from outside this class use {@link fetchTrustAnchors} instead.
+   *
+   * @returns {Promise<CreateTrustAnchorDto[]>} a promise resolving to the found TrustAnchors in the list
+   */
+  protected abstract getTrustAnchors(): Promise<CreateTrustAnchorDto[]>
 
   /**
    * Create a new TrustAnchorList database entry.

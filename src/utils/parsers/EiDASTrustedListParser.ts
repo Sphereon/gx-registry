@@ -21,10 +21,9 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
 
   static xmlParser = new XMLParser()
 
-  async getTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
+  protected async getTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
     // Initialize the array that should hold the returned trustAnchors
     let createTrustAnchorDtos: CreateTrustAnchorDto[] = []
-    if (!this.shouldFetchNow()) return createTrustAnchorDtos
     try {
       logger.debug(`[eiDASParser:getTrustAnchors] Getting TrustAnchors for ${this.trustAnchorList.uri}`)
       // First get the xml string at the lists uri parsed into a js object

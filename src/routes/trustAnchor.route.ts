@@ -7,6 +7,9 @@ import TrustAnchor from '../models/trustAnchor.model'
 import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
 import { logger } from '../utils/logger'
 import { CreateTrustAnchorDto } from '../dtos/trustAnchor.dto'
+import TrustAnchorListParser from '../utils/parsers/TrustAnchorListParser'
+import { CreateTrustAnchorListDto } from '../dtos/trustAnchorList.dto'
+import MozillaCAListParser from '../utils/parsers/MozillaCAListParser'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
@@ -20,6 +23,7 @@ class TrustAnchorRoute implements Routes {
   private initializeRoutes() {
     // TODO: remove GET route
     this.router.get(`${this.path}`, this.parseXml)
+    this.router.get(`${this.path}/csv`, this.parseCsv)
     this.router.post(`${this.path}`, validationMiddleware(RequestTrustAnchorDto, 'body'), this.trustAnchorController.getTrustAnchor)
   }
 
@@ -34,7 +38,7 @@ class TrustAnchorRoute implements Routes {
     console.log('findTal:', findTtrustAnchorList)
     const parser = new EiDASTrustedListParser(findTtrustAnchorList)
 
-    const trustAnchors = await parser.getTrustAnchors()
+    const trustAnchors = await parser.fetchTrustAnchors()
 
     await TrustAnchorRoute.updateTrustAnchors(trustAnchors)
 
@@ -42,6 +46,25 @@ class TrustAnchorRoute implements Routes {
       message: 'Successfully fetched Trust Anchors from EC LOTL',
       availableTrustAnchors: (await TrustAnchor.find()).length
     })
+  }
+
+  // TODO: refactor to one global function, duplicated for now
+  // TODO: move parent lists to a config file
+  // ONLY used for testing. Currently fetches hardcoded csv file
+  // and stores the CAs into the DB as TrustAnchors
+  private async parseCsv(req: Request, res: Response) {
+    const mozillaCaUri = 'https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportPEMCSV'
+
+    const createTalDto: CreateTrustAnchorListDto = {
+      uri: mozillaCaUri,
+      name: 'Mozilla Domain Validated (DV) Secure Sockets Layer (SSL) certificate issuers',
+      parserClass: 'mozillaParser'
+    }
+
+    const findTtrustAnchorList = await TrustAnchorListParser.findAndUpdateOrCreateTrustAnchorList(createTalDto)
+    const parser = new MozillaCAListParser(findTtrustAnchorList)
+
+    return res.status(200).json(await parser.fetchTrustAnchors())
   }
 
   static async updateTrustAnchors(trustAnchors: CreateTrustAnchorDto[]) {
