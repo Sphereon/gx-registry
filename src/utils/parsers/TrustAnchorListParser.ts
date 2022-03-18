@@ -1,7 +1,5 @@
 import { QueryOptions } from 'mongoose'
-import { CreateTrustAnchorDto } from '../../dtos/trustAnchor.dto'
-import { CreateTrustAnchorListDto } from '../../dtos/trustAnchorList.dto'
-import { ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
+import { TCreateTrustAnchor, TCreateTrustAnchorList, ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
 import TrustAnchorList from '../../models/trustAnchorList.model'
 import { logger } from '../../utils/logger'
 
@@ -42,7 +40,7 @@ export default abstract class TrustAnchorListParser {
    *
    * @returns {Promise<CreateTrustAnchorDto[]>} a promise resolving to the found TrustAnchors in the list
    */
-  async fetchTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
+  async fetchTrustAnchors(): Promise<TCreateTrustAnchor[]> {
     if (!this.shouldFetchNow()) return []
 
     return await this.getTrustAnchors()
@@ -55,7 +53,7 @@ export default abstract class TrustAnchorListParser {
    *
    * @returns {Promise<CreateTrustAnchorDto[]>} a promise resolving to the found TrustAnchors in the list
    */
-  protected abstract getTrustAnchors(): Promise<CreateTrustAnchorDto[]>
+  protected abstract getTrustAnchors(): Promise<TCreateTrustAnchor[]>
 
   /**
    * Create a new TrustAnchorList database entry.
@@ -63,7 +61,7 @@ export default abstract class TrustAnchorListParser {
    * @param createTrustAnchorListDto the dto to create the list with
    * @returns {Promise<ITrustAnchorList>} a promise resolving to the created TrustAnchorList
    */
-  static async createTrustAnchorList(createTrustAnchorListDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
+  static async createTrustAnchorList(createTrustAnchorListDto: TCreateTrustAnchorList): Promise<ITrustAnchorList> {
     try {
       const createTrustAnchorList = await TrustAnchorList.create(createTrustAnchorListDto)
 
@@ -79,7 +77,7 @@ export default abstract class TrustAnchorListParser {
    * @param createTrustAnchorListDto the dto to create the list with
    * @returns {Promise<ITrustAnchorList>} a promise resolving to the updated or created TrustAnchorList
    */
-  static async findAndUpdateOrCreateTrustAnchorList(createTrustAnchorListDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
+  static async findAndUpdateOrCreateTrustAnchorList(createTrustAnchorListDto: TCreateTrustAnchorList): Promise<ITrustAnchorList> {
     const { uri } = createTrustAnchorListDto
     const options: QueryOptions = { upsert: true, setDefaultsOnInsert: true, new: true }
     const findTrustAnchorList = await TrustAnchorList.findOneAndUpdate({ uri }, createTrustAnchorListDto, options)

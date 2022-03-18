@@ -1,11 +1,10 @@
 import { XMLParser } from 'fast-xml-parser'
 import fetch from 'node-fetch'
+import { TCreateTrustAnchor, TCreateTrustAnchorList, ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
 import TrustAnchorListParser from './TrustAnchorListParser'
 import { IDigitalId, IName, ITrustedList, ITSPService, ITSPServiceWithSPName } from '../../interfaces/eiDAS.interface'
 import TrustAnchorList from '../../models/trustAnchorList.model'
-import { CreateTrustAnchorListDto } from '../../dtos/trustAnchorList.dto'
 import { logger } from '../logger'
-import { CreateTrustAnchorDto } from '../../dtos/trustAnchor.dto'
 import { getValueAsArray } from '../util'
 
 /**
@@ -21,9 +20,26 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
 
   static xmlParser = new XMLParser()
 
-  protected async getTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
+  shouldFetchNow(): boolean {
+    if (!this.trustAnchorList.lastFetchDate) {
+      logger.debug(`[eiDASParser:shouldFetchNow] Could not find a lastFetchDate for: ${this.trustAnchorList.uri}. Should fetch now.`)
+      return true
+    }
+
+    const diffTime = Math.abs(Date.now() - this.trustAnchorList.lastFetchDate.getTime())
+    const diffDays = diffTime / (1000 * 60 * 60 * 24)
+    const shouldFetch = diffDays >= 14
+    logger.debug(
+      `[eiDASParser:shouldFetchNow] List was fetched ${diffDays} ago. ${shouldFetch ? 'Should fetch again now.' : 'Should not be fetched again.'}`
+    )
+
+    return shouldFetch
+  }
+
+  protected async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
     // Initialize the array that should hold the returned trustAnchors
-    let createTrustAnchorDtos: CreateTrustAnchorDto[] = []
+    let createTrustAnchorDtos: TCreateTrustAnchor[] = []
+    if (!this.shouldFetchNow()) return createTrustAnchorDtos
     try {
       logger.debug(`[eiDASParser:getTrustAnchors] Getting TrustAnchors for ${this.trustAnchorList.uri}`)
       // First get the xml string at the lists uri parsed into a js object
@@ -74,8 +90,8 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     }
   }
 
-  private getCreateTrustAnchorDtosFromTSPServices(services: ITSPServiceWithSPName[]): CreateTrustAnchorDto[] {
-    const createTrustAnchorDtos: CreateTrustAnchorDto[] = []
+  private getCreateTrustAnchorDtosFromTSPServices(services: ITSPServiceWithSPName[]): TCreateTrustAnchor[] {
+    const createTrustAnchorDtos: TCreateTrustAnchor[] = []
     for (const service of services) {
       const name = EiDASTrustedListParser.getTrustAnchorName(service.TSPName, service.ServiceInformation.ServiceName)
       const { DigitalId } = service.ServiceInformation.ServiceDigitalIdentity
@@ -105,11 +121,18 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     return filteredServices
   }
 
+  static async findAndUpdateOrCreateTal(createTalDto: TCreateTrustAnchorList): Promise<ITrustAnchorList> {
+    const { uri } = createTalDto
+    const findTrustAnchorList = await TrustAnchorList.findOneAndUpdate({ uri }, createTalDto, { upsert: true, setDefaultsOnInsert: true, new: true })
+
+    return findTrustAnchorList
+  }
+
   static findX509CredentialDigitalId(ids: IDigitalId[]): IDigitalId {
     return ids.find(id => id.X509Certificate)
   }
 
-  static async getCreateTrustAnchorListDto(uri: string, listObject?: ITrustedList): Promise<CreateTrustAnchorListDto> {
+  static async getCreateTrustAnchorListDto(uri: string, listObject?: ITrustedList): Promise<TCreateTrustAnchorList> {
     if (!listObject) listObject = await EiDASTrustedListParser.getTrustedListObject(uri)
     return {
       uri,

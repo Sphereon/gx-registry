@@ -1,16 +1,14 @@
 import { Request, Response, Router } from 'express'
-import { RequestTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import validationMiddleware from '../middlewares/validation.middleware'
 import TrustAnchorController from '../controllers/trustAnchor.controller'
 import { Routes } from '../interfaces/routes.interface'
 import TrustAnchor from '../models/trustAnchor.model'
 import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
 import { logger } from '../utils/logger'
-import { CreateTrustAnchorDto } from '../dtos/trustAnchor.dto'
 import TrustAnchorListParser from '../utils/parsers/TrustAnchorListParser'
-import { CreateTrustAnchorListDto } from '../dtos/trustAnchorList.dto'
 import MozillaCAListParser from '../utils/parsers/MozillaCAListParser'
-import mongoose from 'mongoose'
+import { TCreateTrustAnchor, TCreateTrustAnchorList } from '../interfaces/trustAnchor.interface'
+import { trustAnchorRequestSchema } from '../dtos/trustAnchor.dto'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
@@ -25,7 +23,7 @@ class TrustAnchorRoute implements Routes {
     // TODO: remove GET route
     this.router.get(`${this.path}`, this.parseXml)
     this.router.get(`${this.path}/csv`, this.parseCsv)
-    this.router.post(`${this.path}`, validationMiddleware(RequestTrustAnchorDto, 'body'), this.trustAnchorController.getTrustAnchor)
+    this.router.post(`${this.path}`, validationMiddleware(trustAnchorRequestSchema, 'body'), this.trustAnchorController.getTrustAnchor)
   }
 
   // TODO: refactor into unit tests
@@ -57,7 +55,7 @@ class TrustAnchorRoute implements Routes {
   private async parseCsv(req: Request, res: Response) {
     const mozillaCaUri = 'https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportPEMCSV'
 
-    const createTalDto: CreateTrustAnchorListDto = {
+    const createTalDto: TCreateTrustAnchorList = {
       uri: mozillaCaUri,
       name: 'Mozilla Domain Validated (DV) Secure Sockets Layer (SSL) certificate issuers',
       parserClass: 'mozillaParser'
@@ -76,7 +74,7 @@ class TrustAnchorRoute implements Routes {
     })
   }
 
-  static async updateTrustAnchors(trustAnchors: CreateTrustAnchorDto[]) {
+  static async updateTrustAnchors(trustAnchors: TCreateTrustAnchor[]) {
     for (const ta of trustAnchors) {
       // find trustAnchors by publicKey & _list id
       const { publicKey, _list } = ta

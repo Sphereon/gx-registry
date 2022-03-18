@@ -14,8 +14,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1",
     "compression": "^1.7.4",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
@@ -28,6 +26,7 @@
     "fast-xml-parser": "^4.0.3",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
+    "joi": "^17.6.0",
     "mongoose": "^5.10.1",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",

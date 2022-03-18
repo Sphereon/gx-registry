@@ -1,10 +1,10 @@
-import { CreateTrustAnchorDto } from '../../dtos/trustAnchor.dto'
 import fetch from 'node-fetch'
 import { parse } from 'csv-parse/sync'
 import { IMozillaCAList, IMozillaCARecord, IMozillaCARecordUnfiltered } from '../../interfaces/mozilla.interface'
 import TrustAnchorListParser from './TrustAnchorListParser'
 import { logger } from '../logger'
 import TrustAnchorList from '../../models/trustAnchorList.model'
+import { TCreateTrustAnchor } from '../../interfaces/trustAnchor.interface'
 
 /**
  * https://wiki.mozilla.org/CA/Included_Certificates
@@ -23,9 +23,9 @@ export default class MozillaCAListParser extends TrustAnchorListParser {
 
   trustAnchorListObject: IMozillaCAList
 
-  protected async getTrustAnchors(): Promise<CreateTrustAnchorDto[]> {
+  protected async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
     // Initialize the array that should hold the returned trustAnchors
-    const createTrustAnchorDtos: CreateTrustAnchorDto[] = []
+    const createTrustAnchorDtos: TCreateTrustAnchor[] = []
     if (!this.shouldFetchNow()) return createTrustAnchorDtos
 
     try {
