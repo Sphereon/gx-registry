@@ -10,28 +10,32 @@ export enum TrustStates {
   Untrusted = 'untrusted'
 }
 
+type OmitMongoProps<T> = Omit<T, '_id' | 'createdAt' | 'updatedAt'>
+
 export interface ITrustAnchor {
   _id: string
   name: string
   _list: string
-  uri: string
   publicKey: string
-  trustState: TrustStates
   createdAt: Date
   updatedAt: Date
+  uri?: string
+  trustState?: TrustStates
   lastTimeOfTrust?: Date
 }
+export type TCreateTrustAnchor = OmitMongoProps<ITrustAnchor>
 
 export interface ITrustAnchorList {
   _id: string
   name: string
   uri: string
-  updateCycle: number
   parserClass: keyof typeof TAL_PARSING_CLASSES
   createdAt: Date
   updatedAt: Date
+  updateCycle?: number
   lastFetchDate?: Date
 }
+export type TCreateTrustAnchorList = OmitMongoProps<ITrustAnchorList>
 
 export interface ITrustAnchorResponse {
   trustState: TrustStates

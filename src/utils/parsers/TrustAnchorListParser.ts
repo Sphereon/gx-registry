@@ -1,6 +1,4 @@
-import { CreateTrustAnchorDto } from '../../dtos/trustAnchor.dto'
-import { CreateTrustAnchorListDto } from '../../dtos/trustAnchorList.dto'
-import { ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
+import { TCreateTrustAnchor, TCreateTrustAnchorList, ITrustAnchorList } from '../../interfaces/trustAnchor.interface'
 import TrustAnchorList from '../../models/trustAnchorList.model'
 import { logger } from '../../utils/logger'
 
@@ -26,7 +24,7 @@ export default abstract class TrustAnchorListParser {
    *
    * @returns {CreateTrustAnchorDto[]} the found TrustAnchors in the list
    */
-  abstract getTrustAnchors(): Promise<CreateTrustAnchorDto[]>
+  abstract getTrustAnchors(): Promise<TCreateTrustAnchor[]>
 
   /**
    * Create a new TrustAnchorList database entry.
@@ -34,7 +32,7 @@ export default abstract class TrustAnchorListParser {
    * @param createTrustAnchorListDto the dto to create the list with
    * @returns {ITrustAnchorList} the created TrustAnchorList
    */
-  static async createTrustAnchorList(createTrustAnchorListDto: CreateTrustAnchorListDto): Promise<ITrustAnchorList> {
+  static async createTrustAnchorList(createTrustAnchorListDto: TCreateTrustAnchorList): Promise<ITrustAnchorList> {
     try {
       const createTrustAnchorList = await TrustAnchorList.create(createTrustAnchorListDto)
 

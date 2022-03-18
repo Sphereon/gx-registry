@@ -1,24 +1,18 @@
-import { plainToClass } from 'class-transformer'
-import { validate, ValidationError } from 'class-validator'
+import { Schema } from 'joi'
 import { RequestHandler } from 'express'
 import { HttpException } from '../exceptions/HttpException'
 
-const validationMiddleware = (
-  type: any,
-  value: string | 'body' | 'query' | 'params' = 'body',
-  skipMissingProperties = false,
-  whitelist = true,
-  forbidNonWhitelisted = true
-): RequestHandler => {
+const validationMiddleware = (schema: Schema, reqValue: string | 'body' | 'query' | 'params' = 'body'): RequestHandler => {
   return (req, res, next) => {
-    validate(plainToClass(type, req[value]), { skipMissingProperties, whitelist, forbidNonWhitelisted }).then((errors: ValidationError[]) => {
-      if (errors.length > 0) {
-        const message = errors.map((error: ValidationError) => Object.values(error.constraints)).join(', ')
-        next(new HttpException(400, message))
-      } else {
-        next()
-      }
-    })
+    const { error, value } = schema.validate(req[reqValue])
+
+    if (error) {
+      const message = error.details.map(d => d.message).join(', ')
+      next(new HttpException(400, message))
+    } else {
+      req[reqValue] = value
+      next()
+    }
   }
 }
 
