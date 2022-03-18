@@ -9,6 +9,7 @@ import TrustAnchorListParser from '../utils/parsers/TrustAnchorListParser'
 import MozillaCAListParser from '../utils/parsers/MozillaCAListParser'
 import { TCreateTrustAnchor, TCreateTrustAnchorList } from '../interfaces/trustAnchor.interface'
 import { trustAnchorRequestSchema } from '../dtos/trustAnchor.dto'
+import TrustAnchorList from '../models/trustAnchorList.model'
 
 class TrustAnchorRoute implements Routes {
   public path = '/api/trustAnchor'
@@ -41,10 +42,13 @@ class TrustAnchorRoute implements Routes {
 
     await TrustAnchorRoute.updateTrustAnchors(trustAnchors)
 
+    const eiDASTAQuery = TrustAnchor.count({ _list: { $in: await TrustAnchorList.distinct('_id', { parserClass: 'eiDASParser' }) } })
+
     return res.status(200).json({
       message: 'Successfully fetched Trust Anchors from EC LOTL',
-      availableTrustAnchorsEiDAS: (await TrustAnchor.find({ _list: findTtrustAnchorList._id })).length,
-      availableTrustAnchors: (await TrustAnchor.find()).length
+      eiDASTalId: findTtrustAnchorList._id,
+      availableTrustAnchorsEiDAS: await eiDASTAQuery,
+      availableTrustAnchors: await TrustAnchor.count()
     })
   }
 
@@ -69,8 +73,8 @@ class TrustAnchorRoute implements Routes {
 
     return res.status(200).json({
       message: 'Successfully fetched Trust Anchors from Mozilla CA list',
-      availableTrustAnchorsMozillaCa: (await TrustAnchor.find({ _list: findTtrustAnchorList._id })).length,
-      availableTrustAnchorsTotal: (await TrustAnchor.find()).length
+      availableTrustAnchorsMozillaCa: await TrustAnchor.count({ _list: findTtrustAnchorList._id }),
+      availableTrustAnchorsTotal: await TrustAnchor.count()
     })
   }
 
