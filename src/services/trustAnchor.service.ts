@@ -41,19 +41,17 @@ class TrustAnchorService {
    * @returns {Promise<number>} a promise resolving to the number of db entries that were updated
    */
   static async updateTrustAnchors(trustAnchors: TCreateTrustAnchor[], { upsert } = { upsert: true }) {
-    let counter = 0
+    const mongoPromises = []
     for (const ta of trustAnchors) {
       // find trustAnchors by publicKey & _list id
       const { publicKey, _list } = ta
-      try {
-        await TrustAnchor.findOneAndUpdate({ publicKey, _list }, ta, { upsert: upsert })
-        counter++
-      } catch (e) {
-        logger.error(e)
-        continue
-      }
+      const updatePromise = TrustAnchor.findOneAndUpdate({ publicKey, _list }, ta, { upsert: upsert }).catch(e => logger.error(e))
+      mongoPromises.push(updatePromise)
     }
-    return counter
+
+    await Promise.all(mongoPromises)
+
+    return mongoPromises.length
   }
 }
 
