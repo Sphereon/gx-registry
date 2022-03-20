@@ -1,10 +1,17 @@
 import fetch from 'node-fetch'
 import { parse } from 'csv-parse/sync'
-import { IMozillaCAList, IMozillaCARecord, IMozillaCARecordUnfiltered } from '../../interfaces/mozilla.interface'
+import { IMozillaCAList, IMozillaCARecord, IMozillaCARecordUnfiltered, TMozillaCARecordColumnModMap } from '../../interfaces/mozilla.interface'
 import TrustAnchorListParser from './TrustAnchorListParser'
 import { logger } from '../logger'
 import TrustAnchorList from '../../models/trustAnchorList.model'
 import { TCreateTrustAnchor } from '../../interfaces/trustAnchor.interface'
+
+enum MozillaCAListColumns {
+  CommonName = 'CommonNameorCertificateName',
+  PEMInfo = 'PEMInfo',
+  ValidFrom = 'ValidFrom[GMT]',
+  ValidTo = 'ValidTo[GMT]'
+}
 
 /**
  * https://wiki.mozilla.org/CA/Included_Certificates
@@ -14,14 +21,16 @@ import { TCreateTrustAnchor } from '../../interfaces/trustAnchor.interface'
  * raw PEM data about the certificates of CAs int the "PEM Info" field.
  */
 export default class MozillaCAListParser extends TrustAnchorListParser {
-  private static FILTER_FOR_COLUMNS: (string & keyof IMozillaCARecord)[] = [
-    'CommonNameorCertificateName',
-    'PEMInfo',
-    'ValidFrom[GMT]',
-    'ValidTo[GMT]'
-  ]
-
   trustAnchorListObject: IMozillaCAList
+
+  // Enable typings & easy iteration in class
+  private static FILTER_FOR_COLUMNS: (keyof IMozillaCARecord)[] = Object.values(MozillaCAListColumns)
+
+  // Configure modifications of columns of a given record
+  private static COLUMN_MOD_MAP: TMozillaCARecordColumnModMap = {
+    // PEMInfo holds the X509 certificate key
+    [MozillaCAListColumns.PEMInfo]: MozillaCAListParser.stripPEMInfo
+  }
 
   protected async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
     // Initialize the array that should hold the returned trustAnchors
@@ -60,7 +69,7 @@ export default class MozillaCAListParser extends TrustAnchorListParser {
     const listObject: IMozillaCAList = {
       records: parse(csvString, {
         columns: MozillaCAListParser.transformCsvHeader,
-        on_record: MozillaCAListParser.filterRecord
+        on_record: MozillaCAListParser.filterRecordAndCleanupColumns
       })
     }
 
@@ -68,17 +77,45 @@ export default class MozillaCAListParser extends TrustAnchorListParser {
   }
 
   /**
-   * Filters a given record to only include properties as defined in {@link MozillaCAListParser.FILTER_FOR_COLUMNS}
+   * Filters a given record to only include properties as defined in {@link MozillaCAListParser.FILTER_FOR_COLUMNS}.
    * @param record an unfiltered record
    * @returns {IMozillaCARecord} the filtered record
    */
   static filterRecord(record: IMozillaCARecordUnfiltered): IMozillaCARecord {
     return Object.fromEntries(
-      MozillaCAListParser.FILTER_FOR_COLUMNS.map(col => {
-        const value = col === 'PEMInfo' ? MozillaCAListParser.stripPEMInfo(record[col]) : record[col]
-        return [col, value]
+      MozillaCAListParser.FILTER_FOR_COLUMNS.map(column => {
+        return [column, record[column]]
       })
     ) as unknown as IMozillaCARecord
+  }
+
+  /**
+   * Function that handles any cleanup and modifications to prepare the columns of a given record for DB storage
+   * @param {IMozillaCARecord} record the record to be modified
+   * @returns {IMozillaCARecord} the modified record
+   */
+  static cleanupRecordColumns(record: IMozillaCARecord): IMozillaCARecord {
+    // Use the static modification map to modify column values of the record
+    Object.keys(record).forEach(column => {
+      // COLUMN_MOD_MAP maps funtions modifying a given string to the record column keys
+      // Use the mod map to adjust a value, or use the given value as fallback
+      const modFn: (v: string) => string = MozillaCAListParser.COLUMN_MOD_MAP[column]
+      record[column] = modFn ? modFn(record[column]) : record[column]
+    })
+
+    return record
+  }
+
+  /**
+   * Filter a given record (see {@link filterRecord}) and then cleanup its columns (see {@link cleanupRecordColumns})
+   * @param {IMozillaCARecordUnfiltered} record to be filtered and cleaned
+   * @returns {IMozillaCARecord} filtered and cleaned record
+   */
+  static filterRecordAndCleanupColumns(record: IMozillaCARecordUnfiltered): IMozillaCARecord {
+    const filtered = MozillaCAListParser.filterRecord(record)
+    const cleaned = MozillaCAListParser.cleanupRecordColumns(filtered)
+
+    return cleaned
   }
 
   /**
