@@ -23,6 +23,8 @@ FROM common-build-stage as production-build-stage
 
 RUN apk add dumb-init
 
+ENV NPM_CONFIG_PREFIX=$HOME/.npm-global
+ENV PATH=$PATH:$HOME/.npm-global/bin
 ENV NODE_ENV production
 
 COPY --chown=node:node . $HOME/app
