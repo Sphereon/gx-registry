@@ -16,6 +16,7 @@ import { Routes } from './interfaces/routes.interface'
 import errorMiddleware from './middlewares/error.middleware'
 import { logger, stream } from './utils/logger'
 import { version, name, description } from '../package.json'
+import TrustAnchorListService from './services/trustAnchorList.service'
 
 class App {
   public app: express.Application
@@ -32,6 +33,8 @@ class App {
     this.initializeRoutes(routes)
     this.initializeSwagger()
     this.initializeErrorHandling()
+
+    this.initializeTrustAnchors()
   }
 
   public listen() {
@@ -126,6 +129,14 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware)
+  }
+
+  private async initializeTrustAnchors() {
+    const talService = new TrustAnchorListService()
+
+    const updated = await talService.fetchAllTrustAnchorLists()
+
+    logger.info(`[TrustAnchors] Fetched from ${talService.parentLists.length} parent lists and updated ${updated} trust anchors.`)
   }
 }
 
