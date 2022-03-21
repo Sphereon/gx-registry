@@ -17,6 +17,7 @@ before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 lint:code:
+  image: node:16
   stage: test
   script:
     - npm ci
