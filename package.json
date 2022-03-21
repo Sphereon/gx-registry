@@ -33,7 +33,8 @@
     "swagger-jsdoc": "^6.0.0",
     "swagger-ui-express": "^4.1.6",
     "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.5"
+    "winston-daily-rotate-file": "^4.5.5",
+    "typescript": "^4.6.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
@@ -63,8 +64,7 @@
     "node-gyp": "^8.1.0",
     "nodemon": "^2.0.9",
     "prettier": "^2.3.2",
-    "ts-node": "^10.5.0",
     "tsconfig-paths": "^3.11.0",
-    "typescript": "^4.6.2"
+    "ts-node": "^10.5.0"
   }
 }
