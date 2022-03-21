@@ -3,6 +3,6 @@ const conventionalTypes = require('@commitlint/config-conventional').rules['type
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'type-enum': [2, 'always', conventionalTypes.concat(['dependency', 'merge'])]
+    'type-enum': [2, 'always', conventionalTypes.concat(['deps', 'merge'])]
   }
 }
