@@ -15,9 +15,12 @@ spec:
       containers:
         - image: mongo
           name: mongo
+          securityContext:
           ports:
             - containerPort: 27017
       restartPolicy: Always
+      runAsNonRoot: true
+      runAsUser: 999
 ---
 kind: Service
 apiVersion: v1
