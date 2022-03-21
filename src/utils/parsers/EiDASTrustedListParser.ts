@@ -20,7 +20,6 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
 
   static xmlParser = new XMLParser()
 
-  // TODO: implement updateCycles rather than hardcoded time difference
   shouldFetchNow(): boolean {
     if (!this.trustAnchorList.lastFetchDate) {
       logger.debug(`[eiDASParser:shouldFetchNow] Could not find a lastFetchDate for: ${this.trustAnchorList.uri}. Should fetch now.`)
@@ -37,7 +36,7 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
     return shouldFetch
   }
 
-  async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
+  protected async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
     // Initialize the array that should hold the returned trustAnchors
     let createTrustAnchorDtos: TCreateTrustAnchor[] = []
     if (!this.shouldFetchNow()) return createTrustAnchorDtos
@@ -69,7 +68,7 @@ export default class EiDASTrustedListParser extends TrustAnchorListParser {
           // find or create the respective ITrustAnchorList,
           const tslPointerListObject = await EiDASTrustedListParser.getTrustedListObject(tslPointer.TSLLocation)
           const createTalDto = await EiDASTrustedListParser.getCreateTrustAnchorListDto(tslPointer.TSLLocation, tslPointerListObject)
-          const findTrustAnchorList = await EiDASTrustedListParser.findAndUpdateOrCreateTal(createTalDto)
+          const findTrustAnchorList = await TrustAnchorListParser.findAndUpdateOrCreateTrustAnchorList(createTalDto)
 
           // get a parser for that list,
           const tslPointerParser = new EiDASTrustedListParser(findTrustAnchorList, tslPointerListObject)

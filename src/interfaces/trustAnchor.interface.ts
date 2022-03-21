@@ -1,7 +1,9 @@
 import EiDASTrustedListParser from '../utils/parsers/EiDASTrustedListParser'
+import MozillaCAListParser from '../utils/parsers/MozillaCAListParser'
 
 export const TAL_PARSING_CLASSES = {
-  eiDASParser: EiDASTrustedListParser
+  eiDASParser: EiDASTrustedListParser,
+  mozillaParser: MozillaCAListParser
 }
 
 // states will be extended in the future
