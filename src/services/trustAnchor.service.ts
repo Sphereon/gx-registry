@@ -16,7 +16,7 @@ class TrustAnchorService {
 
     const findTrustAnchor: ITrustAnchor = await this.trustAnchor.findOne({ publicKey: trustAnchorData.publicKey })
 
-    if (!findTrustAnchor) throw new HttpException(409, 'Trust Anchor not found.')
+    if (!findTrustAnchor) throw new HttpException(404, 'Trust Anchor not found.')
 
     const response = await this.prepareTrustAnchorResponse(findTrustAnchor)
 

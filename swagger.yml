@@ -46,7 +46,7 @@ paths:
                     $ref: '#/components/schemas/TrustAnchorResponseTrustedForAttributesProp'
                   trustedAt:
                     $ref: '#/components/schemas/TrustAnchorResponseTrustedAtProp'
-        409:
+        404:
           description: Could not find a Trust Anchor for the given public key
           content:
             application/json:
