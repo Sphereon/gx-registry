@@ -6,7 +6,7 @@
   "license": "EPL-2.0",
   "main": "src/server.ts",
   "scripts": {
-    "postinstall": "husky install",
+    "postinstall": "[ \"$NODE_ENV\" = production ] && exit 0; husky install",
     "start": "npm run build && cross-env NODE_ENV=production && node dist/src/server.js",
     "dev": "cross-env NODE_ENV=development && nodemon",
     "build": "tsc --build && cp ./swagger.yml dist/swagger.yml",
