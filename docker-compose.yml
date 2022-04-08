@@ -3,7 +3,7 @@ version: '3.7'
 services:
   mongo:
     image: mongo
-    container_name: mongoDB
+    container_name: gx-registry-mongo
     restart: unless-stopped
     ports:
       - 27017:27017
@@ -12,7 +12,7 @@ services:
       context: ./
       target: development-build-stage
       dockerfile: Dockerfile.dev
-    container_name: serverTest
+    container_name: gx-registry-server
     ports:
       - '3000:3000'
     volumes:
