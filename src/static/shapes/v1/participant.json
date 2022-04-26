@@ -1,0 +1,124 @@
+{
+    "prefixList": [
+        {
+            "alias": "gax-participant",
+            "url": "http://w3id.org/gaia-x/participant#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        },
+        {
+            "alias": "xsd",
+            "url": "http://www.w3.org/2001/XMLSchema#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "ParticipantLegalShape",
+            "targetClassPrefix": "gax-participant",
+            "targetClassName": "legal-person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "registrationNumber"
+                    },
+                    "name": "Country's registration number which identify one specific company.",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "order": 1
+                },
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "headquarterAddress"
+                    },
+                    "name": "headquarterAddress",
+                    "children": "CountryShape",
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 2
+                },
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "legalAddress"
+                    },
+                    "name": "legalAddress",
+                    "children": "CountryShape",
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 3
+                },
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "leiCode"
+                    },
+                    "name": "Unique LEI number as defined by https://www.gleif.org.",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 0,
+                    "maxCount": 1,
+                    "minLength": 1,
+                    "maxLength": 20,
+                    "pattern": "[0-9A-Z]{18}[0-9]{2}",
+                    "flags": "i",
+                    "order": 4
+                },
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "parentOrganisation"
+                    },
+                    "name": "A list of direct participant that this entity is a subOrganization of, if any.",
+                    "children": "ParticipantLegalShape",
+                    "minCount": 0,
+                    "order": 5
+                },
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "subOrganisation"
+                    },
+                    "name": "A list of direct participant with an legal mandate on this entity, e.g., as a subsidiary.",
+                    "children": "ParticipantLegalShape",
+                    "minCount": 0,
+                    "order": 6
+                }
+            ]
+        },
+        {
+            "schema": "CountryShape",
+            "targetClassPrefix": "gax-participant",
+            "targetClassName": "country",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "gax-participant",
+                        "value": "country"
+                    },
+                    "name": "Physical location in ISO 3166-1 alpha2, alpha-3 or numeric format.",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "minLength": 2,
+                    "maxLength": 3,
+                    "order": 1
+                }
+            ]
+        }
+    ]
+}
