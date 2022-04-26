@@ -9,7 +9,7 @@
     "postinstall": "[ \"$NODE_ENV\" = production ] && exit 0; husky install",
     "start": "npm run build && cross-env NODE_ENV=production && node dist/src/server.js",
     "dev": "cross-env NODE_ENV=development && nodemon",
-    "build": "tsc --build && cp ./swagger.yml dist/swagger.yml",
+    "build": "tsc -p tsconfig.build.json && cp ./swagger.yml dist/swagger.yml",
     "lint": "eslint --ignore-path .gitignore --ext .js --ext .ts . && npm run type-check",
     "lint:fix": "npm run lint -- --fix",
     "type-check": "tsc --noEmit",
