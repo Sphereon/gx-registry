@@ -17,6 +17,7 @@ import errorMiddleware from './middlewares/error.middleware'
 import { logger, stream } from './utils/logger'
 import { version, name, description } from '../package.json'
 import TrustAnchorListService from './services/trustAnchorList.service'
+import path from 'path'
 
 class App {
   public app: express.Application
@@ -94,6 +95,7 @@ class App {
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(cookieParser())
+    this.app.use(express.static(path.join(__dirname, './static')))
   }
 
   private initializeRoutes(routes: Routes[]) {
