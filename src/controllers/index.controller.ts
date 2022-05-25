@@ -9,7 +9,7 @@ class IndexController {
         software: name,
         description,
         version,
-        documentation: `${process.env.BASE_URL}/${SWAGGER_UI_PATH}`,
+        documentation: `${process.env.BASE_URL}${SWAGGER_UI_PATH}`,
         repository,
         bugs
       }
