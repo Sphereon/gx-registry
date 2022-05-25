@@ -4,6 +4,13 @@
   "description": "Gaia-X Lab Registry",
   "author": "Gaia-X Lab",
   "license": "EPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/gaia-x/lab/compliance/gx-registry.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/gaia-x/lab/compliance/gx-registry/-/issues"
+  },
   "main": "src/server.ts",
   "scripts": {
     "postinstall": "[ \"$NODE_ENV\" = production ] && exit 0; husky install",

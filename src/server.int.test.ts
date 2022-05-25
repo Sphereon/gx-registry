@@ -1,5 +1,5 @@
 import supertest from 'supertest'
-import App from './app'
+import App, { SWAGGER_UI_PATH } from './app'
 import { ITrustAnchorResponse, TCreateTrustAnchor, TCreateTrustAnchorList, TrustStates } from './interfaces/trustAnchor.interface'
 import routes from './routes'
 import { MongoMemoryServer } from 'mongodb-memory-server'
@@ -71,12 +71,12 @@ describe('server', () => {
   })
 
   describe('Swagger UI', () => {
-    it('should redirect to the swagger UI at /api-docs/', () => {
-      return supertest(server).get('/api-docs').expect(301).expect('location', '/api-docs/')
+    it(`should redirect to the swagger UI at ${SWAGGER_UI_PATH}`, () => {
+      return supertest(server).get(`${SWAGGER_UI_PATH}`).expect(301).expect('location', `${SWAGGER_UI_PATH}/`)
     })
 
-    it('should return the swagger UI at /api-docs/', () => {
-      return supertest(server).get('/api-docs/').expect(200)
+    it(`should return the swagger UI at ${SWAGGER_UI_PATH}/`, () => {
+      return supertest(server).get(`${SWAGGER_UI_PATH}/`).expect(200)
     })
   })
 

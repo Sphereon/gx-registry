@@ -19,6 +19,7 @@ import { version, name, description } from '../package.json'
 import TrustAnchorListService from './services/trustAnchorList.service'
 import path from 'path'
 
+export const SWAGGER_UI_PATH = '/docs'
 class App {
   public app: express.Application
   public port: string | number
@@ -125,7 +126,7 @@ class App {
 
     const specs = swaggerJSDoc(options)
 
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
+    this.app.use(SWAGGER_UI_PATH, swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
   }
 
   private initializeErrorHandling() {
