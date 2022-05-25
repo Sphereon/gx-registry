@@ -22,6 +22,8 @@ spec:
               value: mongo
             - name: MONGO_PORT
               value: '27017'
+            - name: BASE_URL
+              value: https://registry.lab.gaia-x.eu
           image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:development
           name: server
           ports:
