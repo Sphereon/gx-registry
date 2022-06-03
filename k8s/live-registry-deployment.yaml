@@ -22,13 +22,13 @@ spec:
               value: mongo
             - name: MONGO_PORT
               value: '27017'
+            - name: BASE_URL
+              value: https://registry.gaia-x.eu
           image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:main
           name: gx-registry-live-server
           ports:
             - containerPort: 3000
               name: http-api
-      runAsNonRoot: true
-      runAsUser: 1000
 ---
 kind: Service
 apiVersion: v1

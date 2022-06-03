@@ -5,6 +5,7 @@ import TrustAnchorListParser from './TrustAnchorListParser'
 import { logger } from '../logger'
 import TrustAnchorList from '../../models/trustAnchorList.model'
 import { TCreateTrustAnchor } from '../../interfaces/trustAnchor.interface'
+import { stripPEMInfo } from '../util'
 
 enum MozillaCAListColumns {
   CommonName = 'CommonNameorCertificateName',
@@ -29,7 +30,7 @@ export default class MozillaCAListParser extends TrustAnchorListParser {
   // Configure modifications of columns of a given record
   private static COLUMN_MOD_MAP: TMozillaCARecordColumnModMap = {
     // PEMInfo holds the X509 certificate key
-    [MozillaCAListColumns.PEMInfo]: MozillaCAListParser.stripPEMInfo
+    [MozillaCAListColumns.PEMInfo]: stripPEMInfo
   }
 
   protected async getTrustAnchors(): Promise<TCreateTrustAnchor[]> {
@@ -116,15 +117,6 @@ export default class MozillaCAListParser extends TrustAnchorListParser {
     const cleaned = MozillaCAListParser.cleanupRecordColumns(filtered)
 
     return cleaned
-  }
-
-  /**
-   * Removes /-----(BEGIN|END) CERTIFICATE-----/ and any \n newlines from a given string to unify entries in the DB
-   * @param PEMInfo the string (public key) to strip
-   * @returns {IMozillaCARecord} the stripped publicKey
-   */
-  static stripPEMInfo(PEMInfo: string): string {
-    return PEMInfo.replace(/([']*-----(BEGIN|END) CERTIFICATE-----[']*|\n)/gm, '')
   }
 
   static transformCsvHeader(header: string[]): string[] {
