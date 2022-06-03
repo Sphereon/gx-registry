@@ -12,6 +12,20 @@ class TrustAnchorController {
       next(error)
     }
   }
+
+  public verifyCertificateChain = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const verificationResult = await this.trustAnchorService.validateCertChain(req.body.certs)
+
+      const { result } = verificationResult
+
+      const response = result ? { result } : verificationResult
+
+      res.status(result ? 200 : 409).send(response)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default TrustAnchorController

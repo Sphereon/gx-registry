@@ -8,7 +8,7 @@ import express from 'express'
 import helmet from 'helmet'
 import hpp from 'hpp'
 import morgan from 'morgan'
-import { connect, set } from 'mongoose'
+import mongoose from 'mongoose'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import { dbConnection } from './databases'
@@ -17,7 +17,9 @@ import errorMiddleware from './middlewares/error.middleware'
 import { logger, stream } from './utils/logger'
 import { version, name, description } from '../package.json'
 import TrustAnchorListService from './services/trustAnchorList.service'
+import path from 'path'
 
+export const SWAGGER_UI_PATH = '/docs'
 class App {
   public app: express.Application
   public port: string | number
@@ -28,21 +30,20 @@ class App {
     this.port = process.env.PORT || 3000
     this.env = process.env.NODE_ENV || 'development'
 
-    this.connectToDatabase()
     this.initializeMiddlewares()
     this.initializeRoutes(routes)
     this.initializeSwagger()
     this.initializeErrorHandling()
-
-    this.initializeTrustAnchors()
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    this.app.listen(this.port, async () => {
       logger.info(`=================================`)
       logger.info(`======= ENV: ${this.env} =======`)
       logger.info(`🚀 App listening on the port ${this.port}`)
       logger.info(`=================================`)
+      await this.connectToDatabase()
+      this.initializeTrustAnchors()
     })
   }
 
@@ -50,20 +51,20 @@ class App {
     return this.app
   }
 
-  private connectToDatabase() {
+  private async connectToDatabase() {
     if (this.env !== 'production') {
-      set('debug', true)
+      mongoose.set('debug', true)
     }
-    logger.info(`[Mongoose] trying to connect at ${dbConnection.url} with:`)
-    connect(dbConnection.url, dbConnection.options)
-      .then(mongoose => {
-        logger.info(`[Mongoose] connected to mongodb at ${dbConnection.url}:`, mongoose.connection)
-        logger.log('debug', `[Mongoose] connected to mongodb at ${dbConnection.url}:`)
-        logger.log('debug', mongoose.connection)
-      })
-      .catch(err => {
-        logger.error(`[Mongoose] connection error: ${err.message}`)
-      })
+    try {
+      logger.info(`[Mongoose] trying to connect at ${dbConnection.url} with:`)
+      await mongoose.connect(dbConnection.url)
+      logger.info(`[Mongoose] connected to mongodb at ${dbConnection.url}:`, mongoose.connection)
+      logger.log('debug', `[Mongoose] connected to mongodb at ${dbConnection.url}`)
+      this.app.emit('mongoSetupFinished')
+    } catch (err) {
+      logger.error(`[Mongoose] connection error: ${err.message}`)
+      this.app.emit('mongoSetupFailed')
+    }
   }
 
   private prepareCorsOptions(): CorsOptions {
@@ -95,6 +96,7 @@ class App {
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(cookieParser())
+    this.app.use(express.static(path.join(__dirname, './static')))
   }
 
   private initializeRoutes(routes: Routes[]) {
@@ -124,14 +126,14 @@ class App {
 
     const specs = swaggerJSDoc(options)
 
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
+    this.app.use(SWAGGER_UI_PATH, swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
   }
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware)
   }
 
-  private async initializeTrustAnchors() {
+  public async initializeTrustAnchors() {
     const talService = new TrustAnchorListService()
 
     const updated = await talService.fetchAllTrustAnchorLists()
