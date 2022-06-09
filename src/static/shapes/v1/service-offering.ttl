@@ -1,0 +1,49 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <http://schema.org/> .
+@prefix gx-participant: <http://w3id.org/gaia-x/participant#> .
+@prefix gx-resource: <http://w3id.org/gaia-x/resource#> .
+@prefix gx-service-offering: <http://w3id.org/gaia-x/service-offering#> .
+
+gx-service-offering:TermsAndConditions
+	a sh:NodeShape ;
+	sh:targetClass gx-service-offering:TermsAndConditions ;
+	sh:property [
+		sh:path gx-service-offering:url ;
+        sh:description "a resolvable link to document" ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;                   
+    ], [
+		sh:path gx-service-offering:hash ;
+        sh:description "sha256 hash of the above document." ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;                   
+    ]  .
+
+gx-service-offering:ServiceOfferingShape
+	a sh:NodeShape ;
+	sh:targetClass gx-service-offering:ServiceOffering ;
+	sh:property [
+		sh:path gx-service-offering:providedBy ;
+		sh:description "a resolvable link to the participant Self-Description providing the service" ;
+		sh:datatype xsd:string ;
+		sh:minCount: 1 ;
+		sh:maxCount: 1 ;
+	], [
+		sh:path gx-service-offering:aggregationOf ;
+		sh:description "a resolvable link to the Self-Descriptions of resources related to the service and that can exist independently of it." ;
+		sh:datatype xsd:string ;
+	], [
+		sh:path gx-service-offering:termsAndConditions ;
+		sh:description "a resolvable link to the Terms and Conditions applying to that service." ;
+		sh:class gx-service-offering:TermsAndConditions ;
+		sh:minCount: 1 ;
+	] , [
+		sh:path gx-service-offering:policies ;
+		sh:description "a list of policy expressed using a DSL (e.g., Rego or ODRL)" ;
+		sh:datatype xsd:string ;
+	] .
