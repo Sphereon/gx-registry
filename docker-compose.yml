@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   mongo:
@@ -13,12 +13,14 @@ services:
     build:
       context: ./
       target: development-build-stage
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+    command: npm run start:dev
     container_name: gx-registry-server
     ports:
-      - '3000:3000'
+      - 3000:3000
     volumes:
-      - ./:/app
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     restart: 'unless-stopped'
     depends_on:
       - mongo
