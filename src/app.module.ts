@@ -17,7 +17,7 @@ import { TrustAnchorModuleV1 } from './trust-anchor/trust-anchor-v1.module'
       rootPath: join(__dirname, '..', 'src/static'),
       exclude: ['/api*']
     }),
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017'),
+    MongooseModule.forRoot(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`),
     TrustAnchorModule,
     TrustAnchorModuleV1
   ],
