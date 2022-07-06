@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common'
+import { Body, Controller, HttpCode, HttpStatus, Post, Res } from '@nestjs/common'
 import { ApiConflictResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
 import { TrustAnchorApiResponse } from './decorators'
@@ -15,6 +15,7 @@ export class TrustAnchorController {
   @TrustAnchorApiResponse('Search for a TrustAnchor certificate in the registry', TrustAnchorRequestDto, {
     trustAnchor: { summary: 'Example Certificate', value: trustAnchorV2Request }
   })
+  @HttpCode(HttpStatus.OK)
   @ApiNotFoundResponse({ description: `TrustAnchor was not be found in the registry` })
   async findTrustAnchor(@Body() trustAnchorRequestDto: TrustAnchorRequestDto) {
     const trustAnchorResponse = this.trustAnchorService.findTrustAnchor(trustAnchorRequestDto)
