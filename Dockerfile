@@ -1,23 +1,29 @@
-FROM node:lts-alpine@sha256:2c6c59cf4d34d4f937ddfcf33bab9d8bbad8658d1b9de7b97622566a52167f2b as production-build-stage
+FROM node:16.14 as development-build-stage
 
-RUN apk add dumb-init
+WORKDIR /usr/src/app
 
-ARG HOME=/home/node
+COPY package*.json ./
 
-USER node
+RUN npm install glob rimraf
 
-RUN mkdir $HOME/app
+RUN npm install --only=development
 
-WORKDIR $HOME/app
+COPY . .
 
-EXPOSE 3000
+RUN npm run build
 
-ENV NPM_CONFIG_PREFIX=$HOME/.npm-global
-ENV PATH=$PATH:$HOME/.npm-global/bin
-ENV NODE_ENV production
+FROM node:16.14-alpine@sha256:28bed508446db2ee028d08e76fb47b935defa26a84986ca050d2596ea67fd506 as production-build-stage
 
-COPY --chown=node:node . ./
+ENV NODE_ENV=production
 
-RUN npm ci --only=production
+WORKDIR /usr/src/app
 
-CMD ["dumb-init", "npm", "start"]
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY . .
+
+COPY --from=development-build-stage /usr/src/app/dist ./dist
+
+CMD ["node", "dist/src/main"]
