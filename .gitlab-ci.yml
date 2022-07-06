@@ -4,6 +4,7 @@ stages:
   - release
 
 variables:
+  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: '/certs'
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
@@ -22,6 +23,7 @@ test:
   script:
     - npm install
     - npm run test
+    - npm run test:e2e
 
 build:
   image: docker:19.03.12
