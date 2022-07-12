@@ -13,22 +13,32 @@ spec:
         app: gx-registry-server
     spec:
       containers:
-        - env:
-            - name: PORT
-              value: '3000'
-            - name: MONGO_DATABASE
-              value: trust-anchor-registry
-            - name: MONGO_HOST
-              value: mongo
-            - name: MONGO_PORT
-              value: '27017'
-            - name: BASE_URL
-              value: https://registry.lab.gaia-x.eu
-          image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:development
-          name: server
-          ports:
-            - containerPort: 3000
-              name: http-api
+      - env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: mongo-creds
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: mongo-creds
+        - name: PORT
+          value: '3000'
+        - name: MONGO_DATABASE
+          value: trust-anchor-registry
+        - name: MONGO_HOST
+          value: mongo
+        - name: MONGO_PORT
+          value: '27017'
+        - name: BASE_URL
+        value: https://registry.lab.gaia-x.eu
+        image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:development
+        name: server
+        ports:
+        - containerPort: 3000
+          name: http-api
 ---
 kind: Service
 apiVersion: v1
