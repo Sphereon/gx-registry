@@ -6,7 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import { TrustAnchorModule } from './trust-anchor/trust-anchor.module'
 import { MongooseModule } from '@nestjs/mongoose'
 import { TrustAnchorModuleV1 } from './trust-anchor/trust-anchor-v1.module'
-
+import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,7 +19,8 @@ import { TrustAnchorModuleV1 } from './trust-anchor/trust-anchor-v1.module'
     }),
     MongooseModule.forRoot(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`),
     TrustAnchorModule,
-    TrustAnchorModuleV1
+    TrustAnchorModuleV1,
+    TermsAndConditionsModule
   ],
   controllers: [AppController]
 })

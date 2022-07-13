@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { writeFileSync } from 'fs'
 import * as path from 'path'
 import { name, version, description } from '../../../package.json'
+import { TermsAndConditionsModule } from '../../terms-and-conditions/terms-and-conditions.module'
 import { TrustAnchorModuleV1 } from '../../trust-anchor/trust-anchor-v1.module'
 import { TrustAnchorModule } from '../../trust-anchor/trust-anchor.module'
 
@@ -24,13 +25,19 @@ const versions = [
   {
     number: version,
     latest: true,
-    includedModules: [TrustAnchorModule]
+    includedModules: [TrustAnchorModule, TermsAndConditionsModule]
   }
 ]
 
 export function setupSwagger(app: INestApplication) {
   for (const version of versions) {
-    const config = new DocumentBuilder().setTitle(name).setDescription(description).setVersion(version.number).addTag('TrustAnchor').build()
+    const config = new DocumentBuilder()
+      .setTitle(name)
+      .setDescription(description)
+      .setVersion(version.number)
+      .addTag('TrustAnchor')
+      .addTag('TermsAndConditions')
+      .build()
 
     const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: false, include: version.includedModules })
 
