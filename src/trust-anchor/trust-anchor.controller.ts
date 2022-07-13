@@ -8,7 +8,7 @@ import { TrustAnchorService } from './services'
 import { trustAnchorV2Request, certificateChainRequest } from '../tests/fixtures/certificates.json'
 
 @ApiTags('TrustAnchor')
-@Controller({ path: 'trustAnchor', version: '2' })
+@Controller({ path: 'trustAnchor', version: '2204' })
 export class TrustAnchorController {
   constructor(private readonly trustAnchorService: TrustAnchorService) {}
   @Post()

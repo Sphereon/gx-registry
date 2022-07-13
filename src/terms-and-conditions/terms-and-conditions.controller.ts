@@ -8,7 +8,7 @@ import { termsAndConditions } from './constants'
 import { TermsAndConditionsRequestDto } from './dto'
 
 @ApiTags('TermsAndConditions')
-@Controller({ path: 'termsAndConditions', version: '2' })
+@Controller({ path: 'termsAndConditions', version: '2204' })
 export class TermsAndConditionsController {
   constructor(private readonly termsAndConditionsService: TermsAndConditionsService) {}
 
