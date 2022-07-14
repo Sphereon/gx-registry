@@ -9,9 +9,9 @@ export class CertChainTransformPipe implements PipeTransform<TrustAnchorChainReq
   async transform(body: TrustAnchorChainRequestDto): Promise<CertificateChainDto> {
     try {
       const { certs } = body
-
       // split string into 1 item per certificate
       const split = certs.split('-----BEGIN CERTIFICATE-----')
+
       // remove BEGIN CERTIFICATE etc. and filter empty leftover strings
       const raw = split.map(c => stripPEMInfo(c)).filter(c => c.length > 1)
 

@@ -1,9 +1,10 @@
-import { applyDecorators } from '@nestjs/common'
+import { applyDecorators, HttpCode, HttpStatus } from '@nestjs/common'
 import { ApiBadRequestResponse, ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger'
 import { ExamplesObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface'
 
 export function TrustAnchorApiResponse(summary: string, dto: any, examples?: ExamplesObject) {
   return applyDecorators(
+    HttpCode(HttpStatus.OK),
     ApiOperation({ summary }),
     ApiBody({ type: dto, examples, description: summary }),
     ApiBadRequestResponse({ description: 'Invalid request payload' }),
