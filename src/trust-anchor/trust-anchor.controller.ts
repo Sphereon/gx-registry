@@ -1,11 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Res } from '@nestjs/common'
+import { Body, ConflictException, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common'
 import { ApiConflictResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger'
-import { Response } from 'express'
 import { TrustAnchorApiResponse } from './decorators'
-import { CertificateChainDto, TrustAnchorChainRequestDto, TrustAnchorRequestDto } from './dto'
+import { CertificateChainDto, TrustAnchorChainRequestDto, TrustAnchorChainUriRequestDto, TrustAnchorRequestDto } from './dto'
 import { CertChainTransformPipe } from './pipes/transform-cert-chain.pipe'
 import { TrustAnchorService } from './services'
-import { trustAnchorV2Request, certificateChainRequest } from '../tests/fixtures/certificates.json'
+import { trustAnchorV2Request, certificateChainRequest, certificateChainUriRequest } from '../tests/fixtures/certificates.json'
+import { CertChainUriTransformPipe } from './pipes'
 
 @ApiTags('TrustAnchor')
 @Controller({ path: 'trustAnchor', version: '2204' })
@@ -28,13 +28,30 @@ export class TrustAnchorController {
     certChain: { summary: 'Example Certificate Chain', value: certificateChainRequest }
   })
   @ApiConflictResponse({ description: `Root for the certificate chain could not be verified as a TrustAnchor in the registry` })
-  async verifyTrustAnchorChain(@Body(CertChainTransformPipe) certificateChainRaw: CertificateChainDto, @Res() res: Response) {
-    const verificationResult = await this.trustAnchorService.validateCertChain(certificateChainRaw.certs)
+  async verifyTrustAnchorChainRaw(@Body(CertChainTransformPipe) certificateChainRaw: CertificateChainDto) {
+    return this.validateCertificateChain(certificateChainRaw.certs)
+  }
+
+  @Post('chain/file')
+  @TrustAnchorApiResponse(
+    'Verify root of a certificate chain, provided as a file at uri, to be a TrustAnchor in the registry',
+    TrustAnchorChainUriRequestDto,
+    {
+      certChain: { summary: 'Example Certificate Chain', value: certificateChainUriRequest }
+    }
+  )
+  @ApiConflictResponse({ description: `Root for the certificate chain could not be verified as a TrustAnchor in the registry` })
+  async verifyTrustAnchorChain(@Body(CertChainUriTransformPipe) certificateChainRaw: CertificateChainDto) {
+    return this.validateCertificateChain(certificateChainRaw.certs)
+  }
+
+  async validateCertificateChain(certificates: string[]) {
+    const verificationResult = await this.trustAnchorService.validateCertChain(certificates)
 
     const { result } = verificationResult
 
-    const response = result ? { result } : verificationResult
+    if (!result) throw new ConflictException(verificationResult)
 
-    res.status(result ? 200 : 409).send(response)
+    return { result }
   }
 }

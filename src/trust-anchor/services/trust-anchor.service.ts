@@ -3,7 +3,7 @@ import { Cache } from 'cache-manager'
 import { Certificate, CertificateChainValidationEngine, CertificateChainValidationEngineVerifyResult, CryptoEngine, setEngine } from 'pkijs'
 import { webcrypto } from 'node:crypto'
 import { getBufferFromBase64, getCertificatesFromRaw, isEmpty } from '../../common/util'
-import { BadRequestException, CACHE_MANAGER, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { BadRequestException, CACHE_MANAGER, ConflictException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { TrustStates } from '../../common/interfaces/trustAnchor.interface'
 import { TrustAnchorRequestDto } from '../dto/trust-anchor-request.dto'
 import { InjectModel } from '@nestjs/mongoose'
@@ -65,6 +65,7 @@ export class TrustAnchorService {
       return validationResult
     } catch (error) {
       this.logger.error(error)
+      throw new ConflictException('Certificate Chain could not be validated.')
     }
   }
 
@@ -140,7 +141,8 @@ export class TrustAnchorService {
   async cacheAllTrustAnchorCertificates(): Promise<Certificate[]> {
     this.logger.log('Re-caching TrustAnchor certificates...')
     const trustAnchors = await this.getAllTrustAnchors()
-    const certificates = trustAnchors.map(ta => Certificate.fromBER(getBufferFromBase64(ta.certificate)))
+    const certificatesRaw = trustAnchors.map(ta => ta.certificate)
+    const certificates = getCertificatesFromRaw(certificatesRaw)
 
     await this.cacheManager.set<Certificate[]>(TrustAnchorService.TRUST_ANCHOR_CERTIFICATES_CACHE_KEY, certificates, { ttl: 0 })
     this.logger.log(`Cached ${certificates.length} TrustAnchor certificates.`)
