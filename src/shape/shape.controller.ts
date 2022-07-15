@@ -1,9 +1,9 @@
 import { Controller, Get, Query, UsePipes, StreamableFile, Response } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ShapeService } from './services'
 import { JoiValidationPipe } from '../common/pipes'
 import { shapeSchema } from './schemas'
-import { ShapeApiResponse } from './decorators'
+import { ShapeFilesApiResponse } from './decorators'
 import { ShapeRequestDto } from './dto'
 
 @ApiTags('Shape')
@@ -11,9 +11,16 @@ import { ShapeRequestDto } from './dto'
 export class ShapeController {
   constructor(private readonly shapesService: ShapeService) {}
 
-  @ShapeApiResponse('Get specified SHACL file as ttl or jsonld or a context of all available shapes if file and type is specified.')
-  @UsePipes(new JoiValidationPipe(shapeSchema))
+  @ApiOperation({ summary: 'Get a JSONLD context for all available shapes.' })
+  @ApiOkResponse({ description: 'The JSONLD context for all available shapes in the registry.' })
   @Get()
+  async getContext(): Promise<any> {
+    return this.shapesService.getJsonldContext(2204)
+  }
+
+  @ShapeFilesApiResponse('Get specified SHACL file as ttl or jsonld or a list of all available shapes if no file and type is specified.')
+  @UsePipes(new JoiValidationPipe(shapeSchema))
+  @Get('files')
   async getShape(@Query() query: ShapeRequestDto, @Response({ passthrough: true }) res): Promise<StreamableFile | Array<string>> {
     const { file, type } = query
 
@@ -22,6 +29,6 @@ export class ShapeController {
       return this.shapesService.getFileByType(file, type)
     }
 
-    return this.shapesService.getJsonldContext(2204)
+    return this.shapesService.getAvailableShapeFiles()
   }
 }

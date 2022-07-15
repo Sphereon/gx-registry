@@ -2,7 +2,7 @@ import { applyDecorators } from '@nestjs/common'
 import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { availableShapeFiles } from '../constants'
 
-export function ShapeApiResponse(summary: string) {
+export function ShapeFilesApiResponse(summary: string) {
   return applyDecorators(
     ApiOperation({ summary }),
     ApiQuery({ name: 'file', enum: availableShapeFiles, required: false }),
