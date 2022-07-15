@@ -5,7 +5,6 @@ import * as path from 'path'
 import { name, version, description } from '../../../package.json'
 import { ShapeModule } from '../../shape/shape.module'
 import { TermsAndConditionsModule } from '../../terms-and-conditions/terms-and-conditions.module'
-import { TrustAnchorModuleV1 } from '../../trust-anchor/trust-anchor-v1.module'
 import { TrustAnchorModule } from '../../trust-anchor/trust-anchor.module'
 
 export const OPEN_API_DOC_PATH = path.resolve(process.cwd(), 'openapi.json')
@@ -19,10 +18,6 @@ const options = {
 }
 
 const versions = [
-  {
-    number: '1.0.1',
-    includedModules: [TrustAnchorModuleV1]
-  },
   {
     number: version,
     latest: true,
