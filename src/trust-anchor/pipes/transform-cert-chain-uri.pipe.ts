@@ -1,7 +1,6 @@
 import { HttpService } from '@nestjs/axios'
 import { PipeTransform, Injectable, BadRequestException, Logger } from '@nestjs/common'
-import { stripPEMInfo } from '../../common/util'
-import { CertificateChainDto, TrustAnchorChainRequestDto, TrustAnchorChainUriRequestDto } from '../dto/trust-anchor-chain-request.dto'
+import { CertificateChainDto, TrustAnchorChainUriRequestDto } from '../dto/trust-anchor-chain-request.dto'
 import { CertChainTransformPipe } from './transform-cert-chain.pipe'
 
 @Injectable()
