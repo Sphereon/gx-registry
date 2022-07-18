@@ -27,13 +27,7 @@ const versions = [
 
 export function setupSwagger(app: INestApplication) {
   for (const version of versions) {
-    const config = new DocumentBuilder()
-      .setTitle(name)
-      .setDescription(description)
-      .setVersion(version.number)
-      .addTag('TrustAnchor')
-      .addTag('TermsAndConditions')
-      .build()
+    const config = new DocumentBuilder().setTitle(name).setDescription(description).setVersion(version.number).build()
 
     const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: false, include: version.includedModules })
 
