@@ -33,14 +33,14 @@ gx-service-offering:DataExportShape
 		sh:datatype xsd:string ;
         sh:minCount 1 ;
 		sh:maxCount 1 ;
-		sh:pattern "(API|email|webform|unregisteredLetter|registeredLetter|supportCenter)"
+		sh:pattern "^(API|email|webform|unregisteredLetter|registeredLetter|supportCenter)$"
     ], [
 		sh:path gx-service-offering:accessType ;
         sh:description "Type of data support" ;
 		sh:datatype xsd:string ;
         sh:minCount 1 ;
 		sh:maxCount 1 ;
-		sh:pattern "(digital|physical)"
+		sh:pattern "^(digital|physical)$"
     ], [
 		sh:path gx-service-offering:formatType ;
         sh:description "Type of Media Types (formerly known as MIME types) as defined by the IANA." ;
@@ -84,5 +84,5 @@ gx-service-offering:ServiceOfferingShape
 		sh:datatype xsd:string ;
         sh:minLength 8 ;
 		sh:maxLength 9 ;
-		sh:pattern "(GDPR2016|LGPD2019|PDPA2012|CCPA2018|VCDPA2021)"
+		sh:pattern "^(GDPR2016|LGPD2019|PDPA2012|CCPA2018|VCDPA2021)$"
 	] .
