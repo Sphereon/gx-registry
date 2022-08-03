@@ -1,0 +1,88 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <http://schema.org/> .
+@prefix gx-participant: <https://registry.gaia-x.eu/api/v2206/shape/files?file=participant&type=ttl#> .
+@prefix gx-resource: <https://registry.gaia-x.eu/api/v2206/shape/files?file=resource&type=ttl#> .
+@prefix gx-service-offering: <https://registry.gaia-x.eu/api/v2206/shape/files?file=service-offering&type=ttl#> .
+
+gx-service-offering:TermsAndConditionsShape
+	a sh:NodeShape ;
+	sh:targetClass gx-service-offering:TermsAndConditions ;
+	sh:property [
+		sh:path gx-service-offering:url ;
+        sh:description "a resolvable link to document" ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1                 
+    ], [
+		sh:path gx-service-offering:hash ;
+        sh:description "sha256 hash of the above document." ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1                   
+    ] .
+
+gx-service-offering:DataExportShape
+	a sh:NodeShape ;
+	sh:targetClass gx-service-offering:DataExport ;
+	sh:property [
+		sh:path gx-service-offering:requestType ;
+        sh:description "The mean to request data retreival" ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:pattern "(API|email|webform|unregisteredLetter|registeredLetter|supportCenter)"
+    ], [
+		sh:path gx-service-offering:accessType ;
+        sh:description "Type of data support" ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:pattern "(digital|physical)"
+    ], [
+		sh:path gx-service-offering:formatType ;
+        sh:description "Type of Media Types (formerly known as MIME types) as defined by the IANA." ;
+		sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:minLength 1                   
+    ] .
+
+gx-service-offering:ServiceOfferingShape
+	a sh:NodeShape ;
+	sh:targetClass gx-service-offering:ServiceOffering ;
+	sh:name "Service Offering" ; 
+	sh:property [
+		sh:path gx-service-offering:providedBy ;
+		sh:description "a resolvable link to the participant Self-Description providing the service" ;
+		sh:datatype xsd:string ;
+		sh:minCount: 1 ;
+		sh:maxCount: 1
+	], [
+		sh:path gx-service-offering:termsAndConditions ;
+		sh:description "a resolvable link to the Terms and Conditions applying to that service." ;
+		sh:class gx-service-offering:TermsAndConditions ;
+		sh:minCount: 1
+	] , [
+		sh:path gx-service-offering:dataExport ;
+		sh:description "list of methods to export data out of the service" ;
+		sh:class gx-service-offering:DataExport ;
+        sh:minCount 1
+	], [
+		sh:path gx-service-offering:aggregationOf ;
+		sh:description "a resolvable link to the Self-Descriptions of resources related to the service and that can exist independently of it." ;
+		sh:datatype xsd:string
+	], [
+		sh:path gx-service-offering:policies ;
+		sh:description "a list of policy expressed using a DSL (e.g., Rego or ODRL)" ;
+		sh:datatype xsd:string
+	], [
+		sh:path gx-service-offering:dataProtectionRegime ;
+		sh:description "a list of data protection regime (see https://gaia-x.gitlab.io/policy-rules-committee/trust-framework/service/#service-offering)" ;
+		sh:datatype xsd:string ;
+        sh:minLength 8 ;
+		sh:maxLength 9 ;
+		sh:pattern "(GDPR2016|LGPD2019|PDPA2012|CCPA2018|VCDPA2021)"
+	] .
