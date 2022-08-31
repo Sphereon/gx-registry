@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { TermsAndConditionsModule } from './terms-and-conditions.module'
-import { AppModule } from '../../app.module'
+import { AppModule } from '../app.module'
 import supertest from 'supertest'
 import { termsAndConditions } from './constants'
 

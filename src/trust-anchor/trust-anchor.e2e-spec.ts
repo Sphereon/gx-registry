@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { INestApplication, NotImplementedException } from '@nestjs/common'
 import { TrustAnchorModule } from './trust-anchor.module'
-import { AppModule } from '../../app.module'
+import { AppModule } from '../app.module'
 
 describe('TrustAnchor (e2e)', () => {
   let app: INestApplication
