@@ -8,7 +8,7 @@ import { trustAnchorV2Request, certificateChainRequest, certificateChainUriReque
 import { CertChainUriTransformPipe } from './pipes'
 
 @ApiTags('TrustAnchor')
-@Controller({ path: 'trustAnchor', version: '2204' })
+@Controller({ path: 'trustAnchor' })
 export class TrustAnchorController {
   constructor(private readonly trustAnchorService: TrustAnchorService) {}
   @Post()

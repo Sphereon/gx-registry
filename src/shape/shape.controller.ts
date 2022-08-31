@@ -7,7 +7,7 @@ import { ShapeFilesApiResponse } from './decorators'
 import { ShapeRequestDto } from './dto'
 
 @ApiTags('Shape')
-@Controller({ path: 'shape', version: '2206' })
+@Controller({ path: 'shape' })
 export class ShapeController2206 {
   constructor(private readonly shapesService: ShapeService2206) {}
 

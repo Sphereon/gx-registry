@@ -9,7 +9,7 @@ import { trustAnchorV1Request, certificateChainRequest } from '../tests/fixtures
 
 //TODO: resolve code duplication for controller v1 & v2
 @ApiTags('TrustAnchor')
-@Controller({ path: 'trustAnchor', version: '1' })
+@Controller({ path: 'trustAnchor' })
 export class TrustAnchorControllerV1 {
   constructor(private readonly trustAnchorService: TrustAnchorService) {}
   @Post()
