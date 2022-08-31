@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { ShapeService } from './services'
-import { ShapeController } from './shape.controller'
+import { ShapeService2206 } from './services'
+import { ShapeController2206 } from './shape.controller'
 
 @Module({
   imports: [],
-  controllers: [ShapeController],
-  providers: [ShapeService]
+  controllers: [ShapeController2206],
+  providers: [ShapeService2206]
 })
-export class ShapeModule {}
+export class ShapeModule2206 {}

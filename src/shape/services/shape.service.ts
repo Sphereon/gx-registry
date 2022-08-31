@@ -6,7 +6,7 @@ import { createReadStream } from 'fs'
 import * as ttl2jsonld from '@frogcat/ttl2jsonld'
 import { FileTypes } from '../constants'
 @Injectable()
-export class ShapeService {
+export class ShapeService2206 {
   private readonly logger = new Logger('Shape')
 
   async getFileByType(file: string, type: FileTypes): Promise<StreamableFile> {
@@ -42,7 +42,7 @@ export class ShapeService {
     return availableShapeFiles
   }
 
-  private getTtlFile(filename, version = 1): any {
+  private getTtlFile(filename, version = 2206): any {
     try {
       const file = createReadStream(join(__dirname, `../../static/shapes/v${version}/${filename}.ttl`))
       return file
