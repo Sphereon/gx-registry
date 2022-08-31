@@ -1,5 +1,0 @@
-export * from './create-trust-anchor-list.dto'
-export * from './create-trust-anchor.dto'
-export * from './trust-anchor-chain-request.dto'
-export * from './trust-anchor-request.dto'
-export * from './trust-anchor-response.dto'
