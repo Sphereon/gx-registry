@@ -1,15 +1,9 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix schema: <http://schema.org/> .
-@prefix gx-participant: <https://registry.gaia-x.eu/api/v2206/shape/files?file=participant&type=ttl#> .
-@prefix gx-resource: <https://registry.gaia-x.eu/api/v2206/shape/files?file=resource&type=ttl#> .
-@prefix gx-service-offering: <https://registry.gaia-x.eu/api/v2206/shape/files?file=service-offering&type=ttl#> .
+@prefix gx-service-offering: <https://registry.gaia-x.eu/v2206/api/shape/files?file=service-offering&type=ttl#> .
 
 gx-service-offering:TermsAndConditionsShape
 	a sh:NodeShape ;
-	sh:targetClass gx-service-offering:TermsAndConditions ;
 	sh:property [
 		sh:path gx-service-offering:url ;
         sh:description "a resolvable link to document" ;
@@ -26,10 +20,9 @@ gx-service-offering:TermsAndConditionsShape
 
 gx-service-offering:DataExportShape
 	a sh:NodeShape ;
-	sh:targetClass gx-service-offering:DataExport ;
 	sh:property [
 		sh:path gx-service-offering:requestType ;
-        sh:description "The mean to request data retreival" ;
+        sh:description "The mean to request data retrieval" ;
 		sh:datatype xsd:string ;
         sh:minCount 1 ;
 		sh:maxCount 1 ;
@@ -63,12 +56,12 @@ gx-service-offering:ServiceOfferingShape
 	], [
 		sh:path gx-service-offering:termsAndConditions ;
 		sh:description "a resolvable link to the Terms and Conditions applying to that service." ;
-		sh:class gx-service-offering:TermsAndConditions ;
+		sh:node gx-service-offering:TermsAndConditionsShape ;
 		sh:minCount: 1
 	] , [
 		sh:path gx-service-offering:dataExport ;
 		sh:description "list of methods to export data out of the service" ;
-		sh:class gx-service-offering:DataExport ;
+		sh:node gx-service-offering:DataExportShape ;
         sh:minCount 1
 	], [
 		sh:path gx-service-offering:aggregationOf ;
