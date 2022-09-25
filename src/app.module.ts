@@ -7,6 +7,7 @@ import { TrustAnchorModule } from './trust-anchor/trust-anchor.module'
 import { MongooseModule } from '@nestjs/mongoose'
 import { TermsAndConditionsModule } from './terms-and-conditions/terms-and-conditions.module'
 import { ShapeModule2206 } from './shape/shape.module'
+import { ComplianceIssuersModule } from './compliance-issuers/compliance-issuers.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,7 +23,8 @@ import { ShapeModule2206 } from './shape/shape.module'
     ),
     TrustAnchorModule,
     TermsAndConditionsModule,
-    ShapeModule2206
+    ShapeModule2206,
+    ComplianceIssuersModule
   ],
   controllers: [AppController]
 })

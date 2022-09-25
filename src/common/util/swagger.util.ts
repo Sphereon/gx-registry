@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { writeFileSync } from 'fs'
 import * as path from 'path'
+import { ComplianceIssuersModule } from '../../compliance-issuers/compliance-issuers.module'
 import { name, version, description } from '../../../package.json'
 import { ShapeModule2206 } from '../../shape/shape.module'
 import { TermsAndConditionsModule } from '../../terms-and-conditions/terms-and-conditions.module'
@@ -21,7 +22,7 @@ const versions = [
   {
     number: version,
     latest: true,
-    includedModules: [TrustAnchorModule, TermsAndConditionsModule, ShapeModule2206]
+    includedModules: [TrustAnchorModule, TermsAndConditionsModule, ShapeModule2206, ComplianceIssuersModule]
   }
 ]
 
