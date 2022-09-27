@@ -51,7 +51,10 @@ export class TrustAnchorService {
   public async validateCertChain(base64Certs: string[]): Promise<CertificateChainValidationEngineVerifyResult> {
     // Create Certificate instances from raw strings
     try {
-      const certs: Certificate[] = getCertificatesFromRaw(base64Certs)
+      // In general, expect the following order for certificate chains: [leaf - intermediate - root]
+      // For the ValidationEngine to work correctly reverse this order to: [root - intermediate - leaf]
+      // for details: https://gitlab.com/gaia-x/lab/compliance/gx-registry/-/issues/21
+      const certs: Certificate[] = getCertificatesFromRaw(base64Certs).reverse()
 
       const trustedCerts = await this.retrieveCertificatesFromCache()
 
@@ -60,7 +63,19 @@ export class TrustAnchorService {
         trustedCerts
       })
 
-      const validationResult = await chainEngine.verify()
+      let validationResult = await chainEngine.verify()
+
+      // If the "correct" order was provided try with the initial order again for intermediate trusted certificates
+      // for details: https://gitlab.com/gaia-x/lab/compliance/gx-registry/-/issues/21
+      if (validationResult.result === false) {
+        this.logger.log('Trying chain validation in reversed order for intermediate certificates...')
+        const chainEngineReversed = new CertificateChainValidationEngine({
+          certs: certs.reverse(),
+          trustedCerts
+        })
+
+        validationResult = await chainEngineReversed.verify()
+      }
 
       return validationResult
     } catch (error) {
