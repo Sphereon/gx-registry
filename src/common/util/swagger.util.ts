@@ -10,7 +10,7 @@ import { TrustAnchorModule } from '../../trust-anchor/trust-anchor.module'
 
 export const OPEN_API_DOC_PATH = path.resolve(process.cwd(), 'openapi.json')
 
-export const SWAGGER_UI_PATH = 'v2206/docs'
+export const SWAGGER_UI_PATH = '/docs'
 
 const options = {
   tagsSorter: 'alpha',
