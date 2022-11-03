@@ -4,35 +4,35 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
-  name: gx-compliance-live-server
+  name: gx-registry-live-server
   namespace: gx-lab
 spec:
   rules:
-  - host: compliance.gaia-x.eu
+  - host: registry.gaia-x.eu
     http:
       paths:
       - backend:
           service:
-            name: gx-compliance-main
+            name: gx-registry-server-main
             port:
               number: 80
         path: /
         pathType: Prefix
       - backend:
           service:
-            name: gx-compliance-live-server-2206
+            name: gx-registry-server-2206-main
             port:
               number: 80
         path: /v2206/
         pathType: Prefix
       - backend:
           service:
-            name: gx-compliance-live-server-2204
+            name: gx-registry-server-2204-main
             port:
               number: 80
         path: /v2204/
         pathType: Prefix
   tls:
   - hosts:
-    - compliance.gaia-x.eu
-    secretName: gx-compliance-live-server-tls-secret
+    - registry.gaia-x.eu
+    secretName: gx-registry-live-server-tls-secret
