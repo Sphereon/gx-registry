@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: gx-registry-server
+  namespace: gx-lab
+spec:
+  rules:
+  - host: registry.lab.gaia-x.eu
+    http:
+      paths:
+      - backend:
+          service:
+            name: gx-registry-server-2206-development
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - registry.lab.gaia-x.eu
+    secretName: server-tls-secret

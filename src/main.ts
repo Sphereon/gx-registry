@@ -6,7 +6,7 @@ import { setupSwagger } from './common/util'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  app.setGlobalPrefix('/v2206/api/', {
+  app.setGlobalPrefix('/api/', {
     exclude: [{ path: '/', method: RequestMethod.GET }]
   })
 

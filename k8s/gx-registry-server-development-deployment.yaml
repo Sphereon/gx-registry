@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gx-registry-server-2206-development
+  namespace: gx-lab
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: gx-registry-server-2206-development
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gx-registry-server-2206-development
+    spec:
+      containers:
+      - env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: mongo-creds
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: mongo-creds
+        - name: PORT
+          value: "3000"
+        - name: MONGO_DATABASE
+          value: trust-anchor-registry
+        - name: MONGO_HOST
+          value: mongo.gx-lab.svc.cluster.local
+        - name: MONGO_PORT
+          value: "27017"
+        - name: BASE_URL
+        image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:development
+        imagePullPolicy: Always
+        name: gx-registry-server-2206-development
+        ports:
+        - containerPort: 3000
+          name: http-api
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
