@@ -1,0 +1,344 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ContractShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:Contract ;
+	sh:property [ sh:path trusted-cloud:contractTransparency ;
+				  sh:name "contract transparency" ;
+				  sh:description "Information about general contract transparency." ;
+				  skos:example "'(a structured object of type ContractTransparency.'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ContractTransparencyShape ] ;
+	sh:property [ sh:path trusted-cloud:rigthsOfUsage ;
+				  sh:name "rigths of usage" ;
+				  sh:description "Details about rights of usage and area of juristication." ;
+				  skos:example "'(a structured object of type UsageRights.'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:UsageRightsShape ] ;
+	sh:property [ sh:path trusted-cloud:transparancyWithSubcontractors ;
+				  sh:name "transparancy with subcontractors" ;
+				  sh:description "Name all concerd subcontractors and agreements for change during duration of service provision as well as commitment on data privacy information." ;
+				  skos:example "'(a structured object of type SubcontractorTransparency.'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:SubcontractorTransparencyShape ] ;
+	sh:property [ sh:path trusted-cloud:interruptionRules ;
+				  sh:name "interruption rules" ;
+				  sh:description "Details about rules which guarantee data feedback at any time." ;
+				  skos:example "'(a structured object of type SubcontractorTransparency.'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ServiceInterruptionRulesShape ] ;
+	sh:property [ sh:path trusted-cloud:sla ;
+				  sh:name "sla" ;
+				  sh:description "Information of Service Level Agreements (SLA) and rules for SLA-violation." ;
+				  skos:example "'(a structured object of type ServiceLevelAgreement.'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ServiceLevelAgreementShape ] ;
+	sh:property [ sh:path trusted-cloud:pricingModel ;
+				  sh:name "pricing model" ;
+				  sh:description "Information about used price model, contracted duration and notive of cancellation." ;
+				  skos:example "'(a structured object of type PricingModel.'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:PricingModelShape ] ;
+	sh:property [ sh:path trusted-cloud:changeManagement ;
+				  sh:name "change management" ;
+				  sh:description "Information of contractural rules for handeling changes." ;
+				  skos:example "'(a structured object of type ChangeManagement.'" ;
+				  sh:order 7 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ChangeManagementShape ] ;
+	sh:property [ sh:path trusted-cloud:obligationToCooperateInContract ;
+				  sh:name "obligation to cooperate in contract" ;
+				  sh:description "Are all obligations to cooperate or provisions defined in the contract?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 8 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:customerExemptionFromClaimsOfThirdParties ;
+				  sh:name "customer exemption from claims of third parties" ;
+				  sh:description "Is the customer exempt from all claims of third parties while using this service?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 9 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:exitSupport ;
+				  sh:name "exit support" ;
+				  sh:description "Information about rules for exit support (Exit-Management), especially the adjusted feedback for customer data." ;
+				  skos:example "'(a structured object of type ExitSupport.'" ;
+				  sh:order 10 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ExitSupportShape ] ;
+.
+
+gax-validation:ExitSupportShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ExitSupport ;
+	sh:property [ sh:path trusted-cloud:rulesContacted ;
+				  sh:name "rules contacted" ;
+				  sh:description "Are rules and measures for exit support contractually defined?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:descriptionOfRules ;
+				  sh:name "description of rules" ;
+				  sh:description "Description of the rules for termination support" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:ServiceLevelAgreementShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ServiceLevelAgreement ;
+	sh:property [ sh:path gax-core:hasSLAInContract ;
+				  sh:name "has s l a in contract" ;
+				  sh:description "Are there SLAs component of contract?" ;
+				  skos:example "'Yes', 'No'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:slaComplianceReviewable ;
+				  sh:name "sla compliance reviewable" ;
+				  sh:description "Is it possible to review the compliance with the SLA by the customer?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:description ;
+				  sh:name "description" ;
+				  sh:description "Description of the SLAs" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:slaViolationConcequencesContracted ;
+				  sh:name "sla violation concequences contracted" ;
+				  sh:description "Are there legal consequences for an SLA violation in the contract?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:continuousGuaranteeOfPrivacy ;
+				  sh:name "continuous guarantee of privacy" ;
+				  sh:description "Is there a contracted continuous guarantee of privacy, integrity and resilience of the systems?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:contractedAvailabilityForDataAfterTechnicalProblems ;
+				  sh:name "contracted availability for data after technical problems" ;
+				  sh:description "Are there contracted availabilities for data after a physical or technical problem?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+.
+
+gax-validation:UsageRightsShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:UsageRights ;
+	sh:property [ sh:path trusted-cloud:applicableLaw ;
+				  sh:name "applicable law" ;
+				  sh:description "Is there applicable law?" ;
+				  skos:example "'No statement', 'German contract law', 'EU contract law'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:applicableEULaw ;
+				  sh:name "applicable e u law" ;
+				  sh:description "If applicable law is EU law, this field has to specify the concrete law." ;
+				  skos:example "''" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:jurisdiction ;
+				  sh:name "jurisdiction" ;
+				  sh:description "City of jurisdiction of the service" ;
+				  skos:example "'Berlin'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:ContractTransparencyShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ContractTransparency ;
+	sh:property [ sh:path trusted-cloud:contractsAvailable ;
+				  sh:name "contracts available" ;
+				  sh:description "Are the contracts available to the customer before the closing?" ;
+				  skos:example "'No statement', 'On request', 'Published'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:webReference ;
+				  sh:name "web reference" ;
+				  sh:description "A resolvable link to service contract, if contractAvailable is set to published." ;
+				  skos:example "'www.acme.com/termsandconditions.pdf'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path trusted-cloud:usedLicence ;
+				  sh:name "used licence" ;
+				  sh:description "Transparent description of the used licenses" ;
+				  skos:example "'General Public License'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:PricingModelShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:PricingModel ;
+	sh:property [ sh:path trusted-cloud:pricingModel ;
+				  sh:name "pricing model" ;
+				  sh:description "Details about used pricing model." ;
+				  skos:example "'Freetext'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:isPublic ;
+				  sh:name "is public" ;
+				  sh:description "Is the pricing model publicly available to all customers?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:pricingModelLink ;
+				  sh:name "pricing model link" ;
+				  sh:description "Link to the pricing model." ;
+				  skos:example "'www.acme.com/princing.pdf'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path trusted-cloud:contractDuration ;
+				  sh:name "contract duration" ;
+				  sh:description "Specifications for the contract duration." ;
+				  skos:example "'Freetext'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:terminationModalities ;
+				  sh:name "termination modalities" ;
+				  sh:description "Information about termination modalities and periods" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:freeTrialPhase ;
+				  sh:name "free trial phase" ;
+				  sh:description "Is there a free trial phase?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:sameDataProtections ;
+				  sh:name "same data protections" ;
+				  sh:description "Has the free trial phase the same data protection as a commercial service?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 7 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+.
+
+gax-validation:ChangeManagementShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ChangeManagement ;
+	sh:property [ sh:path trusted-cloud:chnagesCommunicatedBeforehand ;
+				  sh:name "chnages communicated beforehand" ;
+				  sh:description "Are changes in the contract communicated to the customer beforehand?" ;
+				  skos:example "'No statement', 'All changes will be communicated', 'All changes will be communicated and the customer gets a special termination right'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:rulesForChangeManagementInContract ;
+				  sh:name "rules for change management in contract" ;
+				  sh:description "Are rules for change management in the contract?" ;
+				  skos:example "'No statement', 'Not in the contract', 'In the contract'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:changeManagementRules ;
+				  sh:name "change management rules" ;
+				  sh:description "Description of change management rules" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:SubcontractorTransparencyShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:SubcontractorTransparency ;
+	sh:property [ sh:path trusted-cloud:allSubContractorsMentioned ;
+				  sh:name "all sub contractors mentioned" ;
+				  sh:description "Are all concerned subcontractors specifed in the service provisioning?" ;
+				  skos:example "'No statement', 'On request', 'Yes'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:allContractConditionsMeetBySubContractor ;
+				  sh:name "all contract conditions meet by sub contractor" ;
+				  sh:description "Are all contract conditions transferable to the sub contractors are adhered by these contractually?" ;
+				  skos:example "'No information', 'Sub contractors oblige', 'Sub contractors are bound by contract'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

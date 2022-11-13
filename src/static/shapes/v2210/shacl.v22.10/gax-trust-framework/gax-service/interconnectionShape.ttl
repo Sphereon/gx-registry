@@ -1,0 +1,375 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:InterconnectionShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Interconnection ;
+	sh:property [ sh:path gax-trust-framework:location ;
+				  sh:name "location" ;
+				  sh:description "A vcard:Address Object containing the physical location in ISO 3166-1 alpha2, alpha-3 or numeric format with at least the both ends of the connection." ;
+				  skos:example "'(a reference to vcard:Address object)'" ;
+				  sh:order 1 ;
+				  sh:node gax-validation:AddressShape ] ;
+	sh:property [ sh:path gax-trust-framework:interface.type ;
+				  sh:name "interface.type" ;
+				  sh:description "a type of physical interface" ;
+				  skos:example "'Copper cable', '5G'" ;
+				  sh:order 2 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:connectionPointA ;
+				  sh:name "connection point a" ;
+				  sh:description "The ID of the source of the connection." ;
+				  skos:example "'a MAC address', 'IP address'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:connectionPointZ ;
+				  sh:name "connection point z" ;
+				  sh:description "The ID of the destination of the connection." ;
+				  skos:example "'a MAC address', 'IP address'" ;
+				  sh:order 4 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:bandwidth ;
+				  sh:name "bandwidth" ;
+				  sh:description "Contractual bandwidth defined in the service level agreement (SLA). Bandwidth is usually measured in dimension of bits per second." ;
+				  skos:example "'500 Gbps'" ;
+				  sh:order 5 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:latency ;
+				  sh:name "latency" ;
+				  sh:description "Contractual latency defined in the SLA. If not specified, then best effort is assumed. Latency is usually measured in dimension of time." ;
+				  skos:example "'10 seconds'" ;
+				  sh:order 6 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:availability ;
+				  sh:name "availability" ;
+				  sh:description "Contractual availability of connection defined in the SLA agreement. If not specified, then best effort is assumed. Availability is measured in the pseudo-unit 'percent'." ;
+				  skos:example "'99 percent'" ;
+				  sh:order 7 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:packetLoss ;
+				  sh:name "packet loss" ;
+				  sh:description "Contractual packet loss of connection defined in the SLA agreement. If not specified, then best effort is assumed. PackageLoss s measured in the pseudo-unit 'percent'-" ;
+				  skos:example "'0.00002 %'" ;
+				  sh:order 8 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:jitter ;
+				  sh:name "jitter" ;
+				  sh:description "Contractual jitterdefined in the SLA. If not specified, then best effort is assumed. Jitter is measured in dimension of time." ;
+				  skos:example "'0.01 miliseconds'" ;
+				  sh:order 9 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:targetPercentile ;
+				  sh:name "target percentile" ;
+				  sh:description "Contractual percentile in the SLA. Usually referred to the nubmer of frames the SLA metrics such as availability, latency and jitter can bbe guaranteed." ;
+				  skos:example "'97.5%, 99%'" ;
+				  sh:order 10 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:connectionType ;
+				  sh:name "connection type" ;
+				  sh:description "the supported types of connection, preferably specified as a controlled vocabulary entry" ;
+				  skos:example "'ethernet unicast', 'multicast', 'broadcast support'" ;
+				  sh:order 11 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:vlanType ;
+				  sh:name "vlan type" ;
+				  sh:description "the chosen types of vlan types" ;
+				  skos:example "'qinq', 'dot1q'" ;
+				  sh:order 12 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:vlanTag ;
+				  sh:name "vlan tag" ;
+				  sh:description "Vlan Tag ID that range between 1 and 4094. In case qinq connection type is chosen tow vlan tag, namely outer and innter should be provided" ;
+				  skos:example "'23', '175'" ;
+				  sh:order 13 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:vlanEtherType ;
+				  sh:name "vlan ether type" ;
+				  sh:description "The ethertype of the vlan in hexadecimal notation." ;
+				  skos:example "'0x8100', '0x88a8'" ;
+				  sh:order 14 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:connectedNetwork_A ;
+				  sh:name "connected network_ a" ;
+				  sh:description "autonomous system (AS) number (ASN) of the side A" ;
+				  skos:example "'200', '714'" ;
+				  sh:order 15 ;
+				  sh:datatype xsd:decimal ] ;
+	sh:property [ sh:path gax-trust-framework:connectedNetwork_Z ;
+				  sh:name "connected network_ z" ;
+				  sh:description "autonomous system (AS) number (ASN) of the side Z" ;
+				  skos:example "'200', '714'" ;
+				  sh:order 16 ;
+				  sh:datatype xsd:decimal ] ;
+	sh:property [ sh:path gax-trust-framework:prefixSet_A ;
+				  sh:name "prefix set_ a" ;
+				  sh:description "CIDR Provider Identifier of network on the side A" ;
+				  skos:example "'176.46.32.0/24'" ;
+				  sh:order 17 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:prefixSet_Z ;
+				  sh:name "prefix set_ z" ;
+				  sh:description "CIDR Provider Identifier of network on the side Z" ;
+				  skos:example "'192.46.52.0/24'" ;
+				  sh:order 18 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:serviceType ;
+				  sh:name "service type" ;
+				  sh:description "Type of Service Offering. Choose one of the following: virtual, bare-metal, mixed" ;
+				  skos:example "'virtual', 'bare-metal', 'mixed'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:publicIpAddressProvisioning ;
+				  sh:name "public ip address provisioning" ;
+				  sh:description "Defines how public IP address are provided. Floating: floating ips are supported ." ;
+				  skos:example "'floating', 'fixed', 'provider-network'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:ipVersion ;
+				  sh:name "ip version" ;
+				  sh:description "Version of IP address supported. IPv4: only ipV4 addresses are supported. IPv6: both version iIPV4 and IPv6 are supported." ;
+				  skos:example "'ipV6', 'IPv4'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:tenantSeparation ;
+				  sh:name "tenant separation" ;
+				  sh:description "Default: virtual. How networks of different tenants are separated." ;
+				  skos:example "'virtual', 'physical'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:termsAndConditions ;
+				  sh:name "terms and conditions" ;
+				  sh:description "a resolvable link to the Terms and Conditions applying to that service." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:TermsAndConditionsShape ] ;
+	sh:property [ sh:path gax-trust-framework:policy ;
+				  sh:name "policy" ;
+				  sh:description "a list of policy expressed using a DSL (e.g., Rego or ODRL)" ;
+				  skos:example "' '" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:dataProtectionRegime ;
+				  sh:name "data protection regime" ;
+				  sh:description "a list of data protection regime from the list available below" ;
+				  skos:example "'GDPR2016', 'LGPD2019'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:dataAccountExport ;
+				  sh:name "data account export" ;
+				  sh:description "a list of methods to export data out of the service" ;
+				  skos:example "' '" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:DataAccountExportShape ] ;
+	sh:property [ sh:path gax-trust-framework:name ;
+				  sh:name "name" ;
+				  sh:description "A human readable name of the component" ;
+				  skos:example "'Image classification ML service'" ;
+				  sh:order 5 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path dct:description ;
+				  sh:name "description" ;
+				  sh:description "A description in natural language" ;
+				  skos:example "'An ML service for training, deploying and improving image classifiers.'" ;
+				  sh:order 6 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path dcat:keyword ;
+				  sh:name "keyword" ;
+				  sh:description "Keywords that describe / tag the service." ;
+				  skos:example "'ML', 'Classification'" ;
+				  sh:order 7 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:provisionType ;
+				  sh:name "provision type" ;
+				  sh:description "Provision type of the service" ;
+				  skos:example "'Hybrid', 'gax:PrivateProvisioning'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:endpoint ;
+				  sh:name "endpoint" ;
+				  sh:description "Endpoint through which the Service Offering can be accessed" ;
+				  skos:example "'(reference to endpoint)'" ;
+				  sh:order 9 ;
+				  sh:node gax-validation:EndpointShape ] ;
+	sh:property [ sh:path gax-core:providedBy ;
+				  sh:name "provided by" ;
+				  sh:description "DID of participant self-descrription providing this service offering." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "DID of resource self-escription related to the service and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:dependsOn ;
+				  sh:name "depends on" ;
+				  sh:description "DID of the service offering self-description related to the service and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 3 ;
+				  sh:nodeKind sh:IRI ] ;
+.
+
+gax-validation:EndpointShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Endpoint ;
+	sh:property [ sh:path gax-trust-framework:endPointURL ;
+				  sh:name "end point u r l" ;
+				  sh:description "The URL of the endpoint where it can be accessed" ;
+				  skos:example "'https://gaia-x.eu/'" ;
+				  sh:order 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path gax-trust-framework:standardConformity ;
+				  sh:name "standard conformity" ;
+				  sh:description "Provides information about applied standards." ;
+				  skos:example "'(reference to standard'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:endpointDescription ;
+				  sh:name "endpoint description" ;
+				  sh:description "The Description (e.g. openAPI Description) of the endpoint" ;
+				  skos:example "'https://gaia-x.eu/'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:anyURI ] ;
+.
+
+gax-validation:TermsAndConditionsShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:TermsAndConditions ;
+	sh:property [ sh:path gax-trust-framework:content ;
+				  sh:name "content" ;
+				  sh:description "a resolvable link to document" ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path gax-trust-framework:hash ;
+				  sh:name "hash" ;
+				  sh:description "sha256 hash of the above document." ;
+				  skos:example "'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:MeasureShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Measure ;
+	sh:property [ sh:path gax-trust-framework:value ;
+				  sh:name "value" ;
+				  sh:description "The value of this measurement." ;
+				  skos:example "'100'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:float ] ;
+	sh:property [ sh:path gax-trust-framework:unit ;
+				  sh:name "unit" ;
+				  sh:description "The unit of this measurement" ;
+				  skos:example "'Gbps', 'Euro'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:AddressShape
+	a sh:NodeShape ;
+	sh:targetClass vcard:Address ;
+	sh:property [ sh:path vcard:country-name ;
+				  sh:name "country-name" ;
+				  sh:description "Physical location of head quarter in ISO 3166-1 alpha2, alpha-3 or numeric format." ;
+				  skos:example "'DE', 'DEU'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:gps ;
+				  sh:name "gps" ;
+				  sh:description "GPS in ISO 6709:2008/Cor 1:2009 format." ;
+				  skos:example "'DE', 'DEU'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:street-address ;
+				  sh:name "street-address" ;
+				  sh:description "The v:street-address property specifies the street address of a postal address." ;
+				  skos:example "'example-street'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:postal-code ;
+				  sh:name "postal-code" ;
+				  sh:description "String of a street-address" ;
+				  skos:example "'example-postal-code'" ;
+				  sh:order 4 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:locality ;
+				  sh:name "locality" ;
+				  sh:description "The v:locality property specifies the locality (e.g., city) of a postal address." ;
+				  skos:example "'example-locality'" ;
+				  sh:order 5 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:DataAccountExportShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:DataAccountExport ;
+	sh:property [ sh:path gax-trust-framework:requestType ;
+				  sh:name "request type" ;
+				  sh:description "the mean to request data retrieval: API, email, webform, unregisteredLetter, registeredLetter, supportCenter." ;
+				  skos:example "'API', 'email', 'webform', 'unregisteredLetter'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:accessType ;
+				  sh:name "access type" ;
+				  sh:description "type of data support: digital, physical." ;
+				  skos:example "'digital', 'physical'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:formatType ;
+				  sh:name "format type" ;
+				  sh:description "type of Media Types (formerly known as MIME types) as defined by the IANA." ;
+				  skos:example "'application/gzip', 'text/csv'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

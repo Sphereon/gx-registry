@@ -1,0 +1,59 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ResourceShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Resource ;
+	sh:property [ sh:path gax-trust-framework:name ;
+				  sh:name "name" ;
+				  sh:description "Name of resource." ;
+				  skos:example "'Example Resource'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path dct:description ;
+				  sh:name "description" ;
+				  sh:description "A more detailed description of resource." ;
+				  skos:example "'Example Resource placed somewhere in Europe'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "Resources related to the resource and that can exist independently of it." ;
+				  skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+				  sh:order 3 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+				  skos:example "''" ;
+				  sh:order 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:operatedBy ;
+				  sh:name "operated by" ;
+				  sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+.

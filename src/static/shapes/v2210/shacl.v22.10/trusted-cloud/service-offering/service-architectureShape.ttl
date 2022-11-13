@@ -1,0 +1,64 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ServiceArchitectureShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ServiceArchitecture ;
+	sh:property [ sh:path trusted-cloud:clientIsolation ;
+				  sh:name "client isolation" ;
+				  sh:description "Description of measures for limiting client areas for dedicated technical infrastructures and data areas." ;
+				  skos:example "'(a structured object of type ClientIsolation)'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ClientIsolationShape ] ;
+	sh:property [ sh:path trusted-cloud:scaling ;
+				  sh:name "scaling" ;
+				  sh:description "Information about scaling possibilities of techical infrastructure of the service." ;
+				  skos:example "'(a structured object of typr ServiceScaling)'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:ServiceScallingShape ] ;
+.
+
+gax-validation:ClientIsolationShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ClientIsolation ;
+	sh:property [ sh:path trusted-cloud:clientSeparation ;
+				  sh:name "client separation" ;
+				  sh:description "Is a continuous client separation guaranteed?" ;
+				  skos:example "'No statement', 'Not guaranteed', 'Guaranteed', 'Guaranteed and can be proven'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:description ;
+				  sh:name "description" ;
+				  sh:description "How does the client separation work?" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

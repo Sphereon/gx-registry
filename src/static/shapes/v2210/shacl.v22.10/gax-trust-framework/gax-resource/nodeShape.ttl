@@ -1,0 +1,204 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:NodeShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Node ;
+	sh:property [ sh:path gax-trust-framework:cpu ;
+				  sh:name "cpu" ;
+				  sh:description "Description of CPU(s) of this node" ;
+				  skos:example "'a structured object of type cpu, e.g. CPU:numberOfCores=4, CPU:frequency:value=3.0 and CPU:frequency:measure:unit=GHz'" ;
+				  sh:order 1 ;
+				  sh:node gax-validation:CPUShape ] ;
+	sh:property [ sh:path gax-trust-framework:gpu ;
+				  sh:name "gpu" ;
+				  sh:description "Description of GPU(s) of this node." ;
+				  skos:example "'a structured object of type gpu, e.g. GPU:memoryType=DDR6, GPU:memorySize:value=24 and GPU:memorySize:value:unit=GB'" ;
+				  sh:order 2 ;
+				  sh:node gax-validation:GPUShape ] ;
+	sh:property [ sh:path gax-trust-framework:ramsize ;
+				  sh:name "ramsize" ;
+				  sh:description "Size of RAM of this node" ;
+				  skos:example "'a structured object of type measure, e.g. measure:value=950 and measure:unit=GB'" ;
+				  sh:order 3 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:disk ;
+				  sh:name "disk" ;
+				  sh:description "Description of disk(s) of this nodes" ;
+				  skos:example "'a structured object of type harddrive, e.g. harddrive:productid=6CX68AV, and harddrive:name=Xeon Platinum 8280,and harddrive:manufacture=NVIDA; harddrive:size:value=1000, harddrive:size:unit=GB, and harddrive:type=SSD'" ;
+				  sh:order 4 ;
+				  sh:node gax-validation:DiskShape ] ;
+	sh:property [ sh:path gax-trust-framework:nic ;
+				  sh:name "nic" ;
+				  sh:description "Description of network interface card(s) of this node" ;
+				  skos:example "'a structured object of type measure, e.g. measure:value=10 and measure:unit=GBase-T'" ;
+				  sh:order 5 ;
+				  sh:node gax-validation:MeasureShape ] ;
+.
+
+gax-validation:CPUShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:CPU ;
+	sh:property [ sh:path gax-trust-framework:cpuArchitecture ;
+				  sh:name "cpu architecture" ;
+				  sh:description "Basic CPU architecture." ;
+				  skos:example "'x86', 'x86-64', 'RISC-V', 'Generic'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:cpuGeneration ;
+				  sh:name "cpu generation" ;
+				  sh:description "CPU instruction set generation. Determines basic feature set and migration compatibility." ;
+				  skos:example "'Skylake-Server-v4', 'Icelake-Server-v4', 'Cascadelake-Server-v4', 'EPYC-Milan-v1', 'EPYC-Rome-v2'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:cpuFlag ;
+				  sh:name "cpu flag" ;
+				  sh:description "CPU flags as documented by lscpu and defined in https://github.com/torvalds/linux/blob/master/tools/arch/x86/include/asm/cpufeatures.h." ;
+				  skos:example "'fpu', 'vme', 'de', 'pse', 'sse', 'sse2', 'ht', 'vmx', 'smx', 'sse4_1', 'sse4_2', 'avx', '3dnowprefetch', 'ibrs_enhanced', 'ept_ad', 'sgx', 'sgx_lc', 'md_clear', 'arch_capabilities', '...'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:smtIsEnabled ;
+				  sh:name "smt is enabled" ;
+				  sh:description "Is simultaneous multithreading (SMT) or hyper threading (HT) active in this CPU? Default False." ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path gax-trust-framework:numberOfCores ;
+				  sh:name "number of cores" ;
+				  sh:description "Number of Cores of the CPU" ;
+				  skos:example "'4', '6', '8', '12', '24'" ;
+				  sh:order 5 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:numberOfThreads ;
+				  sh:name "number of threads" ;
+				  sh:description "Number of Threads of the CPU" ;
+				  skos:example "'8', '12', '24'" ;
+				  sh:order 6 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:frequency ;
+				  sh:name "frequency" ;
+				  sh:description "Frequency of the CPU" ;
+				  skos:example "'A structure object of type measure, e.g. measure:value=3.0 and measure:unit=GHz'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:boostFrequency ;
+				  sh:name "boost frequency" ;
+				  sh:description "Boost frequency of the CPU" ;
+				  skos:example "'A structure object of type measure, e.g. measure:value=4.0 and measure:unit=GHz'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:cacheSize ;
+				  sh:name "cache size" ;
+				  sh:description "Cache size of the CPU" ;
+				  skos:example "'A structure object of type measure, e.g. measure:value=38 and measure:unit=MB'" ;
+				  sh:order 9 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:allowedSocket ;
+				  sh:name "allowed socket" ;
+				  sh:description "Socket the CPU fits into." ;
+				  skos:example "'FCLGA3647'" ;
+				  sh:order 10 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:DiskShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Disk ;
+	sh:property [ sh:path gax-trust-framework:size ;
+				  sh:name "size" ;
+				  sh:description "The size of that hard drive." ;
+				  skos:example "'1600 GB'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:type ;
+				  sh:name "type" ;
+				  sh:description "The type of that hard drive." ;
+				  skos:example "'local SSD', 'local HDD', 'shared network storage', 'high-perf NVMe'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:GPUShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:GPU ;
+	sh:property [ sh:path gax-trust-framework:gpuGeneration ;
+				  sh:name "gpu generation" ;
+				  sh:description "GPU generation." ;
+				  skos:example "'Fermi', 'Kepler', 'Gen9'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:memorySize ;
+				  sh:name "memory size" ;
+				  sh:description "Memory of the GPU" ;
+				  skos:example "'a structure object of type measure, e.g. measure:value=24 and measure:unit=GB'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:memoryType ;
+				  sh:name "memory type" ;
+				  sh:description "Memory type of the GPU" ;
+				  skos:example "'DDR6'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:connection ;
+				  sh:name "connection" ;
+				  sh:description "Interconnection of the GPU" ;
+				  skos:example "'PCIe Gen4: 64GB/s'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:MeasureShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Measure ;
+	sh:property [ sh:path gax-trust-framework:value ;
+				  sh:name "value" ;
+				  sh:description "The value of this measurement." ;
+				  skos:example "'100'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:float ] ;
+	sh:property [ sh:path gax-trust-framework:unit ;
+				  sh:name "unit" ;
+				  sh:description "The unit of this measurement" ;
+				  skos:example "'Gbps', 'Euro'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

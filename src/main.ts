@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { RequestMethod } from '@nestjs/common'
 import { setupSwagger } from './common/util'
+import { replaceShapeContextBaseUri } from './common/util/replaceInFile'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -14,6 +15,7 @@ async function bootstrap() {
 
   app.enableCors()
   await app.listen(process.env.PORT || 3000)
+  replaceShapeContextBaseUri()
 }
 
 bootstrap()

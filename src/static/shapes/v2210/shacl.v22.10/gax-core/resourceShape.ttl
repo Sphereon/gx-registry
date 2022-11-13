@@ -1,0 +1,34 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+
+gax-validation:ResourceShape
+	a sh:NodeShape ;
+	sh:targetClass gax-core:Resource ;
+	sh:property [ sh:path gax-core:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+				  skos:example "''" ;
+				  sh:order 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:operatedBy ;
+				  sh:name "operated by" ;
+				  sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+.

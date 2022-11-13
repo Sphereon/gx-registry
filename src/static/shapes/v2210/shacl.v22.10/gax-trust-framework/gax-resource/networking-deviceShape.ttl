@@ -1,0 +1,108 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:NetworkingDeviceShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:NetworkingDevice ;
+	sh:property [ sh:path gax-trust-framework:managementPort ;
+				  sh:name "management port" ;
+				  sh:description "A dedicated port for management tasks." ;
+				  skos:example "'no', 'yes'" ;
+				  sh:order 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:consolePort ;
+				  sh:name "console port" ;
+				  sh:description "A dedicated port for console tasks." ;
+				  skos:example "'no', 'yes'" ;
+				  sh:order 2 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:portCapacity_A ;
+				  sh:name "port capacity_ a" ;
+				  sh:description "The assigned capacity of ports." ;
+				  skos:example "'10GE', '100GE'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:float ] ;
+	sh:property [ sh:path gax-trust-framework:portCapacity_A_Count ;
+				  sh:name "port capacity_ a_ count" ;
+				  sh:description "The assigned number of ports." ;
+				  skos:example "'10', '1'" ;
+				  sh:order 4 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:redundantPowerSupply ;
+				  sh:name "redundant power supply" ;
+				  sh:description "Availability of redundant power supply for the cases of emergency." ;
+				  skos:example "'yes', 'no'" ;
+				  sh:order 5 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:ramSize ;
+				  sh:name "ram size" ;
+				  sh:description "Ram size of the networking device" ;
+				  skos:example "'2Gb'" ;
+				  sh:order 6 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:cpuCount ;
+				  sh:name "cpu count" ;
+				  sh:description "Number of available CPUs." ;
+				  skos:example "'1'" ;
+				  sh:order 7 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:type ;
+				  sh:name "type" ;
+				  sh:description "Type of networking device" ;
+				  skos:example "'switch, router, repetear'" ;
+				  sh:order 8 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:supportedProtocols ;
+				  sh:name "supported protocols" ;
+				  sh:description "List of  supported protocols among used layers should be specified." ;
+				  skos:example "'IP', 'IRP'" ;
+				  sh:order 9 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:networkAdress ;
+				  sh:name "network adress" ;
+				  sh:description "IP address of the netowrking device" ;
+				  skos:example "'192.168.24.2/32'" ;
+				  sh:order 10 ;
+				  sh:datatype xsd:float ] ;
+.
+
+gax-validation:MeasureShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Measure ;
+	sh:property [ sh:path gax-trust-framework:value ;
+				  sh:name "value" ;
+				  sh:description "The value of this measurement." ;
+				  skos:example "'100'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:float ] ;
+	sh:property [ sh:path gax-trust-framework:unit ;
+				  sh:name "unit" ;
+				  sh:description "The unit of this measurement" ;
+				  skos:example "'Gbps', 'Euro'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

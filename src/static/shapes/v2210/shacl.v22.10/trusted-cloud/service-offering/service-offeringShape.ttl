@@ -1,0 +1,279 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ServiceOfferingShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ServiceOffering ;
+	sh:property [ sh:path trusted-cloud:generalInformation ;
+				  sh:name "general information" ;
+				  sh:description "Basic classification of the service as per provision type and service model." ;
+				  skos:example "'(a structure object of type GeneralInformationService'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:GeneralInformationServiceShape ] ;
+	sh:property [ sh:path trusted-cloud:functionalDescription ;
+				  sh:name "functional description" ;
+				  sh:description "Functional description of the service and functional categorization of the service." ;
+				  skos:example "'(a structure object of type GeneralInformationService'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:FunctionalDescriptionServiceShape ] ;
+	sh:property [ sh:path trusted-cloud:mainContact ;
+				  sh:name "main contact" ;
+				  sh:description "Main contact of this service." ;
+				  skos:example "'(Jana Mustermann, jana.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:AdditionalContact ;
+				  sh:name " additional contact" ;
+				  sh:description "Further contacts of this service." ;
+				  skos:example "'(Jana Mustermann, jana.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 4 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:typeOfProcessedData ;
+				  sh:name "type of processed data" ;
+				  sh:description "Which type of data are to be processes?" ;
+				  skos:example "'no information', 'personal data  according to GDPR'" ;
+				  sh:order 5 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:subContractors ;
+				  sh:name "sub contractors" ;
+				  sh:description "SubCompanies required to operated the service." ;
+				  skos:example "'(a structure object of type SubContractor)'" ;
+				  sh:order 6 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:dataCentres ;
+				  sh:name "data centres" ;
+				  sh:description "Data centre required to operated the service" ;
+				  skos:example "'(a structure object of type DataCentre)'" ;
+				  sh:order 7 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:certificates ;
+				  sh:name "certificates" ;
+				  sh:description "Details about certificates, which are relevant for this service." ;
+				  skos:example "'(a structured object of type Certificate'" ;
+				  sh:order 8 ;
+				  sh:node gax-validation:CertificateScopeShape ] ;
+	sh:property [ sh:path trusted-cloud:contracts ;
+				  sh:name "contracts" ;
+				  sh:description "Description of technical and organizational mechanism to ensure data protection." ;
+				  skos:example "'(a structure object of type Contract)'" ;
+				  sh:order 9 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:security ;
+				  sh:name "security" ;
+				  sh:description "Representation of technical and organizational mechanisms to ensure data protection and IT security." ;
+				  skos:example "'(a structure object of type Security)'" ;
+				  sh:order 10 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:dataProtection ;
+				  sh:name "data protection" ;
+				  sh:description "Technical and organizational mechanisms to ensure data protection and IT security." ;
+				  skos:example "'(a structure object of type DataProtection)'" ;
+				  sh:order 11 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:operativeProcesses ;
+				  sh:name "operative processes" ;
+				  sh:description "Representation of technical and functional prerequisites for ues, migration and exchange off service." ;
+				  skos:example "'(a structure object of type OperativeProcesses)'" ;
+				  sh:order 12 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:interoperability ;
+				  sh:name "interoperability" ;
+				  sh:description "Technical and functional requirements to change or migrate service." ;
+				  skos:example "'(a structure object of type Interoperability)'" ;
+				  sh:order 13 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:serviceArchitecture ;
+				  sh:name "service architecture" ;
+				  sh:description "Technical architecture of this service." ;
+				  skos:example "'(a structure object of type ServiceArchitecture)'" ;
+				  sh:order 14 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:providedBy ;
+				  sh:name "provided by" ;
+				  sh:description "DID of participant self-descrription providing this service offering." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "DID of resource self-escription related to the service and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:dependsOn ;
+				  sh:name "depends on" ;
+				  sh:description "DID of the service offering self-description related to the service and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 3 ;
+				  sh:nodeKind sh:IRI ] ;
+.
+
+gax-validation:FunctionalDescriptionServiceShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:FunctionalDescriptionService ;
+	sh:property [ sh:path trusted-cloud:description ;
+				  sh:name "description" ;
+				  sh:description "A short description in natural language to display on the query site." ;
+				  skos:example "'An ML service for training, deploying and improving image classifiers.'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:briefDescription ;
+				  sh:name "brief description" ;
+				  sh:description "Functional brief description of the service in reference to company demand." ;
+				  skos:example "'A brief description...'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:GeneralInformationServiceShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:GeneralInformationService ;
+	sh:property [ sh:path trusted-cloud:name ;
+				  sh:name "name" ;
+				  sh:description "Name of the service" ;
+				  skos:example "'ACME Service'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:serviceLogo ;
+				  sh:name "service logo" ;
+				  sh:description "Resolvible link to logo of service that will be displayed at listing. Please provide image with at leat 200 x 400 pixel." ;
+				  skos:example "'www.acme.com/logo.png'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path trusted-cloud:provisionType ;
+				  sh:name "provision type" ;
+				  sh:description "Type of provisioning of service." ;
+				  skos:example "'private', 'public', 'hybrid'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:serviceModel ;
+				  sh:name "service model" ;
+				  sh:description "Service Model for the service" ;
+				  skos:example "'IaaS', 'PaaS', 'SaaS'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:website ;
+				  sh:name "website" ;
+				  sh:description "Web address for the service presentation." ;
+				  skos:example "'http://myservice.com'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+.
+
+gax-validation:AgentShape
+	a sh:NodeShape ;
+	sh:targetClass vcard:Agent ;
+	sh:property [ sh:path vcard:given-name ;
+				  sh:name "given-name" ;
+				  sh:description "The v:given-name property specifies the given name part of a persons name." ;
+				  skos:example "'example-given-name'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:family-name ;
+				  sh:name "family-name" ;
+				  sh:description "The v:family-name property specifies the family name part of a persons name." ;
+				  skos:example "'example-family-name'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:nickname ;
+				  sh:name "nickname" ;
+				  sh:description "The v:nickname property specifies the nickname of a person." ;
+				  skos:example "'example-nickname'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:position ;
+				  sh:name "position" ;
+				  sh:description "The v:position property specifies the position of a person." ;
+				  skos:example "'example-nickname'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:email ;
+				  sh:name "email" ;
+				  sh:description "The v:email property specifies an email address." ;
+				  skos:example "'example-Email'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path vcard:tel ;
+				  sh:name "tel" ;
+				  sh:description "The v:tel property specifies a telefon number." ;
+				  skos:example "'+49 030 12324567'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:image ;
+				  sh:name "image" ;
+				  sh:description "The v:image property specifies an image a person." ;
+				  skos:example "'+49 030 12324567'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:address ;
+				  sh:name "address" ;
+				  sh:description "The v:address property specifies the address of a person." ;
+				  skos:example "'(ACME street 1, 12345 city, Germany)'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

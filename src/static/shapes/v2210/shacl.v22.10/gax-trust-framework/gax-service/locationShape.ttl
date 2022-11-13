@@ -1,0 +1,57 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:LocationShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Location ;
+	sh:property [ sh:path gax-trust-framework:hasProvider ;
+				  sh:name "has provider" ;
+				  sh:description "Id of the participant who operates the Location Unit that implements the Service Offering" ;
+				  skos:example "'did:web:example.com/location/sha256'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:canHostServiceOffering ;
+				  sh:name "can host service offering" ;
+				  sh:description "List of references of Service Offering that may be hosted on this location" ;
+				  skos:example "'did:web:example.com/serviceOffering/sha256-1', 'did:web:example.com/serviceOffering/sha256-2'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:hasAdministrativeLocation ;
+				  sh:name "has administrative location" ;
+				  sh:description "ISO 3166-2 5 digit string for location" ;
+				  skos:example "'FR-39', 'DE-BE'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:hasLocatedServiceOffering ;
+				  sh:name "has located service offering" ;
+				  sh:description "Ids of Located Service Offerings on this location" ;
+				  skos:example "'did:web:example.com/locatedServiceOffering/sha256'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+.

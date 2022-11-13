@@ -1,0 +1,88 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:CertificateShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:Certificate ;
+	sh:property [ sh:path trusted-cloud:name ;
+				  sh:name "name" ;
+				  sh:description "Name of certificate" ;
+				  skos:example "'ISO XYZ'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:type ;
+				  sh:name "type" ;
+				  sh:description "Type of the certificates" ;
+				  skos:example "'BSI IT-Grundschutz', 'ISO 27001', 'Trust in Cloud'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:certificateAuthority ;
+				  sh:name "certificate authority" ;
+				  sh:description "Certificate authority for this service or its certificate" ;
+				  skos:example "'TÜV Süd'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:CertificationBodyShape ] ;
+	sh:property [ sh:path trusted-cloud:expirationDate ;
+				  sh:name "expiration date" ;
+				  sh:description "Date on which the certificate expires" ;
+				  skos:example "'2122-12-21'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:date ] ;
+	sh:property [ sh:path trusted-cloud:regularAudited ;
+				  sh:name "regular audited" ;
+				  sh:description "Is the certificate regularly audited?" ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+.
+
+gax-validation:CertificationBodyShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:CertificationBody ;
+	sh:property [ sh:path trusted-cloud:name ;
+				  sh:name "name" ;
+				  sh:description "Name of the company." ;
+				  skos:example "'TÜV Süd'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:address ;
+				  sh:name "address" ;
+				  sh:description "Address of the certification body." ;
+				  skos:example "'(ACME street 1, 12345 city, Germany)'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:address ] ;
+.

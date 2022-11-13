@@ -1,0 +1,75 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:CompanyProfileProviderShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:CompanyProfileProvider ;
+	sh:property [ sh:path trusted-cloud:employeeCount ;
+				  sh:name "employee count" ;
+				  sh:description "Employee count of the organization." ;
+				  skos:example "'50', 'No specification'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path trusted-cloud:employeeCountForCloudServices ;
+				  sh:name "employee count for cloud services" ;
+				  sh:description "Employee count of the organization in the cloud service area." ;
+				  skos:example "'50', 'No specification'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path trusted-cloud:salesVolume ;
+				  sh:name "sales volume" ;
+				  sh:description "Sales volume of the organization." ;
+				  skos:example "'50.000.000', 'No specification'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path trusted-cloud:category ;
+				  sh:name "category" ;
+				  sh:description "Specific category of the organization." ;
+				  skos:example "'Reseller', 'Internet Service Provider', 'Cloud Service Provider', 'Others'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:numberOfPublicCloudServices ;
+				  sh:name "number of public cloud services" ;
+				  sh:description "Publicly offered cloud services." ;
+				  skos:example "'5', '10'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path trusted-cloud:experienceCloudServices ;
+				  sh:name "experience cloud services" ;
+				  sh:description "Experience / knowledge of the organization in the cloud service business." ;
+				  skos:example "'<1 year', '1-5 year', '>5 year', 'not specified'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

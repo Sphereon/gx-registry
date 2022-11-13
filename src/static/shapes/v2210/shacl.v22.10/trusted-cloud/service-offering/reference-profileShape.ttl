@@ -1,0 +1,121 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ReferenceProfileShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:ReferenceProfile ;
+	sh:property [ sh:path trusted-cloud:customerName ;
+				  sh:name "customer name" ;
+				  sh:description "Name of reference customer who is using the service?" ;
+				  skos:example "'AMCE GmbH'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:usage ;
+				  sh:name "usage" ;
+				  sh:description "Description of usage of service by this customer." ;
+				  skos:example "''" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:contact ;
+				  sh:name "contact" ;
+				  sh:description "Contact person of this reference." ;
+				  skos:example "'(Jane Mustermann, jane.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:url ;
+				  sh:name "url" ;
+				  sh:description "URL of the customer." ;
+				  skos:example "'www.my-customer.com'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+.
+
+gax-validation:AgentShape
+	a sh:NodeShape ;
+	sh:targetClass vcard:Agent ;
+	sh:property [ sh:path vcard:given-name ;
+				  sh:name "given-name" ;
+				  sh:description "The v:given-name property specifies the given name part of a persons name." ;
+				  skos:example "'example-given-name'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:family-name ;
+				  sh:name "family-name" ;
+				  sh:description "The v:family-name property specifies the family name part of a persons name." ;
+				  skos:example "'example-family-name'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:nickname ;
+				  sh:name "nickname" ;
+				  sh:description "The v:nickname property specifies the nickname of a person." ;
+				  skos:example "'example-nickname'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:position ;
+				  sh:name "position" ;
+				  sh:description "The v:position property specifies the position of a person." ;
+				  skos:example "'example-nickname'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:email ;
+				  sh:name "email" ;
+				  sh:description "The v:email property specifies an email address." ;
+				  skos:example "'example-Email'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path vcard:tel ;
+				  sh:name "tel" ;
+				  sh:description "The v:tel property specifies a telefon number." ;
+				  skos:example "'+49 030 12324567'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:image ;
+				  sh:name "image" ;
+				  sh:description "The v:image property specifies an image a person." ;
+				  skos:example "'+49 030 12324567'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:address ;
+				  sh:name "address" ;
+				  sh:description "The v:address property specifies the address of a person." ;
+				  skos:example "'(ACME street 1, 12345 city, Germany)'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

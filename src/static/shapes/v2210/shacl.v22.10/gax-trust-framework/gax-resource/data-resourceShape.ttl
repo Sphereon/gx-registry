@@ -1,0 +1,137 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:DataResourceShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:DataResource ;
+	sh:property [ sh:path gax-trust-framework:producedBy ;
+				  sh:name "produced by" ;
+				  sh:description "A resolvable link to the participant self-description legally enabling the data usage." ;
+				  skos:example "'(a reference to gax-core:Participant object)'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:exposedThrough ;
+				  sh:name "exposed through" ;
+				  sh:description "A resolvable link to the data exchange component that exposes the data resource." ;
+				  skos:example "''" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:obsoleteDateTime ;
+				  sh:name "obsolete date time" ;
+				  sh:description "Date time in ISO 8601 format after which data is obsolete." ;
+				  skos:example "'2022-10-26T21:32:52'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:dateTime ] ;
+	sh:property [ sh:path gax-trust-framework:expirationDateTime ;
+				  sh:name "expiration date time" ;
+				  sh:description "Date time in ISO 8601 format after which data is expired and shall be deleted." ;
+				  skos:example "'2022-10-26T21:32:52'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:dateTime ] ;
+	sh:property [ sh:path gax-trust-framework:containsPII ;
+				  sh:name "contains p i i" ;
+				  sh:description "Boolean determined by Participant owning the Data Resource." ;
+				  skos:example "'True'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path gax-trust-framework:legalBasis ;
+				  sh:name "legal basis" ;
+				  sh:description "NOTE: Mandatory if containsPII is true. One of the reasons as detailed in the identified Personal Data Protection Regimes, such as [GDPR2018]. Potential Legal Bases can be [article 6], article 7, (https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN#d1e1888-1-1) or article 9. It shall be expressed as a string matching 6.1.[a-f], 6.1.4, 7 or 9.2.[a-j]. (Note: this list is not final, as GDPR and Member State Law may provide for additional legal basis. Those will be implemented as options in future iterations.)" ;
+				  skos:example "'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN#d1e1888-1-1'" ;
+				  sh:order 6 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:copyrightOwnedBy ;
+				  sh:name "copyright owned by" ;
+				  sh:description "The copyright owner(s), given as a Gaia-X Participant or as some other agent, possibly also a person outside of Gaia-X. A copyright owner is a person or organization, that has the right to exploit the resource. Copyright owner does not necessary refer to the author of the resource, who is a natural person and may differ from copyright owner. A simple name string can be referenced as a blank node whose foaf:name attribute has that string value." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path gax-trust-framework:license ;
+				  sh:name "license" ;
+				  sh:description "A list of SPDX license identifiers or URL to license document" ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:policy ;
+				  sh:name "policy" ;
+				  sh:description "A list of policy expressed using a DSL (e.g., Rego or ODRL) (access control, throttling, usage, retention, …)" ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:name ;
+				  sh:name "name" ;
+				  sh:description "Name of resource." ;
+				  skos:example "'Example Resource'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path dct:description ;
+				  sh:name "description" ;
+				  sh:description "A more detailed description of resource." ;
+				  skos:example "'Example Resource placed somewhere in Europe'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "Resources related to the resource and that can exist independently of it." ;
+				  skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+				  sh:order 3 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+				  skos:example "''" ;
+				  sh:order 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:operatedBy ;
+				  sh:name "operated by" ;
+				  sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+.
+
+gax-validation:AgentShape
+	a sh:NodeShape ;
+	sh:targetClass foaf:Agent ;
+	sh:property [ sh:path foaf:name ;
+				  sh:name "name" ;
+				  sh:description "A name for some thing. Use vcard:Agent and its more comprehensive naming facilities when you need more expressiveness." ;
+				  skos:example "'example-name'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

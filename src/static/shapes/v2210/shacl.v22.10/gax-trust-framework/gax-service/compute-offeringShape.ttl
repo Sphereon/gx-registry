@@ -1,0 +1,477 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ComputeShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Compute ;
+	sh:property [ sh:path gax-trust-framework:tenantSeparation ;
+				  sh:name "tenant separation" ;
+				  sh:description "Default: virtual. How compute resources of different tenants are separated." ;
+				  skos:example "'hw-virtualized', 'sw-virtualized', 'os-virtualized', 'os-hw-virtualized', 'hw-partitioned', 'physical'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:flavor ;
+				  sh:name "flavor" ;
+				  sh:description "Detailed description of available flavors. A flavor describes the size of the server. " ;
+				  skos:example "'(a structured object of type gax-core:Flavor)'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:FlavorShape ] ;
+	sh:property [ sh:path gax-trust-framework:isPartOfScalingGroup ;
+				  sh:name "is part of scaling group" ;
+				  sh:description "lists autoscaling group that this VM belongs to." ;
+				  skos:example "''" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:imageRegistry ;
+				  sh:name "image registry" ;
+				  sh:description "Reference to image registry of this compute service." ;
+				  skos:example "'(a structured object of type gax-service:ImageRegistry)'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:network ;
+				  sh:name "network" ;
+				  sh:description "Reference to network service offing for this compute service." ;
+				  skos:example "'(a structured object of type gax-service:Network)'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:storage ;
+				  sh:name "storage" ;
+				  sh:description "Reference to storage service offing to create disks used within this compute service." ;
+				  skos:example "'(a structured object of type gax-service:Storage)'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:identity ;
+				  sh:name "identity" ;
+				  sh:description "Reference to identity access management service  storage service offing to create disks used within this compute service." ;
+				  skos:example "'(a structured object of type gax-service:IdentityAccessManagement)'" ;
+				  sh:order 7 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:termsAndConditions ;
+				  sh:name "terms and conditions" ;
+				  sh:description "a resolvable link to the Terms and Conditions applying to that service." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:TermsAndConditionsShape ] ;
+	sh:property [ sh:path gax-trust-framework:policy ;
+				  sh:name "policy" ;
+				  sh:description "a list of policy expressed using a DSL (e.g., Rego or ODRL)" ;
+				  skos:example "' '" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:dataProtectionRegime ;
+				  sh:name "data protection regime" ;
+				  sh:description "a list of data protection regime from the list available below" ;
+				  skos:example "'GDPR2016', 'LGPD2019'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:dataAccountExport ;
+				  sh:name "data account export" ;
+				  sh:description "a list of methods to export data out of the service" ;
+				  skos:example "' '" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:DataAccountExportShape ] ;
+	sh:property [ sh:path gax-trust-framework:name ;
+				  sh:name "name" ;
+				  sh:description "A human readable name of the component" ;
+				  skos:example "'Image classification ML service'" ;
+				  sh:order 5 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path dct:description ;
+				  sh:name "description" ;
+				  sh:description "A description in natural language" ;
+				  skos:example "'An ML service for training, deploying and improving image classifiers.'" ;
+				  sh:order 6 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path dcat:keyword ;
+				  sh:name "keyword" ;
+				  sh:description "Keywords that describe / tag the service." ;
+				  skos:example "'ML', 'Classification'" ;
+				  sh:order 7 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:provisionType ;
+				  sh:name "provision type" ;
+				  sh:description "Provision type of the service" ;
+				  skos:example "'Hybrid', 'gax:PrivateProvisioning'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:endpoint ;
+				  sh:name "endpoint" ;
+				  sh:description "Endpoint through which the Service Offering can be accessed" ;
+				  skos:example "'(reference to endpoint)'" ;
+				  sh:order 9 ;
+				  sh:node gax-validation:EndpointShape ] ;
+	sh:property [ sh:path gax-core:providedBy ;
+				  sh:name "provided by" ;
+				  sh:description "DID of participant self-descrription providing this service offering." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:aggregationOf ;
+				  sh:name "aggregation of" ;
+				  sh:description "DID of resource self-escription related to the service and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-core:dependsOn ;
+				  sh:name "depends on" ;
+				  sh:description "DID of the service offering self-description related to the service and that can exist independently of it." ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 3 ;
+				  sh:nodeKind sh:IRI ] ;
+.
+
+gax-validation:EndpointShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Endpoint ;
+	sh:property [ sh:path gax-trust-framework:endPointURL ;
+				  sh:name "end point u r l" ;
+				  sh:description "The URL of the endpoint where it can be accessed" ;
+				  skos:example "'https://gaia-x.eu/'" ;
+				  sh:order 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path gax-trust-framework:standardConformity ;
+				  sh:name "standard conformity" ;
+				  sh:description "Provides information about applied standards." ;
+				  skos:example "'(reference to standard'" ;
+				  sh:order 2 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:endpointDescription ;
+				  sh:name "endpoint description" ;
+				  sh:description "The Description (e.g. openAPI Description) of the endpoint" ;
+				  skos:example "'https://gaia-x.eu/'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:anyURI ] ;
+.
+
+gax-validation:DataAccountExportShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:DataAccountExport ;
+	sh:property [ sh:path gax-trust-framework:requestType ;
+				  sh:name "request type" ;
+				  sh:description "the mean to request data retrieval: API, email, webform, unregisteredLetter, registeredLetter, supportCenter." ;
+				  skos:example "'API', 'email', 'webform', 'unregisteredLetter'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:accessType ;
+				  sh:name "access type" ;
+				  sh:description "type of data support: digital, physical." ;
+				  skos:example "'digital', 'physical'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:formatType ;
+				  sh:name "format type" ;
+				  sh:description "type of Media Types (formerly known as MIME types) as defined by the IANA." ;
+				  skos:example "'application/gzip', 'text/csv'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:FlavorShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Flavor ;
+	sh:property [ sh:path gax-trust-framework:name ;
+				  sh:name "name" ;
+				  sh:description "Unique name of this flavor." ;
+				  skos:example "'small', 'medium', 'large'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:cpu ;
+				  sh:name "cpu" ;
+				  sh:description "Detailed information about CPU used by this flavor." ;
+				  skos:example "'(a structured object of type gax-core_CPU'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:CPUShape ] ;
+	sh:property [ sh:path gax-trust-framework:numberOfvCPUs ;
+				  sh:name "number ofv c p us" ;
+				  sh:description "Number of virtual CPUs." ;
+				  skos:example "'2', '8'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:gpu ;
+				  sh:name "gpu" ;
+				  sh:description "Detailed information about GPU used by this flavor." ;
+				  skos:example "'(a structured object of type gax-core_CPU'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:GPUShape ] ;
+	sh:property [ sh:path gax-trust-framework:numberOfvGPUs ;
+				  sh:name "number ofv g p us" ;
+				  sh:description "Number of virtual GPUs. Either set numberOfvGPU or GpuPassThrough=true. Using both options are prohibitted." ;
+				  skos:example "'2', '8'" ;
+				  sh:order 5 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:GpuPassThrough ;
+				  sh:name " gpu pass through" ;
+				  sh:description "Default: False. True, if GPU Pass-Through is activated. Either set numberOfvGPU or GpuPassThrough=true. Both options are prohibitted." ;
+				  skos:example "'2', '8'" ;
+				  sh:order 6 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path gax-trust-framework:fpga ;
+				  sh:name "fpga" ;
+				  sh:description "Detailed information about FPGA used by this flavor." ;
+				  skos:example "'(a structured object of type gax-core:FPGA'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:FPGAShape ] ;
+	sh:property [ sh:path gax-trust-framework:ramSize ;
+				  sh:name "ram size" ;
+				  sh:description "Amount of memory available for the server." ;
+				  skos:example "'(a structured object of type gax-core:Measure)'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:rootDisk ;
+				  sh:name "root disk" ;
+				  sh:description "Detailed information about root disk of this flavor." ;
+				  skos:example "'(a structured object of type gax-core:Disk)'" ;
+				  sh:order 9 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:DiskShape ] ;
+	sh:property [ sh:path gax-trust-framework:additionalDisk ;
+				  sh:name "additional disk" ;
+				  sh:description "Detailed information about additional disks of this flavor." ;
+				  skos:example "'(a structured object of type gax-core:Disk)'" ;
+				  sh:order 10 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:DiskShape ] ;
+	sh:property [ sh:path gax-trust-framework:performanceClass ;
+				  sh:name "performance class" ;
+				  sh:description "Ability to lable high-performance CPUs, disks, network. Choose one of the following classes: CPU, GPU, disk, network, none. Default value none" ;
+				  skos:example "'cpu', 'disk', 'network', 'gpu', 'none'" ;
+				  sh:order 11 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:hypervisor ;
+				  sh:name "hypervisor" ;
+				  sh:description "Ability to lable high-performance CPUs, disks, network. Choose one of the following classes: CPU, GPU, disk, network, none. Default value none" ;
+				  skos:example "'(a structured object of type gax-resource:Software)', 'bare-metal'" ;
+				  sh:order 12 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:MeasureShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Measure ;
+	sh:property [ sh:path gax-trust-framework:value ;
+				  sh:name "value" ;
+				  sh:description "The value of this measurement." ;
+				  skos:example "'100'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:float ] ;
+	sh:property [ sh:path gax-trust-framework:unit ;
+				  sh:name "unit" ;
+				  sh:description "The unit of this measurement" ;
+				  skos:example "'Gbps', 'Euro'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:CPUShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:CPU ;
+	sh:property [ sh:path gax-trust-framework:cpuArchitecture ;
+				  sh:name "cpu architecture" ;
+				  sh:description "Basic CPU architecture." ;
+				  skos:example "'x86', 'x86-64', 'RISC-V', 'Generic'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:cpuGeneration ;
+				  sh:name "cpu generation" ;
+				  sh:description "CPU instruction set generation. Determines basic feature set and migration compatibility." ;
+				  skos:example "'Skylake-Server-v4', 'Icelake-Server-v4', 'Cascadelake-Server-v4', 'EPYC-Milan-v1', 'EPYC-Rome-v2'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:cpuFlag ;
+				  sh:name "cpu flag" ;
+				  sh:description "CPU flags as documented by lscpu and defined in https://github.com/torvalds/linux/blob/master/tools/arch/x86/include/asm/cpufeatures.h." ;
+				  skos:example "'fpu', 'vme', 'de', 'pse', 'sse', 'sse2', 'ht', 'vmx', 'smx', 'sse4_1', 'sse4_2', 'avx', '3dnowprefetch', 'ibrs_enhanced', 'ept_ad', 'sgx', 'sgx_lc', 'md_clear', 'arch_capabilities', '...'" ;
+				  sh:order 3 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:smtIsEnabled ;
+				  sh:name "smt is enabled" ;
+				  sh:description "Is simultaneous multithreading (SMT) or hyper threading (HT) active in this CPU? Default False." ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path gax-trust-framework:numberOfCores ;
+				  sh:name "number of cores" ;
+				  sh:description "Number of Cores of the CPU" ;
+				  skos:example "'4', '6', '8', '12', '24'" ;
+				  sh:order 5 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:numberOfThreads ;
+				  sh:name "number of threads" ;
+				  sh:description "Number of Threads of the CPU" ;
+				  skos:example "'8', '12', '24'" ;
+				  sh:order 6 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:integer ] ;
+	sh:property [ sh:path gax-trust-framework:frequency ;
+				  sh:name "frequency" ;
+				  sh:description "Frequency of the CPU" ;
+				  skos:example "'A structure object of type measure, e.g. measure:value=3.0 and measure:unit=GHz'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:boostFrequency ;
+				  sh:name "boost frequency" ;
+				  sh:description "Boost frequency of the CPU" ;
+				  skos:example "'A structure object of type measure, e.g. measure:value=4.0 and measure:unit=GHz'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:cacheSize ;
+				  sh:name "cache size" ;
+				  sh:description "Cache size of the CPU" ;
+				  skos:example "'A structure object of type measure, e.g. measure:value=38 and measure:unit=MB'" ;
+				  sh:order 9 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:allowedSocket ;
+				  sh:name "allowed socket" ;
+				  sh:description "Socket the CPU fits into." ;
+				  skos:example "'FCLGA3647'" ;
+				  sh:order 10 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:FPGAShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:FPGA ;
+	sh:property [ sh:path gax-trust-framework:generation ;
+				  sh:name "generation" ;
+				  sh:description "FPGA generation." ;
+				  skos:example "'Fermi', 'Kepler', 'Gen9'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:DiskShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:Disk ;
+	sh:property [ sh:path gax-trust-framework:size ;
+				  sh:name "size" ;
+				  sh:description "The size of that hard drive." ;
+				  skos:example "'1600 GB'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:type ;
+				  sh:name "type" ;
+				  sh:description "The type of that hard drive." ;
+				  skos:example "'local SSD', 'local HDD', 'shared network storage', 'high-perf NVMe'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:GPUShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:GPU ;
+	sh:property [ sh:path gax-trust-framework:gpuGeneration ;
+				  sh:name "gpu generation" ;
+				  sh:description "GPU generation." ;
+				  skos:example "'Fermi', 'Kepler', 'Gen9'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:memorySize ;
+				  sh:name "memory size" ;
+				  sh:description "Memory of the GPU" ;
+				  skos:example "'a structure object of type measure, e.g. measure:value=24 and measure:unit=GB'" ;
+				  sh:order 2 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:MeasureShape ] ;
+	sh:property [ sh:path gax-trust-framework:memoryType ;
+				  sh:name "memory type" ;
+				  sh:description "Memory type of the GPU" ;
+				  skos:example "'DDR6'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path gax-trust-framework:connection ;
+				  sh:name "connection" ;
+				  sh:description "Interconnection of the GPU" ;
+				  skos:example "'PCIe Gen4: 64GB/s'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:TermsAndConditionsShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:TermsAndConditions ;
+	sh:property [ sh:path gax-trust-framework:content ;
+				  sh:name "content" ;
+				  sh:description "a resolvable link to document" ;
+				  skos:example "'https://gaia-x.eu'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path gax-trust-framework:hash ;
+				  sh:name "hash" ;
+				  sh:description "sha256 hash of the above document." ;
+				  skos:example "'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

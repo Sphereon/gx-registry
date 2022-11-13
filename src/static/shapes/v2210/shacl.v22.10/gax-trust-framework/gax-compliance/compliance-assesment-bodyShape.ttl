@@ -1,0 +1,48 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:ComplianceAssessmentBodyShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:ComplianceAssessmentBody ;
+	sh:property [ sh:path gax-trust-framework:canCertifyThirdPartyComplianceCertificationScheme ;
+				  sh:name "can certify third party compliance certification scheme" ;
+				  sh:description "IDs of the Third Party Compliance Certification Scheme this Compliance Assessment Body can certify." ;
+				  skos:example "'did:web:compliance.gaia-x.eu/3rdPartyComplianceCertScheme/sha256#1', 'did:web:compliance.gaia-x.eu/3rdPartyComplianceCertScheme/sha256#2'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:hasThirdPartyComplianceCertificateClaim ;
+				  sh:name "has third party compliance certificate claim" ;
+				  sh:description "IDs of Certificate claims issued by this Compliance Assessment Body." ;
+				  skos:example "'did:web:compliance.gaia-x.eu/complianceCertClaim/sha256#1', 'did:web:compliance.gaia-x.eu/complianceCertClaim/sha256#2'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:hasThirdPartyComplianceCredential ;
+				  sh:name "has third party compliance credential" ;
+				  sh:description "IDs of the Certificate claims VC certified by this Compliance Assessment Body." ;
+				  skos:example "'did:web:compliance.gaia-x.eu/complianceVC/sha256#1', 'did:web:compliance.gaia-x.eu/complianceVC/sha256#2'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+.

@@ -1,0 +1,191 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:LegalInformationSubContractorShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:LegalInformationSubContractor ;
+	sh:property [ sh:path trusted-cloud:independentSubCompany ;
+				  sh:name "independent sub company" ;
+				  sh:description "Is the data center company internal or his legally sovereign company? Yes = Legally sovereign company, no = company internal" ;
+				  skos:example "'yes', 'no'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:vatNumber ;
+				  sh:name "vat number" ;
+				  sh:description "Organization’s VAT / sales tax-id number. Either vatNumber or registrationNumber has to be set." ;
+				  skos:example "'DE999999999'" ;
+				  sh:order 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:registrationDate ;
+				  sh:name "registration date" ;
+				  sh:description "Date of the legal registration." ;
+				  skos:example "'2021-10-18T12:00:00+01:00'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:dateTimeStamp ] ;
+	sh:property [ sh:path trusted-cloud:SME ;
+				  sh:name " s m e" ;
+				  sh:description "Is the company a 'small or medium sized' company?." ;
+				  skos:example "'true', 'false'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:boolean ] ;
+	sh:property [ sh:path trusted-cloud:managingDirector ;
+				  sh:name "managing director" ;
+				  sh:description "Managing director or legal guardian of the organization." ;
+				  skos:example "'(a structured object ot tyoe vcard:Agent)'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:mainContact ;
+				  sh:name "main contact" ;
+				  sh:description "Main contact of the organization" ;
+				  skos:example "'(Jana Mustermann, jana.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:dataProtectionOfficer ;
+				  sh:name "data protection officer" ;
+				  sh:description "A contact within an organization to contact for data protection purposes." ;
+				  skos:example "'(Jane Mustermann, jane.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:IT_DepartmentContact ;
+				  sh:name " i t_ department contact" ;
+				  sh:description "A contact within an organization to contact for technical purposes." ;
+				  skos:example "'(Tom Mustermann, tom.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:legalContact ;
+				  sh:name "legal contact" ;
+				  sh:description "A contact within an organization to contact for data protection purposes." ;
+				  skos:example "'(Sigfried Mustermann, sigfried.mustermann@acme.com, +49 030 123456789)'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:AgentShape ] ;
+	sh:property [ sh:path trusted-cloud:description ;
+				  sh:name "description" ;
+				  sh:description "Description of the organization." ;
+				  skos:example "'A company making everything'" ;
+				  sh:order 9 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:legalInformation ;
+				  sh:name "legal information" ;
+				  sh:description "Legal information of provider." ;
+				  skos:example "'DID to Verifiable credential of legal information of the provider.'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:companyProfile ;
+				  sh:name "company profile" ;
+				  sh:description "Details on experience / knowledge of the company in the cloud service business." ;
+				  skos:example "'(DID to Verifiable credential of company profile of the organization)'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path trusted-cloud:auditabilityProfile ;
+				  sh:name "auditability profile" ;
+				  sh:description "Details on auditability possibilities of the organization." ;
+				  skos:example "'(DID to Verifiable credential of auditability profile of the organization'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+.
+
+gax-validation:AgentShape
+	a sh:NodeShape ;
+	sh:targetClass vcard:Agent ;
+	sh:property [ sh:path vcard:given-name ;
+				  sh:name "given-name" ;
+				  sh:description "The v:given-name property specifies the given name part of a persons name." ;
+				  skos:example "'example-given-name'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:family-name ;
+				  sh:name "family-name" ;
+				  sh:description "The v:family-name property specifies the family name part of a persons name." ;
+				  skos:example "'example-family-name'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:nickname ;
+				  sh:name "nickname" ;
+				  sh:description "The v:nickname property specifies the nickname of a person." ;
+				  skos:example "'example-nickname'" ;
+				  sh:order 3 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:position ;
+				  sh:name "position" ;
+				  sh:description "The v:position property specifies the position of a person." ;
+				  skos:example "'example-nickname'" ;
+				  sh:order 4 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:email ;
+				  sh:name "email" ;
+				  sh:description "The v:email property specifies an email address." ;
+				  skos:example "'example-Email'" ;
+				  sh:order 5 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:anyURI ] ;
+	sh:property [ sh:path vcard:tel ;
+				  sh:name "tel" ;
+				  sh:description "The v:tel property specifies a telefon number." ;
+				  skos:example "'+49 030 12324567'" ;
+				  sh:order 6 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:image ;
+				  sh:name "image" ;
+				  sh:description "The v:image property specifies an image a person." ;
+				  skos:example "'+49 030 12324567'" ;
+				  sh:order 7 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path vcard:address ;
+				  sh:name "address" ;
+				  sh:description "The v:address property specifies the address of a person." ;
+				  skos:example "'(ACME street 1, 12345 city, Germany)'" ;
+				  sh:order 8 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.

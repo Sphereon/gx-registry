@@ -1,0 +1,55 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix gax-trust-framework: <{{BASE_URI}}/gax-trust-framework#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:LocatedServiceOfferingShape
+	a sh:NodeShape ;
+	sh:targetClass gax-trust-framework:LocatedServiceOffering ;
+	sh:property [ sh:path gax-trust-framework:isImplementationOf ;
+				  sh:name "is implementation of" ;
+				  sh:description "Id of the Service Offering referenced by this located service" ;
+				  skos:example "'did:web:example.com/serviceOffering/sha256'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:isHostedOn ;
+				  sh:name "is hosted on" ;
+				  sh:description "Id of the Location where this located service is hosted on" ;
+				  skos:example "'did:web:example.com/location/sha256'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:hasComplianceCertificateClaim ;
+				  sh:name "has compliance certificate claim" ;
+				  sh:description "Ids of the compliance reference claims claimed by the provider for the located service" ;
+				  skos:example "'did:web:example.com/location/sha256'" ;
+				  sh:order 3 ;
+				  sh:nodeKind sh:IRI ] ;
+	sh:property [ sh:path gax-trust-framework:hasComplianceCertificateCredential ;
+				  sh:name "has compliance certificate credential" ;
+				  sh:description "Ids of the compliance reference claim claimed by the provider for the located service" ;
+				  skos:example "'did:web:example.com/location/sha256'" ;
+				  sh:order 4 ;
+				  sh:nodeKind sh:IRI ] ;
+.

@@ -44,6 +44,7 @@
     "joi": "^17.6.0",
     "mongoose": "^6.4.0",
     "pkijs": "^3.0.3",
+    "replace-in-file": "^6.3.5",
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {

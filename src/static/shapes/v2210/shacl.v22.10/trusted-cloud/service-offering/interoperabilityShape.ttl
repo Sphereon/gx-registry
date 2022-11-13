@@ -1,0 +1,130 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix gax-validation:  <{{BASE_URI}}/validation#> .
+
+@prefix trusted-cloud: <{{BASE_URI}}/trusted-cloud#> .
+@prefix gax-core: <{{BASE_URI}}/core#> .
+@prefix vcard: <https://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix did: <https://www.w3.org/TR/did-core/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix schema: <http://schema.org/> .
+
+gax-validation:InteroperabilityShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:Interoperability ;
+	sh:property [ sh:path trusted-cloud:technicalStandards ;
+				  sh:name "technical standards" ;
+				  sh:description "Information about technical standards the service stack is based on." ;
+				  skos:example "'(a structured object of type TechnicalStandards)'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:TechnicalStandardsShape ] ;
+	sh:property [ sh:path trusted-cloud:dataExport ;
+				  sh:name "data export" ;
+				  sh:description "Representation of procedures of data access of customer data and data feedback." ;
+				  skos:example "'(a structured object of type DataExport)'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:DataExportShape ] ;
+	sh:property [ sh:path trusted-cloud:technicalIntegration ;
+				  sh:name "technical integration" ;
+				  sh:description "Description of procedures of techincal integration of service in the available IT-landscape of the user?" ;
+				  skos:example "'(a structured type of type Integration)'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:TechnicalIntegrationShape ] ;
+	sh:property [ sh:path trusted-cloud:requirementsServiceUsage ;
+				  sh:name "requirements service usage" ;
+				  sh:description "Description for the technical and organizational prerequisites to use the service the user has to fulill." ;
+				  skos:example "'(a structured object of type RequirementsServiceUsage)'" ;
+				  sh:order 4 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:node gax-validation:RequirementsServiceUsageShape ] ;
+.
+
+gax-validation:DataExportShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:DataExport ;
+	sh:property [ sh:path trusted-cloud:unlimitedAccessToCustomerData ;
+				  sh:name "unlimited access to customer data" ;
+				  sh:description "Can the user access unlimited and at any time the customer data?" ;
+				  skos:example "'No statement', 'Export can be done after agreement', 'Export over documented API', 'Standardized APIs are offered'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:description ;
+				  sh:name "description" ;
+				  sh:description "Description of procedures for data repatriation and supported file formats?" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:TechnicalIntegrationShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:TechnicalIntegration ;
+	sh:property [ sh:path trusted-cloud:standardizedAP ;
+				  sh:name "standardized a p" ;
+				  sh:description "Is there a standardized API to integrate the service into the customers IT-landscape?" ;
+				  skos:example "'No statement', 'No APIS are offered', 'Documented APIs', 'Standardized APIs'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:description ;
+				  sh:name "description" ;
+				  sh:description "Description of the offered APIs to integrate the services" ;
+				  skos:example "'Freetext'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
+
+gax-validation:TechnicalStandardsShape
+	a sh:NodeShape ;
+	sh:targetClass trusted-cloud:TechnicalStandards ;
+	sh:property [ sh:path trusted-cloud:adminstrationApiStandards ;
+				  sh:name "adminstration api standards" ;
+				  sh:description "Is the administration of service possible with standard API?" ;
+				  skos:example "'No statement', 'There are no APIs', 'Web-GUI', 'Documented APIs', 'Documented and standardized APIs'" ;
+				  sh:order 1 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:virtualizationStandards ;
+				  sh:name "virtualization standards" ;
+				  sh:description "Does the service use standardized formats for virtual machines and containers?" ;
+				  skos:example "'No statement', 'Proprietary', 'Open format', 'Standardized format'" ;
+				  sh:order 2 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+	sh:property [ sh:path trusted-cloud:serviceStackStandards ;
+				  sh:name "service stack standards" ;
+				  sh:description "Description of the standard, the service stack is built on." ;
+				  skos:example "'Freetext'" ;
+				  sh:order 3 ;
+				  sh:minCount 1 ;
+				  sh:maxCount 1 ;
+				  sh:datatype xsd:string ] ;
+.
