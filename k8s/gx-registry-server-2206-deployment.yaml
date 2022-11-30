@@ -23,26 +23,16 @@ spec:
     spec:
       containers:
       - env:
-        - name: DB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              key: username
-              name: mongo-creds
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: mongo-creds
-        - name: PORT
-          value: "3000"
         - name: MONGO_DATABASE
           value: trust-anchor-registry
-        - name: MONGO_HOST
-          value: mongo.gx-lab.svc.cluster.local
-        - name: MONGO_PORT
-          value: "27017"
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: test-atlas-operator-project-cluster0-gx-registry-user
+              key: connectionStringStandardSrv
         - name: BASE_URL
-        image: registry.gitlab.com/gaia-x/lab/compliance/gx-registry:2206-unreleased
+          value: http://20.71.17.107
+        image: maasmai/gx-registry-server:v1.0.3
         imagePullPolicy: Always
         name: gx-registry-server-2206-main
         ports:

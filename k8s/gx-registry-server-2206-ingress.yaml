@@ -8,31 +8,26 @@ metadata:
   namespace: gx-lab
 spec:
   rules:
-  - host: registry.gaia-x.eu
-    http:
-      paths:
-      - backend:
-          service:
-            name: gx-registry-server-main
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
-      - backend:
-          service:
-            name: gx-registry-server-2206-main
-            port:
-              number: 80
-        path: /v2206/
-        pathType: Prefix
-      - backend:
-          service:
-            name: gx-registry-server-2204-main
-            port:
-              number: 80
-        path: /v2204/
-        pathType: Prefix
-  tls:
-  - hosts:
-    - registry.gaia-x.eu
-    secretName: gx-registry-live-server-tls-secret
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: gx-registry-server-main
+              port:
+                number: 80
+        - backend:
+            service:
+              name: gx-registry-server-2206-main
+              port:
+                number: 80
+          path: /v2206/
+          pathType: Prefix
+        - backend:
+            service:
+              name: gx-registry-server-2204-main
+              port:
+                number: 80
+          path: /v2204/
+          pathType: Prefix
