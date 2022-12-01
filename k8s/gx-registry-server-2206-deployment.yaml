@@ -32,7 +32,7 @@ spec:
               key: connectionStringStandardSrv
         - name: BASE_URL
           value: http://20.71.17.107
-        image: maasmai/gx-registry-server:v1.0.3 # Change it use the image from Sphereon's ACR
+        image: maasmai/gx-registry-server:v1.0.3 # Change it to use the image from Sphereon's ACR
         imagePullPolicy: Always
         name: gx-registry-server-2206-main
         ports:
