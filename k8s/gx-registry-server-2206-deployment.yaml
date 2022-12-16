@@ -31,8 +31,8 @@ spec:
               name: test-atlas-operator-project-cluster0-gx-registry-user
               key: connectionStringStandardSrv
         - name: BASE_URL
-          value: http://20.71.17.107
-        image: maasmai/gx-registry-server:v1.0.3 # Change it to use the image from Sphereon's ACR
+          value: http://20.76.5.229
+        image: vdxcontainerregistry2022051200.azurecr.io/gx-registry:v1.0.3
         imagePullPolicy: Always
         name: gx-registry-server-2206-main
         ports:
