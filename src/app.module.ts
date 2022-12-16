@@ -19,7 +19,7 @@ import { ComplianceIssuersModule } from './compliance-issuers/compliance-issuers
       exclude: ['/api*']
     }),
     MongooseModule.forRoot(
-      `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`
+      `${process.env.MONGO_URI}${process.env.MONGO_DATABASE? '/' + process.env.MONGO_DATABASE: ''}`
     ),
     TrustAnchorModule,
     TermsAndConditionsModule,
